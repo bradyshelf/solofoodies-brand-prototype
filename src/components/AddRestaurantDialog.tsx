@@ -34,13 +34,11 @@ const AddRestaurantDialog = ({ isOpen, onClose, onAdd }: AddRestaurantDialogProp
       image: '/lovable-uploads/26ce4d51-7cef-481d-8b86-af6c758c3760.png'
     });
     
-    // Show plan selection dialog instead of closing immediately
     setShowPlanSelection(true);
   };
 
   const handlePlanSelectionClose = () => {
     setShowPlanSelection(false);
-    // Reset form and close original dialog
     setFormData({ 
       name: '', 
       handle: '', 
@@ -58,16 +56,8 @@ const AddRestaurantDialog = ({ isOpen, onClose, onAdd }: AddRestaurantDialogProp
     <>
       <Dialog open={isOpen && !showPlanSelection} onOpenChange={onClose}>
         <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
-          <DialogHeader className="flex flex-row items-center justify-between">
+          <DialogHeader>
             <DialogTitle>Agregar nuevo restaurante</DialogTitle>
-            <Button 
-              variant="ghost" 
-              size="icon"
-              onClick={onClose}
-              className="h-6 w-6 rounded-full"
-            >
-              <X className="h-4 w-4" />
-            </Button>
           </DialogHeader>
           
           <form onSubmit={handleSubmit} className="space-y-4">

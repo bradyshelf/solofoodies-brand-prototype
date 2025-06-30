@@ -2,11 +2,13 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent } from '@/components/ui/sheet';
-import { Menu } from 'lucide-react';
+import { Menu, Settings } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import ProfileSidebar from '@/components/ProfileSidebar';
 
 const MainApp = () => {
   const [isProfileSidebarOpen, setIsProfileSidebarOpen] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center">
@@ -22,13 +24,24 @@ const MainApp = () => {
           <h1 className="text-2xl font-bold text-gray-900">Restaurant Management</h1>
           <p className="text-gray-600">Manage your restaurants and subscriptions</p>
           
-          <Button 
-            onClick={() => setIsProfileSidebarOpen(true)}
-            className="bg-red-500 hover:bg-red-600 text-white"
-          >
-            <Menu className="w-4 h-4 mr-2" />
-            Open Restaurant Menu
-          </Button>
+          <div className="flex flex-col gap-3">
+            <Button 
+              onClick={() => setIsProfileSidebarOpen(true)}
+              className="bg-red-500 hover:bg-red-600 text-white"
+            >
+              <Menu className="w-4 h-4 mr-2" />
+              Open Restaurant Menu
+            </Button>
+            
+            <Button 
+              onClick={() => navigate('/subscription-management')}
+              variant="outline"
+              className="border-red-500 text-red-500 hover:bg-red-50"
+            >
+              <Settings className="w-4 h-4 mr-2" />
+              Manage Subscriptions
+            </Button>
+          </div>
         </div>
       </div>
 
