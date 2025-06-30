@@ -4,11 +4,19 @@ import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent } from '@/components/ui/sheet';
 import { Menu, Settings } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '@/contexts/AuthContext';
+import { useRestaurants } from '@/contexts/RestaurantContext';
 import ProfileSidebar from '@/components/ProfileSidebar';
 
 const MainApp = () => {
   const [isProfileSidebarOpen, setIsProfileSidebarOpen] = useState(false);
   const navigate = useNavigate();
+  const { userRole } = useAuth();
+  const { restaurants, activeRestaurant } = useRestaurants();
+
+  console.log('MainApp - userRole:', userRole);
+  console.log('MainApp - restaurants:', restaurants);
+  console.log('MainApp - activeRestaurant:', activeRestaurant);
 
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center">
@@ -26,7 +34,10 @@ const MainApp = () => {
           
           <div className="flex flex-col gap-3">
             <Button 
-              onClick={() => setIsProfileSidebarOpen(true)}
+              onClick={() => {
+                console.log('Opening restaurant menu...');
+                setIsProfileSidebarOpen(true);
+              }}
               className="bg-red-500 hover:bg-red-600 text-white"
             >
               <Menu className="w-4 h-4 mr-2" />
@@ -34,7 +45,10 @@ const MainApp = () => {
             </Button>
             
             <Button 
-              onClick={() => navigate('/subscription-management')}
+              onClick={() => {
+                console.log('Navigating to subscription management...');
+                navigate('/subscription-management');
+              }}
               variant="outline"
               className="border-red-500 text-red-500 hover:bg-red-50"
             >

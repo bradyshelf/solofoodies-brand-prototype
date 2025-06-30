@@ -21,6 +21,7 @@ const App = () => (
           <RestaurantProvider>
             <Routes>
               <Route path="/" element={<MainApp />} />
+              <Route path="/dashboard" element={<MainApp />} />
               <Route path="/subscription-management" element={<SubscriptionManagementPage />} />
               <Route path="*" element={<MainApp />} />
             </Routes>
