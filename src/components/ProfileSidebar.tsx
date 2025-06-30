@@ -1,9 +1,7 @@
+
 import { useState } from 'react';
 import { 
   User, 
-  Heart, 
-  History, 
-  Mail, 
   Bell, 
   LogOut
 } from 'lucide-react';
@@ -28,7 +26,7 @@ const ProfileSidebar = ({ onClose }: ProfileSidebarProps) => {
 
   const handleSignOut = async () => {
     await signOut();
-    navigate('/');
+    onClose();
   };
 
   const handleAddRestaurant = () => {
@@ -37,7 +35,6 @@ const ProfileSidebar = ({ onClose }: ProfileSidebarProps) => {
 
   const handleRestaurantAdded = (restaurant: any) => {
     console.log('New restaurant added:', restaurant);
-    // In a real app, this would update the restaurant list in state management
   };
 
   const handleReactivate = (restaurantId: number) => {
@@ -53,36 +50,12 @@ const ProfileSidebar = ({ onClose }: ProfileSidebarProps) => {
     setSelectedRestaurant(null);
   };
 
-  const allMenuItems = [
+  const menuItems = [
     {
       title: "Mi perfil",
       icon: User,
       onClick: () => {
-        navigate('/profile');
-        onClose();
-      }
-    },
-    {
-      title: "Colaboraciones",
-      icon: Heart,
-      onClick: () => {
-        console.log("Navigate to collaborations");
-        onClose();
-      }
-    },
-    {
-      title: "Historial",
-      icon: History,
-      onClick: () => {
-        console.log("Navigate to history");
-        onClose();
-      }
-    },
-    {
-      title: "Enviar invitación",
-      icon: Mail,
-      onClick: () => {
-        console.log("Navigate to send invitation");
+        console.log("Navigate to profile");
         onClose();
       }
     },
@@ -93,37 +66,37 @@ const ProfileSidebar = ({ onClose }: ProfileSidebarProps) => {
         navigate('/subscription-management');
         onClose();
       },
-      showForRoles: ['restaurant'] // Only show for restaurant users
+      showForRoles: ['restaurant']
     }
   ];
 
   // Filter menu items based on user role
-  const menuItems = allMenuItems.filter(item => {
+  const filteredMenuItems = menuItems.filter(item => {
     if (item.showForRoles) {
       return item.showForRoles.includes(userRole || '');
     }
-    return true; // Show items without role restrictions for all users
+    return true;
   });
 
   const policyItems = [
     {
       title: "Políticas de privacidad",
       onClick: () => {
-        navigate('/privacy-policy');
+        console.log("Navigate to privacy policy");
         onClose();
       }
     },
     {
       title: "Condiciones de uso y contratación",
       onClick: () => {
-        navigate('/terms-of-service');
+        console.log("Navigate to terms of service");
         onClose();
       }
     },
     {
       title: "Política de cookies",
       onClick: () => {
-        navigate('/cookie-policy');
+        console.log("Navigate to cookie policy");
         onClose();
       }
     }
@@ -155,7 +128,7 @@ const ProfileSidebar = ({ onClose }: ProfileSidebarProps) => {
       {/* Menu Items */}
       <div className="flex-1 px-4 py-4">
         <div className="space-y-1">
-          {menuItems.map((item) => (
+          {filteredMenuItems.map((item) => (
             <button
               key={item.title}
               onClick={item.onClick}
