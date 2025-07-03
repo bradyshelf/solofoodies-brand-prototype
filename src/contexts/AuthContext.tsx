@@ -10,9 +10,11 @@ interface User {
 interface AuthContextType {
   user: User | null;
   userRole: 'restaurant' | 'foodie' | null;
-  signIn: (email: string, password: string, role: 'restaurant' | 'foodie') => Promise<void>;
+  signIn: (email: string, password: string) => Promise<void>;
+  signUp: (email: string, password: string, role: 'restaurant' | 'foodie', fullName: string) => Promise<void>;
   signOut: () => Promise<void>;
   isLoading: boolean;
+  loading: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -42,8 +44,18 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     console.log('AuthProvider initialized with user:', defaultUser);
   }, []);
 
-  const signIn = async (email: string, password: string, role: 'restaurant' | 'foodie') => {
-    console.log('Signing in with role:', role);
+  const signIn = async (email: string, password: string) => {
+    console.log('Signing in...');
+    const user: User = {
+      id: Date.now().toString(),
+      email,
+      role: 'restaurant' // Default to restaurant for now
+    };
+    setUser(user);
+  };
+
+  const signUp = async (email: string, password: string, role: 'restaurant' | 'foodie', fullName: string) => {
+    console.log('Signing up with role:', role, 'and name:', fullName);
     const user: User = {
       id: Date.now().toString(),
       email,
@@ -61,8 +73,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     user,
     userRole: user?.role || null,
     signIn,
+    signUp,
     signOut,
-    isLoading
+    isLoading,
+    loading: isLoading // Alias for compatibility
   };
 
   return (
