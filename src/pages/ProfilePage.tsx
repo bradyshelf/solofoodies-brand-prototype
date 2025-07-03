@@ -1,16 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { useAuth } from '@/contexts/AuthContext';
+
+import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Switch } from '@/components/ui/switch';
-import { Separator } from '@/components/ui/separator';
-import { ArrowLeft, Edit, Plus, MapPin, Phone, Globe, Trash2 } from 'lucide-react';
+import { ArrowLeft, Edit, Plus, MapPin, Trash2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { supabase } from '@/integrations/supabase/client';
-import { useToast } from '@/hooks/use-toast';
 
 interface RestaurantProfile {
   id?: string;
@@ -37,21 +34,18 @@ interface Location {
 }
 
 const ProfilePage = () => {
-  const { user, userRole } = useAuth();
   const navigate = useNavigate();
-  const { toast } = useToast();
   const [isEditing, setIsEditing] = useState(false);
-  const [loading, setLoading] = useState(true);
   const [profile, setProfile] = useState<RestaurantProfile>({
-    restaurant_name: '',
-    description: '',
-    address: '',
-    city: '',
-    state: '',
-    zip_code: '',
-    phone: '',
-    website_url: '',
-    cuisine_type: ''
+    restaurant_name: 'Pollos Hermanos',
+    description: 'Authentic Mexican cuisine with the finest ingredients',
+    address: 'Calle Gran Vía, 28',
+    city: 'Madrid',
+    state: 'Madrid',
+    zip_code: '28013',
+    phone: '+34 912 345 678',
+    website_url: 'https://polloshermanos.es',
+    cuisine_type: 'Mexican'
   });
   const [locations, setLocations] = useState<Location[]>([]);
   const [showAddLocation, setShowAddLocation] = useState(false);
@@ -65,67 +59,9 @@ const ProfilePage = () => {
     contact_person: ''
   });
 
-  useEffect(() => {
-    if (user && userRole === 'restaurant') {
-      fetchProfile();
-    }
-  }, [user, userRole]);
-
-  const fetchProfile = async () => {
-    try {
-      const { data, error } = await supabase
-        .from('restaurant_profiles')
-        .select('*')
-        .eq('user_id', user?.id)
-        .maybeSingle();
-
-      if (error) {
-        console.error('Error fetching profile:', error);
-        return;
-      }
-
-      if (data) {
-        setProfile(data);
-      }
-    } catch (error) {
-      console.error('Error:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleSave = async () => {
-    try {
-      const { error } = await supabase
-        .from('restaurant_profiles')
-        .upsert({
-          ...profile,
-          user_id: user?.id,
-          updated_at: new Date().toISOString()
-        });
-
-      if (error) {
-        toast({
-          title: "Error",
-          description: "Failed to save profile",
-          variant: "destructive"
-        });
-        return;
-      }
-
-      toast({
-        title: "Success",
-        description: "Profile saved successfully"
-      });
-      setIsEditing(false);
-    } catch (error) {
-      console.error('Error saving profile:', error);
-      toast({
-        title: "Error",
-        description: "An unexpected error occurred",
-        variant: "destructive"
-      });
-    }
+  const handleSave = () => {
+    console.log('Profile saved:', profile);
+    setIsEditing(false);
   };
 
   const handleAddLocation = () => {
@@ -151,21 +87,8 @@ const ProfilePage = () => {
   };
 
   const handleBackClick = () => {
-    // Navigate back to dashboard and trigger profile sidebar open
     navigate('/dashboard');
-    // Use a small delay to ensure the navigation completes before triggering the sidebar
-    setTimeout(() => {
-      window.dispatchEvent(new CustomEvent('openProfileSidebar'));
-    }, 100);
   };
-
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-lg">Loading...</div>
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen bg-gray-50">
