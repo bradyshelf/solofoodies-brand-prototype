@@ -4,17 +4,14 @@ import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent } from '@/components/ui/sheet';
 import { Menu, Settings } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '@/contexts/AuthContext';
 import { useRestaurants } from '@/contexts/RestaurantContext';
 import ProfileSidebar from '@/components/ProfileSidebar';
 
 const MainApp = () => {
   const [isProfileSidebarOpen, setIsProfileSidebarOpen] = useState(false);
   const navigate = useNavigate();
-  const { userRole } = useAuth();
   const { restaurants, activeRestaurant } = useRestaurants();
 
-  console.log('MainApp - userRole:', userRole);
   console.log('MainApp - restaurants:', restaurants);
   console.log('MainApp - activeRestaurant:', activeRestaurant);
 
