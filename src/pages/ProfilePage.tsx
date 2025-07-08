@@ -38,7 +38,6 @@ const collaborationOptions = [
   { id: 'influencer_visits', label: 'Influencer visits' },
   { id: 'product_sendouts', label: 'Product send-outs' },
   { id: 'menu_collaborations', label: 'Menu collaborations' },
-  { id: 'sponsored_content', label: 'Sponsored content' },
   { id: 'event_invitations', label: 'Event invitations' },
 ];
 
@@ -55,7 +54,7 @@ const ProfilePage = () => {
     phone: '+34 912 345 678',
     website_url: 'https://polloshermanos.es',
     cuisine_type: 'Mexican',
-    collaboration_preferences: ['influencer_visits', 'sponsored_content']
+    collaboration_preferences: ['influencer_visits']
   });
   const [locations, setLocations] = useState<Location[]>([]);
   const [showAddLocation, setShowAddLocation] = useState(false);
