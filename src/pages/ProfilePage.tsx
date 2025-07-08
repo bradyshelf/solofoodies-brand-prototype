@@ -7,63 +7,21 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { ArrowLeft, Edit } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { ModularProfile } from '@/types/profile';
 import AddressBlock from '@/components/profile/AddressBlock';
 import ProductBlock from '@/components/profile/ProductBlock';
 import CTAButtons from '@/components/profile/CTAButtons';
 import CollaborationPreferencesBlock from '@/components/profile/CollaborationPreferencesBlock';
-import WebsiteLinksBlock from '@/components/profile/WebsiteLinksBlock';
-import AddressHoursBlock from '@/components/profile/AddressHoursBlock';
-import CollabPreferencesBlock from '@/components/profile/CollabPreferencesBlock';
-import type { CTAButton, CollaborationPreferences } from '@/types/profile';
 
 const ProfilePage = () => {
   const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
-  const [profile, setProfile] = useState({
+  const [profile, setProfile] = useState<ModularProfile>({
     name: 'Pollos Hermanos',
     description: 'Authentic Mexican cuisine with the finest ingredients',
     phone: '+34 912 345 678',
+    website_url: 'https://polloshermanos.es',
     
-    // Website & Social Links - using optional properties
-    website_links: {
-      website_url: 'https://polloshermanos.es',
-      booking_url: 'https://reservations.polloshermanos.es',
-      shop_url: '',
-      instagram: '@polloshermanos_madrid',
-      facebook: '',
-      twitter: ''
-    },
-    
-    // Address & Hours - using optional properties
-    address_hours: {
-      address: 'Calle Gran Vía, 28',
-      city: 'Madrid',
-      state: 'Madrid',
-      zip_code: '28013',
-      opening_hours: 'Mon-Fri: 12pm-11pm\nSat-Sun: 11am-12am'
-    },
-    
-    // Products - using optional properties
-    product_block: {
-      products: [
-        {
-          id: '1',
-          name: 'Signature Hot Sauce',
-          description: 'Our famous homemade hot sauce with a perfect blend of spices',
-          price: '€12.99',
-          sku: 'PH-HS-001',
-          image: '',
-          order_link: 'https://shop.polloshermanos.es/hot-sauce'
-        }
-      ]
-    },
-    
-    // Collaboration Preferences - using correct union types
-    collaboration_preferences: {
-      types: ['influencer_visits', 'product_sendouts', 'sponsored_content'] as ('influencer_visits' | 'product_sendouts' | 'menu_collaborations' | 'recipe_content' | 'sponsored_content' | 'event_invitations')[]
-    },
-    
-    // Legacy fields for existing components
     address_block: {
       address: 'Calle Gran Vía, 28',
       city: 'Madrid',
@@ -76,6 +34,19 @@ const ProfilePage = () => {
       dishes: []
     },
     
+    product_block: {
+      products: [
+        {
+          id: '1',
+          name: 'Signature Hot Sauce',
+          description: 'Our famous homemade hot sauce with a perfect blend of spices',
+          price: '€12.99',
+          sku: 'PH-HS-001',
+          order_link: 'https://shop.polloshermanos.es/hot-sauce'
+        }
+      ]
+    },
+    
     media_block: {
       images: []
     },
@@ -84,18 +55,22 @@ const ProfilePage = () => {
       {
         id: '1',
         label: 'Reserve a Table',
-        type: 'reserve' as const,
+        type: 'reserve',
         link: 'https://reservations.polloshermanos.es',
         isActive: true
       },
       {
         id: '2',
         label: 'Buy Our Products',
-        type: 'shop' as const,
+        type: 'shop',
         link: 'https://shop.polloshermanos.es',
         isActive: true
       }
-    ] as CTAButton[],
+    ],
+    
+    collaboration_preferences: {
+      types: ['influencer_visits', 'product_sendouts', 'sponsored_content']
+    },
     
     social_links: {
       instagram: '@polloshermanos_madrid'
@@ -202,39 +177,40 @@ const ProfilePage = () => {
                 <p className="text-gray-900">{profile.phone}</p>
               )}
             </div>
+
+            <div>
+              <Label className="text-sm text-gray-600">Website</Label>
+              {isEditing ? (
+                <Input
+                  value={profile.website_url}
+                  onChange={(e) => setProfile({...profile, website_url: e.target.value})}
+                  placeholder="https://your-website.com"
+                />
+              ) : (
+                <a 
+                  href={profile.website_url} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-blue-600 hover:underline"
+                >
+                  {profile.website_url}
+                </a>
+              )}
+            </div>
           </CardContent>
         </Card>
 
-        {/* New Modular Blocks */}
-        <WebsiteLinksBlock
-          data={profile.website_links}
+        {/* Modular Blocks */}
+        <AddressBlock
+          data={profile.address_block}
           isEditing={isEditing}
-          onChange={(data) => setProfile({...profile, website_links: data})}
-        />
-
-        <AddressHoursBlock
-          data={profile.address_hours}
-          isEditing={isEditing}
-          onChange={(data) => setProfile({...profile, address_hours: data})}
+          onChange={(data) => setProfile({...profile, address_block: data})}
         />
 
         <ProductBlock
           data={profile.product_block}
           isEditing={isEditing}
           onChange={(data) => setProfile({...profile, product_block: data})}
-        />
-
-        <CollabPreferencesBlock
-          data={profile.collaboration_preferences}
-          isEditing={isEditing}
-          onChange={(data) => setProfile({...profile, collaboration_preferences: data})}
-        />
-
-        {/* Legacy blocks for compatibility */}
-        <AddressBlock
-          data={profile.address_block}
-          isEditing={isEditing}
-          onChange={(data) => setProfile({...profile, address_block: data})}
         />
 
         <CTAButtons
