@@ -7,22 +7,34 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { ArrowLeft, Edit } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { ModularProfile } from '@/types/profile';
 import AddressBlock from '@/components/profile/AddressBlock';
 import ProductBlock from '@/components/profile/ProductBlock';
 import CTAButtons from '@/components/profile/CTAButtons';
 import CollaborationPreferencesBlock from '@/components/profile/CollaborationPreferencesBlock';
+import WebsiteLinksBlock from '@/components/profile/WebsiteLinksBlock';
+import AddressHoursBlock from '@/components/profile/AddressHoursBlock';
+import CollabPreferencesBlock from '@/components/profile/CollabPreferencesBlock';
 
 const ProfilePage = () => {
   const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
-  const [profile, setProfile] = useState<ModularProfile>({
+  const [profile, setProfile] = useState({
     name: 'Pollos Hermanos',
     description: 'Authentic Mexican cuisine with the finest ingredients',
     phone: '+34 912 345 678',
-    website_url: 'https://polloshermanos.es',
     
-    address_block: {
+    // Website & Social Links
+    website_links: {
+      website_url: 'https://polloshermanos.es',
+      booking_url: 'https://reservations.polloshermanos.es',
+      shop_url: '',
+      instagram: '@polloshermanos_madrid',
+      facebook: '',
+      twitter: ''
+    },
+    
+    // Address & Hours
+    address_hours: {
       address: 'Calle Gran Vía, 28',
       city: 'Madrid',
       state: 'Madrid',
@@ -30,10 +42,7 @@ const ProfilePage = () => {
       opening_hours: 'Mon-Fri: 12pm-11pm\nSat-Sun: 11am-12am'
     },
     
-    menu_block: {
-      dishes: []
-    },
-    
+    // Products (for brands/restaurants that sell products)
     product_block: {
       products: [
         {
@@ -45,6 +54,24 @@ const ProfilePage = () => {
           order_link: 'https://shop.polloshermanos.es/hot-sauce'
         }
       ]
+    },
+    
+    // Collaboration Preferences
+    collaboration_preferences: {
+      types: ['influencer_visits', 'product_sendouts', 'sponsored_content']
+    },
+    
+    // Legacy fields for existing components
+    address_block: {
+      address: 'Calle Gran Vía, 28',
+      city: 'Madrid',
+      state: 'Madrid',
+      zip_code: '28013',
+      opening_hours: 'Mon-Fri: 12pm-11pm\nSat-Sun: 11am-12am'
+    },
+    
+    menu_block: {
+      dishes: []
     },
     
     media_block: {
@@ -67,10 +94,6 @@ const ProfilePage = () => {
         isActive: true
       }
     ],
-    
-    collaboration_preferences: {
-      types: ['influencer_visits', 'product_sendouts', 'sponsored_content']
-    },
     
     social_links: {
       instagram: '@polloshermanos_madrid'
@@ -177,40 +200,39 @@ const ProfilePage = () => {
                 <p className="text-gray-900">{profile.phone}</p>
               )}
             </div>
-
-            <div>
-              <Label className="text-sm text-gray-600">Website</Label>
-              {isEditing ? (
-                <Input
-                  value={profile.website_url}
-                  onChange={(e) => setProfile({...profile, website_url: e.target.value})}
-                  placeholder="https://your-website.com"
-                />
-              ) : (
-                <a 
-                  href={profile.website_url} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="text-blue-600 hover:underline"
-                >
-                  {profile.website_url}
-                </a>
-              )}
-            </div>
           </CardContent>
         </Card>
 
-        {/* Modular Blocks */}
-        <AddressBlock
-          data={profile.address_block}
+        {/* New Modular Blocks */}
+        <WebsiteLinksBlock
+          data={profile.website_links}
           isEditing={isEditing}
-          onChange={(data) => setProfile({...profile, address_block: data})}
+          onChange={(data) => setProfile({...profile, website_links: data})}
+        />
+
+        <AddressHoursBlock
+          data={profile.address_hours}
+          isEditing={isEditing}
+          onChange={(data) => setProfile({...profile, address_hours: data})}
         />
 
         <ProductBlock
           data={profile.product_block}
           isEditing={isEditing}
           onChange={(data) => setProfile({...profile, product_block: data})}
+        />
+
+        <CollabPreferencesBlock
+          data={profile.collaboration_preferences}
+          isEditing={isEditing}
+          onChange={(data) => setProfile({...profile, collaboration_preferences: data})}
+        />
+
+        {/* Legacy blocks for compatibility */}
+        <AddressBlock
+          data={profile.address_block}
+          isEditing={isEditing}
+          onChange={(data) => setProfile({...profile, address_block: data})}
         />
 
         <CTAButtons
