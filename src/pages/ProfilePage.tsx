@@ -9,17 +9,16 @@ import { Switch } from '@/components/ui/switch';
 import { ArrowLeft, Edit, Plus, MapPin, Trash2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import ProductsExperiencesTab from '@/components/profile/ProductsExperiencesTab';
+import AddressHoursBlock from '@/components/profile/AddressHoursBlock';
+import CustomCTABlock from '@/components/profile/CustomCTABlock';
+import CollabPreferencesBlock from '@/components/profile/CollabPreferencesBlock';
+import WebsiteLinksBlock from '@/components/profile/WebsiteLinksBlock';
 
 interface RestaurantProfile {
   id?: string;
   restaurant_name: string;
   description: string;
-  address: string;
-  city: string;
-  state: string;
-  zip_code: string;
   phone: string;
-  website_url: string;
   cuisine_type: string;
 }
 
@@ -52,20 +51,75 @@ interface ProductsExperiencesData {
   };
 }
 
+interface AddressHoursData {
+  address: string;
+  city: string;
+  state: string;
+  zip_code: string;
+  opening_hours: string;
+}
+
+interface CustomCTA {
+  id: string;
+  type: 'booking' | 'shop' | 'sample' | 'contact' | 'custom';
+  label: string;
+  url: string;
+}
+
+interface CollabPreferencesData {
+  preferences: string[];
+}
+
+interface WebsiteLinksData {
+  website_url: string;
+  booking_url: string;
+  shop_url: string;
+  instagram_url: string;
+  tiktok_url: string;
+}
+
 const ProfilePage = () => {
   const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
+  
+  // Core profile data
   const [profile, setProfile] = useState<RestaurantProfile>({
     restaurant_name: 'Pollos Hermanos',
     description: 'Authentic Mexican cuisine with the finest ingredients',
+    phone: '+34 912 345 678',
+    cuisine_type: 'Mexican'
+  });
+
+  // Modular block data
+  const [addressHours, setAddressHours] = useState<AddressHoursData>({
     address: 'Calle Gran Vía, 28',
     city: 'Madrid',
     state: 'Madrid',
     zip_code: '28013',
-    phone: '+34 912 345 678',
-    website_url: 'https://polloshermanos.es',
-    cuisine_type: 'Mexican'
+    opening_hours: 'Lun-Vie: 12:00-16:00, 19:00-23:00\nSáb-Dom: 12:00-23:00'
   });
+
+  const [customCTAs, setCustomCTAs] = useState<CustomCTA[]>([
+    {
+      id: '1',
+      type: 'booking',
+      label: 'Reservar Mesa',
+      url: 'https://reservas.polloshermanos.es'
+    }
+  ]);
+
+  const [collabPreferences, setCollabPreferences] = useState<CollabPreferencesData>({
+    preferences: ['influencer-visits', 'sponsored-content']
+  });
+
+  const [websiteLinks, setWebsiteLinks] = useState<WebsiteLinksData>({
+    website_url: 'https://polloshermanos.es',
+    booking_url: '',
+    shop_url: '',
+    instagram_url: 'https://instagram.com/polloshermanos',
+    tiktok_url: ''
+  });
+
   const [locations, setLocations] = useState<Location[]>([]);
   const [showAddLocation, setShowAddLocation] = useState(false);
   const [newLocation, setNewLocation] = useState<Omit<Location, 'id'>>({
@@ -77,14 +131,21 @@ const ProfilePage = () => {
     phone: '',
     contact_person: ''
   });
+  
   const [productsExperiences, setProductsExperiences] = useState<ProductsExperiencesData>({
     items: [],
     customCTA: undefined
   });
 
   const handleSave = () => {
-    console.log('Profile saved:', profile);
-    console.log('Products & Experiences saved:', productsExperiences);
+    console.log('Profile saved:', {
+      profile,
+      addressHours,
+      customCTAs,
+      collabPreferences,
+      websiteLinks,
+      productsExperiences
+    });
     setIsEditing(false);
   };
 
@@ -214,6 +275,31 @@ const ProfilePage = () => {
             </div>
           </CardContent>
         </Card>
+
+        {/* Modular Blocks - Only show if they have data or are being edited */}
+        <AddressHoursBlock
+          data={addressHours}
+          onUpdate={setAddressHours}
+          isEditing={isEditing}
+        />
+
+        <WebsiteLinksBlock
+          data={websiteLinks}
+          onUpdate={setWebsiteLinks}
+          isEditing={isEditing}
+        />
+
+        <CustomCTABlock
+          ctas={customCTAs}
+          onUpdate={setCustomCTAs}
+          isEditing={isEditing}
+        />
+
+        <CollabPreferencesBlock
+          data={collabPreferences}
+          onUpdate={setCollabPreferences}
+          isEditing={isEditing}
+        />
 
         {/* Locations Section */}
         <Card>
