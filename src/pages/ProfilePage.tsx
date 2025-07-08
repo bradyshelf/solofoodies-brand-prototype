@@ -10,7 +10,6 @@ import { ArrowLeft, Edit, Plus, MapPin, Trash2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import ProductsExperiencesTab from '@/components/profile/ProductsExperiencesTab';
 import AddressHoursBlock from '@/components/profile/AddressHoursBlock';
-import CustomCTABlock from '@/components/profile/CustomCTABlock';
 import CollabPreferencesBlock from '@/components/profile/CollabPreferencesBlock';
 import WebsiteLinksBlock from '@/components/profile/WebsiteLinksBlock';
 
@@ -59,13 +58,6 @@ interface AddressHoursData {
   opening_hours: string;
 }
 
-interface CustomCTA {
-  id: string;
-  type: 'booking' | 'shop' | 'sample' | 'contact' | 'custom';
-  label: string;
-  url: string;
-}
-
 interface CollabPreferencesData {
   preferences: string[];
 }
@@ -98,15 +90,6 @@ const ProfilePage = () => {
     zip_code: '28013',
     opening_hours: 'Lun-Vie: 12:00-16:00, 19:00-23:00\nSáb-Dom: 12:00-23:00'
   });
-
-  const [customCTAs, setCustomCTAs] = useState<CustomCTA[]>([
-    {
-      id: '1',
-      type: 'booking',
-      label: 'Reservar Mesa',
-      url: 'https://reservas.polloshermanos.es'
-    }
-  ]);
 
   const [collabPreferences, setCollabPreferences] = useState<CollabPreferencesData>({
     preferences: ['influencer-visits', 'sponsored-content']
@@ -141,7 +124,6 @@ const ProfilePage = () => {
     console.log('Profile saved:', {
       profile,
       addressHours,
-      customCTAs,
       collabPreferences,
       websiteLinks,
       productsExperiences
@@ -286,12 +268,6 @@ const ProfilePage = () => {
         <WebsiteLinksBlock
           data={websiteLinks}
           onUpdate={setWebsiteLinks}
-          isEditing={isEditing}
-        />
-
-        <CustomCTABlock
-          ctas={customCTAs}
-          onUpdate={setCustomCTAs}
           isEditing={isEditing}
         />
 
