@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -6,8 +5,10 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Switch } from '@/components/ui/switch';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ArrowLeft, Edit, Plus, MapPin, Trash2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import ProductsExperiencesTab from '@/components/profile/ProductsExperiencesTab';
 
 interface RestaurantProfile {
   id?: string;
@@ -33,9 +34,28 @@ interface Location {
   contact_person: string;
 }
 
+interface ProductExperience {
+  id: string;
+  title: string;
+  description: string;
+  image?: string;
+  externalLink?: string;
+  category: 'Product' | 'Event' | 'Box' | 'Workshop' | 'Other';
+  tags?: string[];
+}
+
+interface ProductsExperiencesData {
+  items: ProductExperience[];
+  customCTA?: {
+    text: string;
+    url: string;
+  };
+}
+
 const ProfilePage = () => {
   const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
+  const [activeTab, setActiveTab] = useState('general');
   const [profile, setProfile] = useState<RestaurantProfile>({
     restaurant_name: 'Pollos Hermanos',
     description: 'Authentic Mexican cuisine with the finest ingredients',
@@ -58,9 +78,14 @@ const ProfilePage = () => {
     phone: '',
     contact_person: ''
   });
+  const [productsExperiences, setProductsExperiences] = useState<ProductsExperiencesData>({
+    items: [],
+    customCTA: undefined
+  });
 
   const handleSave = () => {
     console.log('Profile saved:', profile);
+    console.log('Products & Experiences saved:', productsExperiences);
     setIsEditing(false);
   };
 
@@ -151,161 +176,181 @@ const ProfilePage = () => {
           </CardContent>
         </Card>
 
-        {/* Basic Info */}
+        {/* Tabs Section */}
         <Card>
-          <CardContent className="p-6 space-y-4">
-            <div>
-              <Label className="text-sm text-gray-600">Biografía</Label>
-              {isEditing ? (
-                <Textarea
-                  value={profile.description}
-                  onChange={(e) => setProfile({...profile, description: e.target.value})}
-                  placeholder="Describe tu restaurante..."
-                  rows={3}
-                />
-              ) : (
-                <p className="text-gray-900">{profile.description || 'Describe tu restaurante...'}</p>
-              )}
-            </div>
-            
-            <div>
-              <Label className="text-sm text-gray-600">Teléfono</Label>
-              {isEditing ? (
-                <Input
-                  value={profile.phone}
-                  onChange={(e) => setProfile({...profile, phone: e.target.value})}
-                  placeholder="Número de teléfono"
-                />
-              ) : (
-                <p className="text-gray-900">{profile.phone || 'Número de teléfono'}</p>
-              )}
-            </div>
-
-            <div className="flex items-center justify-between">
-              <Label className="text-sm text-gray-600">Ocultar perfil</Label>
-              <Switch />
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Locations Section */}
-        <Card>
-          <CardHeader>
-            <div className="flex items-center justify-between">
-              <CardTitle className="text-lg">Mis ubicaciones</CardTitle>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setShowAddLocation(true)}
-              >
-                <Plus className="w-4 h-4 mr-2" />
-                Añadir
-              </Button>
-            </div>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            {locations.map((location) => (
-              <div key={location.id} className="border rounded-lg p-4">
-                <div className="flex items-start justify-between">
-                  <div className="flex-1">
-                    <div className="flex items-center space-x-2 mb-2">
-                      <MapPin className="w-4 h-4 text-blue-500" />
-                      <h3 className="font-medium">{location.name}</h3>
-                    </div>
-                    <p className="text-sm text-gray-600 mb-1">{location.address}</p>
-                    <p className="text-sm text-gray-600 mb-2">{location.city}, {location.state} {location.zip_code}</p>
-                    <div className="flex items-center space-x-4 text-sm text-gray-500">
-                      <span>PERSONA DE CONTACTO: {location.contact_person}</span>
-                      <span>TELÉFONO: {location.phone}</span>
-                    </div>
-                  </div>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => handleDeleteLocation(location.id)}
-                  >
-                    <Trash2 className="w-4 h-4 text-red-500" />
-                  </Button>
+          <CardContent className="p-6">
+            <Tabs value={activeTab} onValueChange={setActiveTab}>
+              <TabsList className="grid w-full grid-cols-3">
+                <TabsTrigger value="general">General</TabsTrigger>
+                <TabsTrigger value="locations">Ubicaciones</TabsTrigger>
+                <TabsTrigger value="products">Productos y Experiencias</TabsTrigger>
+              </TabsList>
+              
+              <TabsContent value="general" className="space-y-4 mt-6">
+                <div>
+                  <Label className="text-sm text-gray-600">Biografía</Label>
+                  {isEditing ? (
+                    <Textarea
+                      value={profile.description}
+                      onChange={(e) => setProfile({...profile, description: e.target.value})}
+                      placeholder="Describe tu restaurante..."
+                      rows={3}
+                    />
+                  ) : (
+                    <p className="text-gray-900">{profile.description || 'Describe tu restaurante...'}</p>
+                  )}
                 </div>
-              </div>
-            ))}
+                
+                <div>
+                  <Label className="text-sm text-gray-600">Teléfono</Label>
+                  {isEditing ? (
+                    <Input
+                      value={profile.phone}
+                      onChange={(e) => setProfile({...profile, phone: e.target.value})}
+                      placeholder="Número de teléfono"
+                    />
+                  ) : (
+                    <p className="text-gray-900">{profile.phone || 'Número de teléfono'}</p>
+                  )}
+                </div>
 
-            {showAddLocation && (
-              <div className="border rounded-lg p-4 bg-blue-50">
-                <h3 className="font-medium text-blue-700 mb-4">Nueva ubicación</h3>
-                <div className="space-y-3">
-                  <div>
-                    <Label>Ubicación *</Label>
-                    <Input
-                      value={newLocation.name}
-                      onChange={(e) => setNewLocation({...newLocation, name: e.target.value})}
-                      placeholder="Ej. Malasaña"
-                    />
-                  </div>
-                  <div>
-                    <Label>Calle *</Label>
-                    <Input
-                      value={newLocation.address}
-                      onChange={(e) => setNewLocation({...newLocation, address: e.target.value})}
-                      placeholder="Ej. Calle Mayor, 15"
-                    />
-                  </div>
-                  <div className="grid grid-cols-2 gap-3">
-                    <div>
-                      <Label>Ciudad *</Label>
-                      <Input
-                        value={newLocation.city}
-                        onChange={(e) => setNewLocation({...newLocation, city: e.target.value})}
-                        placeholder="Ej. Madrid"
-                      />
-                    </div>
-                    <div>
-                      <Label>Provincia *</Label>
-                      <Input
-                        value={newLocation.state}
-                        onChange={(e) => setNewLocation({...newLocation, state: e.target.value})}
-                        placeholder="Ej. Salamanca"
-                      />
-                    </div>
-                  </div>
-                  <div>
-                    <Label>País *</Label>
-                    <Input
-                      value="España"
-                      disabled
-                    />
-                  </div>
-                  <div>
-                    <Label>Persona de contacto *</Label>
-                    <Input
-                      value={newLocation.contact_person}
-                      onChange={(e) => setNewLocation({...newLocation, contact_person: e.target.value})}
-                      placeholder="Ej. María García"
-                    />
-                  </div>
-                  <div>
-                    <Label>Teléfono *</Label>
-                    <Input
-                      value={newLocation.phone}
-                      onChange={(e) => setNewLocation({...newLocation, phone: e.target.value})}
-                      placeholder="Ej. 912345678"
-                    />
-                  </div>
-                  <div className="flex space-x-2">
-                    <Button onClick={handleAddLocation} className="flex-1">
-                      Guardar ubicación
-                    </Button>
+                <div className="flex items-center justify-between">
+                  <Label className="text-sm text-gray-600">Ocultar perfil</Label>
+                  <Switch />
+                </div>
+              </TabsContent>
+
+              <TabsContent value="locations" className="space-y-4 mt-6">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-lg font-medium">Mis ubicaciones</h3>
+                  {isEditing && (
                     <Button
                       variant="outline"
-                      onClick={() => setShowAddLocation(false)}
-                      className="flex-1"
+                      size="sm"
+                      onClick={() => setShowAddLocation(true)}
                     >
-                      Cancelar
+                      <Plus className="w-4 h-4 mr-2" />
+                      Añadir
                     </Button>
-                  </div>
+                  )}
                 </div>
-              </div>
-            )}
+
+                <div className="space-y-4">
+                  {locations.map((location) => (
+                    <div key={location.id} className="border rounded-lg p-4">
+                      <div className="flex items-start justify-between">
+                        <div className="flex-1">
+                          <div className="flex items-center space-x-2 mb-2">
+                            <MapPin className="w-4 h-4 text-blue-500" />
+                            <h3 className="font-medium">{location.name}</h3>
+                          </div>
+                          <p className="text-sm text-gray-600 mb-1">{location.address}</p>
+                          <p className="text-sm text-gray-600 mb-2">{location.city}, {location.state} {location.zip_code}</p>
+                          <div className="flex items-center space-x-4 text-sm text-gray-500">
+                            <span>PERSONA DE CONTACTO: {location.contact_person}</span>
+                            <span>TELÉFONO: {location.phone}</span>
+                          </div>
+                        </div>
+                        {isEditing && (
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => handleDeleteLocation(location.id)}
+                          >
+                            <Trash2 className="w-4 h-4 text-red-500" />
+                          </Button>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+
+                  {showAddLocation && isEditing && (
+                    <div className="border rounded-lg p-4 bg-blue-50">
+                      <h3 className="font-medium text-blue-700 mb-4">Nueva ubicación</h3>
+                      <div className="space-y-3">
+                        <div>
+                          <Label>Ubicación *</Label>
+                          <Input
+                            value={newLocation.name}
+                            onChange={(e) => setNewLocation({...newLocation, name: e.target.value})}
+                            placeholder="Ej. Malasaña"
+                          />
+                        </div>
+                        <div>
+                          <Label>Calle *</Label>
+                          <Input
+                            value={newLocation.address}
+                            onChange={(e) => setNewLocation({...newLocation, address: e.target.value})}
+                            placeholder="Ej. Calle Mayor, 15"
+                          />
+                        </div>
+                        <div className="grid grid-cols-2 gap-3">
+                          <div>
+                            <Label>Ciudad *</Label>
+                            <Input
+                              value={newLocation.city}
+                              onChange={(e) => setNewLocation({...newLocation, city: e.target.value})}
+                              placeholder="Ej. Madrid"
+                            />
+                          </div>
+                          <div>
+                            <Label>Provincia *</Label>
+                            <Input
+                              value={newLocation.state}
+                              onChange={(e) => setNewLocation({...newLocation, state: e.target.value})}
+                              placeholder="Ej. Salamanca"
+                            />
+                          </div>
+                        </div>
+                        <div>
+                          <Label>País *</Label>
+                          <Input
+                            value="España"
+                            disabled
+                          />
+                        </div>
+                        <div>
+                          <Label>Persona de contacto *</Label>
+                          <Input
+                            value={newLocation.contact_person}
+                            onChange={(e) => setNewLocation({...newLocation, contact_person: e.target.value})}
+                            placeholder="Ej. María García"
+                          />
+                        </div>
+                        <div>
+                          <Label>Teléfono *</Label>
+                          <Input
+                            value={newLocation.phone}
+                            onChange={(e) => setNewLocation({...newLocation, phone: e.target.value})}
+                            placeholder="Ej. 912345678"
+                          />
+                        </div>
+                        <div className="flex space-x-2">
+                          <Button onClick={handleAddLocation} className="flex-1">
+                            Guardar ubicación
+                          </Button>
+                          <Button
+                            variant="outline"
+                            onClick={() => setShowAddLocation(false)}
+                            className="flex-1"
+                          >
+                            Cancelar
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </TabsContent>
+
+              <TabsContent value="products" className="mt-6">
+                <ProductsExperiencesTab
+                  data={productsExperiences}
+                  onUpdate={setProductsExperiences}
+                  isEditing={isEditing}
+                />
+              </TabsContent>
+            </Tabs>
           </CardContent>
         </Card>
 
