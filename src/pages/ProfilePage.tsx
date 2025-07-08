@@ -5,85 +5,81 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { Switch } from '@/components/ui/switch';
-import { ArrowLeft, Edit, Plus, MapPin, Trash2 } from 'lucide-react';
+import { ArrowLeft, Edit } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-
-interface RestaurantProfile {
-  id?: string;
-  restaurant_name: string;
-  description: string;
-  address: string;
-  city: string;
-  state: string;
-  zip_code: string;
-  phone: string;
-  website_url: string;
-  cuisine_type: string;
-}
-
-interface Location {
-  id: string;
-  name: string;
-  address: string;
-  city: string;
-  state: string;
-  zip_code: string;
-  phone: string;
-  contact_person: string;
-}
+import { ModularProfile } from '@/types/profile';
+import AddressBlock from '@/components/profile/AddressBlock';
+import ProductBlock from '@/components/profile/ProductBlock';
+import CTAButtons from '@/components/profile/CTAButtons';
+import CollaborationPreferencesBlock from '@/components/profile/CollaborationPreferencesBlock';
 
 const ProfilePage = () => {
   const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
-  const [profile, setProfile] = useState<RestaurantProfile>({
-    restaurant_name: 'Pollos Hermanos',
+  const [profile, setProfile] = useState<ModularProfile>({
+    name: 'Pollos Hermanos',
     description: 'Authentic Mexican cuisine with the finest ingredients',
-    address: 'Calle Gran Vía, 28',
-    city: 'Madrid',
-    state: 'Madrid',
-    zip_code: '28013',
     phone: '+34 912 345 678',
     website_url: 'https://polloshermanos.es',
-    cuisine_type: 'Mexican'
-  });
-  const [locations, setLocations] = useState<Location[]>([]);
-  const [showAddLocation, setShowAddLocation] = useState(false);
-  const [newLocation, setNewLocation] = useState<Omit<Location, 'id'>>({
-    name: '',
-    address: '',
-    city: '',
-    state: '',
-    zip_code: '',
-    phone: '',
-    contact_person: ''
+    
+    address_block: {
+      address: 'Calle Gran Vía, 28',
+      city: 'Madrid',
+      state: 'Madrid',
+      zip_code: '28013',
+      opening_hours: 'Mon-Fri: 12pm-11pm\nSat-Sun: 11am-12am'
+    },
+    
+    menu_block: {
+      dishes: []
+    },
+    
+    product_block: {
+      products: [
+        {
+          id: '1',
+          name: 'Signature Hot Sauce',
+          description: 'Our famous homemade hot sauce with a perfect blend of spices',
+          price: '€12.99',
+          sku: 'PH-HS-001',
+          order_link: 'https://shop.polloshermanos.es/hot-sauce'
+        }
+      ]
+    },
+    
+    media_block: {
+      images: []
+    },
+    
+    cta_buttons: [
+      {
+        id: '1',
+        label: 'Reserve a Table',
+        type: 'reserve',
+        link: 'https://reservations.polloshermanos.es',
+        isActive: true
+      },
+      {
+        id: '2',
+        label: 'Buy Our Products',
+        type: 'shop',
+        link: 'https://shop.polloshermanos.es',
+        isActive: true
+      }
+    ],
+    
+    collaboration_preferences: {
+      types: ['influencer_visits', 'product_sendouts', 'sponsored_content']
+    },
+    
+    social_links: {
+      instagram: '@polloshermanos_madrid'
+    }
   });
 
   const handleSave = () => {
     console.log('Profile saved:', profile);
     setIsEditing(false);
-  };
-
-  const handleAddLocation = () => {
-    const location: Location = {
-      id: Math.random().toString(36).substr(2, 9),
-      ...newLocation
-    };
-    setLocations([...locations, location]);
-    setNewLocation({
-      name: '',
-      address: '',
-      city: '',
-      state: '',
-      zip_code: '',
-      phone: '',
-      contact_person: ''
-    });
-    setShowAddLocation(false);
-  };
-
-  const handleDeleteLocation = (id: string) => {
-    setLocations(locations.filter(loc => loc.id !== id));
   };
 
   const handleBackClick = () => {
@@ -116,7 +112,7 @@ const ProfilePage = () => {
       </div>
 
       <div className="p-4 space-y-6">
-        {/* Profile Image Section */}
+        {/* Profile Image & Basic Info */}
         <Card>
           <CardContent className="p-6">
             <div className="flex items-center space-x-4">
@@ -130,20 +126,20 @@ const ProfilePage = () => {
               <div className="flex-1">
                 <div className="space-y-2">
                   <div>
-                    <Label className="text-sm text-gray-600">Nombre</Label>
+                    <Label className="text-sm text-gray-600">Name</Label>
                     {isEditing ? (
                       <Input
-                        value={profile.restaurant_name}
-                        onChange={(e) => setProfile({...profile, restaurant_name: e.target.value})}
-                        placeholder="Nombre del restaurante"
+                        value={profile.name}
+                        onChange={(e) => setProfile({...profile, name: e.target.value})}
+                        placeholder="Business name"
                       />
                     ) : (
-                      <p className="font-medium">{profile.restaurant_name || 'Nombre del restaurante'}</p>
+                      <p className="font-medium">{profile.name}</p>
                     )}
                   </div>
                   <div>
-                    <Label className="text-sm text-gray-600">Nombre de usuario</Label>
-                    <p className="text-gray-500">@{profile.restaurant_name?.toLowerCase().replace(/\s+/g, '') || 'usuario'}</p>
+                    <Label className="text-sm text-gray-600">Username</Label>
+                    <p className="text-gray-500">@{profile.name?.toLowerCase().replace(/\s+/g, '') || 'username'}</p>
                   </div>
                 </div>
               </div>
@@ -155,206 +151,79 @@ const ProfilePage = () => {
         <Card>
           <CardContent className="p-6 space-y-4">
             <div>
-              <Label className="text-sm text-gray-600">Biografía</Label>
+              <Label className="text-sm text-gray-600">Description</Label>
+              <p className="text-xs text-gray-500 mb-2">Tell people about your business</p>
               {isEditing ? (
                 <Textarea
                   value={profile.description}
                   onChange={(e) => setProfile({...profile, description: e.target.value})}
-                  placeholder="Describe tu restaurante..."
+                  placeholder="Describe your business..."
                   rows={3}
                 />
               ) : (
-                <p className="text-gray-900">{profile.description || 'Describe tu restaurante...'}</p>
+                <p className="text-gray-900">{profile.description}</p>
               )}
             </div>
             
             <div>
-              <Label className="text-sm text-gray-600">Teléfono</Label>
+              <Label className="text-sm text-gray-600">Phone</Label>
               {isEditing ? (
                 <Input
                   value={profile.phone}
                   onChange={(e) => setProfile({...profile, phone: e.target.value})}
-                  placeholder="Número de teléfono"
+                  placeholder="Phone number"
                 />
               ) : (
-                <p className="text-gray-900">{profile.phone || 'Número de teléfono'}</p>
+                <p className="text-gray-900">{profile.phone}</p>
               )}
             </div>
 
-            <div className="flex items-center justify-between">
-              <Label className="text-sm text-gray-600">Ocultar perfil</Label>
-              <Switch />
+            <div>
+              <Label className="text-sm text-gray-600">Website</Label>
+              {isEditing ? (
+                <Input
+                  value={profile.website_url}
+                  onChange={(e) => setProfile({...profile, website_url: e.target.value})}
+                  placeholder="https://your-website.com"
+                />
+              ) : (
+                <a 
+                  href={profile.website_url} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-blue-600 hover:underline"
+                >
+                  {profile.website_url}
+                </a>
+              )}
             </div>
           </CardContent>
         </Card>
 
-        {/* Locations Section */}
-        <Card>
-          <CardHeader>
-            <div className="flex items-center justify-between">
-              <CardTitle className="text-lg">Mis ubicaciones</CardTitle>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setShowAddLocation(true)}
-              >
-                <Plus className="w-4 h-4 mr-2" />
-                Añadir
-              </Button>
-            </div>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            {locations.map((location) => (
-              <div key={location.id} className="border rounded-lg p-4">
-                <div className="flex items-start justify-between">
-                  <div className="flex-1">
-                    <div className="flex items-center space-x-2 mb-2">
-                      <MapPin className="w-4 h-4 text-blue-500" />
-                      <h3 className="font-medium">{location.name}</h3>
-                    </div>
-                    <p className="text-sm text-gray-600 mb-1">{location.address}</p>
-                    <p className="text-sm text-gray-600 mb-2">{location.city}, {location.state} {location.zip_code}</p>
-                    <div className="flex items-center space-x-4 text-sm text-gray-500">
-                      <span>PERSONA DE CONTACTO: {location.contact_person}</span>
-                      <span>TELÉFONO: {location.phone}</span>
-                    </div>
-                  </div>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => handleDeleteLocation(location.id)}
-                  >
-                    <Trash2 className="w-4 h-4 text-red-500" />
-                  </Button>
-                </div>
-              </div>
-            ))}
+        {/* Modular Blocks */}
+        <AddressBlock
+          data={profile.address_block}
+          isEditing={isEditing}
+          onChange={(data) => setProfile({...profile, address_block: data})}
+        />
 
-            {showAddLocation && (
-              <div className="border rounded-lg p-4 bg-blue-50">
-                <h3 className="font-medium text-blue-700 mb-4">Nueva ubicación</h3>
-                <div className="space-y-3">
-                  <div>
-                    <Label>Ubicación *</Label>
-                    <Input
-                      value={newLocation.name}
-                      onChange={(e) => setNewLocation({...newLocation, name: e.target.value})}
-                      placeholder="Ej. Malasaña"
-                    />
-                  </div>
-                  <div>
-                    <Label>Calle *</Label>
-                    <Input
-                      value={newLocation.address}
-                      onChange={(e) => setNewLocation({...newLocation, address: e.target.value})}
-                      placeholder="Ej. Calle Mayor, 15"
-                    />
-                  </div>
-                  <div className="grid grid-cols-2 gap-3">
-                    <div>
-                      <Label>Ciudad *</Label>
-                      <Input
-                        value={newLocation.city}
-                        onChange={(e) => setNewLocation({...newLocation, city: e.target.value})}
-                        placeholder="Ej. Madrid"
-                      />
-                    </div>
-                    <div>
-                      <Label>Provincia *</Label>
-                      <Input
-                        value={newLocation.state}
-                        onChange={(e) => setNewLocation({...newLocation, state: e.target.value})}
-                        placeholder="Ej. Salamanca"
-                      />
-                    </div>
-                  </div>
-                  <div>
-                    <Label>País *</Label>
-                    <Input
-                      value="España"
-                      disabled
-                    />
-                  </div>
-                  <div>
-                    <Label>Persona de contacto *</Label>
-                    <Input
-                      value={newLocation.contact_person}
-                      onChange={(e) => setNewLocation({...newLocation, contact_person: e.target.value})}
-                      placeholder="Ej. María García"
-                    />
-                  </div>
-                  <div>
-                    <Label>Teléfono *</Label>
-                    <Input
-                      value={newLocation.phone}
-                      onChange={(e) => setNewLocation({...newLocation, phone: e.target.value})}
-                      placeholder="Ej. 912345678"
-                    />
-                  </div>
-                  <div className="flex space-x-2">
-                    <Button onClick={handleAddLocation} className="flex-1">
-                      Guardar ubicación
-                    </Button>
-                    <Button
-                      variant="outline"
-                      onClick={() => setShowAddLocation(false)}
-                      className="flex-1"
-                    >
-                      Cancelar
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            )}
-          </CardContent>
-        </Card>
+        <ProductBlock
+          data={profile.product_block}
+          isEditing={isEditing}
+          onChange={(data) => setProfile({...profile, product_block: data})}
+        />
 
-        {/* Business Info */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-lg">Datos de facturación</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div>
-              <Label className="text-sm text-gray-600">Razón social</Label>
-              <p className="text-gray-900">LISA BURGER SL</p>
-            </div>
-            <div>
-              <Label className="text-sm text-gray-600">CIF</Label>
-              <p className="text-gray-900">B72613250</p>
-            </div>
-            <div>
-              <Label className="text-sm text-gray-600">Dirección</Label>
-              <p className="text-gray-900">Calle Mesón de Paredes 5</p>
-            </div>
-            <div>
-              <Label className="text-sm text-gray-600">Ciudad</Label>
-              <p className="text-gray-900">Madrid</p>
-            </div>
-            <div>
-              <Label className="text-sm text-gray-600">Est./Provincia</Label>
-              <p className="text-gray-900">Madrid</p>
-            </div>
-            <div>
-              <Label className="text-sm text-gray-600">Código postal</Label>
-              <p className="text-gray-900">28012</p>
-            </div>
-          </CardContent>
-        </Card>
+        <CTAButtons
+          buttons={profile.cta_buttons}
+          isEditing={isEditing}
+          onChange={(buttons) => setProfile({...profile, cta_buttons: buttons})}
+        />
 
-        {/* Billing Section */}
-        <Card>
-          <CardContent className="p-6">
-            <div className="space-y-4">
-              <div>
-                <Label className="text-sm text-gray-600">Opciones de seguridad</Label>
-                <Button variant="outline" className="w-full mt-2">
-                  Cambiar plan
-                </Button>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+        <CollaborationPreferencesBlock
+          data={profile.collaboration_preferences}
+          isEditing={isEditing}
+          onChange={(data) => setProfile({...profile, collaboration_preferences: data})}
+        />
 
         {/* Save Button */}
         {isEditing && (
