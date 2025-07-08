@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Switch } from '@/components/ui/switch';
+import { Checkbox } from '@/components/ui/checkbox';
 import { ArrowLeft, Edit, Plus, MapPin, Trash2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
@@ -20,6 +21,7 @@ interface RestaurantProfile {
   phone: string;
   website_url: string;
   cuisine_type: string;
+  collaboration_preferences: string[];
 }
 
 interface Location {
@@ -33,6 +35,15 @@ interface Location {
   contact_person: string;
 }
 
+const collaborationOptions = [
+  { id: 'influencer_visits', label: 'Influencer visits' },
+  { id: 'product_sendouts', label: 'Product send-outs' },
+  { id: 'menu_collaborations', label: 'Menu collaborations' },
+  { id: 'recipe_content', label: 'Recipe content with your product' },
+  { id: 'sponsored_content', label: 'Sponsored content' },
+  { id: 'event_invitations', label: 'Event invitations' },
+];
+
 const ProfilePage = () => {
   const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
@@ -45,7 +56,8 @@ const ProfilePage = () => {
     zip_code: '28013',
     phone: '+34 912 345 678',
     website_url: 'https://polloshermanos.es',
-    cuisine_type: 'Mexican'
+    cuisine_type: 'Mexican',
+    collaboration_preferences: ['influencer_visits', 'sponsored_content']
   });
   const [locations, setLocations] = useState<Location[]>([]);
   const [showAddLocation, setShowAddLocation] = useState(false);
@@ -62,6 +74,15 @@ const ProfilePage = () => {
   const handleSave = () => {
     console.log('Profile saved:', profile);
     setIsEditing(false);
+  };
+
+  const handleCollaborationChange = (optionId: string, checked: boolean) => {
+    setProfile(prev => ({
+      ...prev,
+      collaboration_preferences: checked 
+        ? [...prev.collaboration_preferences, optionId]
+        : prev.collaboration_preferences.filter(id => id !== optionId)
+    }));
   };
 
   const handleAddLocation = () => {
@@ -184,6 +205,40 @@ const ProfilePage = () => {
             <div className="flex items-center justify-between">
               <Label className="text-sm text-gray-600">Ocultar perfil</Label>
               <Switch />
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Collaboration Preferences */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-lg">Preferencias de colaboración</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div>
+              <Label className="text-sm text-gray-600 mb-3 block">
+                ¿Qué tipos de colaboraciones te interesan?
+              </Label>
+              <div className="space-y-3">
+                {collaborationOptions.map((option) => (
+                  <div key={option.id} className="flex items-center space-x-2">
+                    <Checkbox
+                      id={option.id}
+                      checked={profile.collaboration_preferences.includes(option.id)}
+                      onCheckedChange={(checked) => 
+                        handleCollaborationChange(option.id, checked as boolean)
+                      }
+                      disabled={!isEditing}
+                    />
+                    <Label
+                      htmlFor={option.id}
+                      className="text-sm font-normal cursor-pointer"
+                    >
+                      {option.label}
+                    </Label>
+                  </div>
+                ))}
+              </div>
             </div>
           </CardContent>
         </Card>
@@ -367,8 +422,6 @@ const ProfilePage = () => {
                 variant="outline"
                 onClick={() => setIsEditing(false)}
                 className="flex-1"
-              >
-                Cancelar
               </Button>
             </div>
           </div>
