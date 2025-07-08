@@ -422,6 +422,8 @@ const ProfilePage = () => {
                 variant="outline"
                 onClick={() => setIsEditing(false)}
                 className="flex-1"
+              >
+                Cancelar
               </Button>
             </div>
           </div>
