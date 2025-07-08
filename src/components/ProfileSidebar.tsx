@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { 
   User, 
@@ -48,7 +47,7 @@ const ProfileSidebar = ({ onClose }: ProfileSidebarProps) => {
       title: "Mi perfil",
       icon: User,
       onClick: () => {
-        console.log("Navigate to profile");
+        navigate('/profile');
         onClose();
       }
     },

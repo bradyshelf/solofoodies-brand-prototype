@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { RestaurantProvider } from "@/contexts/RestaurantContext";
 import MainApp from "./pages/MainApp";
 import SubscriptionManagementPage from "./pages/SubscriptionManagementPage";
+import ProfilePage from "./pages/ProfilePage";
 
 const queryClient = new QueryClient();
 
@@ -21,6 +22,7 @@ const App = () => (
             <Route path="/" element={<MainApp />} />
             <Route path="/dashboard" element={<MainApp />} />
             <Route path="/subscription-management" element={<SubscriptionManagementPage />} />
+            <Route path="/profile" element={<ProfilePage />} />
             <Route path="*" element={<MainApp />} />
           </Routes>
         </RestaurantProvider>
