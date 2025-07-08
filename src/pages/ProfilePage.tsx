@@ -24,7 +24,7 @@ const ProfilePage = () => {
     description: 'Authentic Mexican cuisine with the finest ingredients',
     phone: '+34 912 345 678',
     
-    // Website & Social Links
+    // Website & Social Links - using optional properties
     website_links: {
       website_url: 'https://polloshermanos.es',
       booking_url: 'https://reservations.polloshermanos.es',
@@ -34,7 +34,7 @@ const ProfilePage = () => {
       twitter: ''
     },
     
-    // Address & Hours
+    // Address & Hours - using optional properties
     address_hours: {
       address: 'Calle Gran Vía, 28',
       city: 'Madrid',
@@ -43,7 +43,7 @@ const ProfilePage = () => {
       opening_hours: 'Mon-Fri: 12pm-11pm\nSat-Sun: 11am-12am'
     },
     
-    // Products (for brands/restaurants that sell products)
+    // Products - using optional properties
     product_block: {
       products: [
         {
@@ -58,7 +58,7 @@ const ProfilePage = () => {
       ]
     },
     
-    // Collaboration Preferences
+    // Collaboration Preferences - using correct union types
     collaboration_preferences: {
       types: ['influencer_visits', 'product_sendouts', 'sponsored_content'] as ('influencer_visits' | 'product_sendouts' | 'menu_collaborations' | 'recipe_content' | 'sponsored_content' | 'event_invitations')[]
     },
