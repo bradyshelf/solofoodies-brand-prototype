@@ -74,13 +74,28 @@ const ProfilePage = () => {
     setIsEditing(false);
   };
 
-  const handleCollaborationChange = (optionId: string, checked: boolean) => {
-    setProfile(prev => ({
-      ...prev,
-      collaboration_preferences: checked 
-        ? [...prev.collaboration_preferences, optionId]
-        : prev.collaboration_preferences.filter(id => id !== optionId)
-    }));
+  const handleCollaborationChange = (optionId: string, checked: boolean | string) => {
+    console.log('Collaboration change:', optionId, checked);
+    setProfile(prev => {
+      const currentPreferences = prev.collaboration_preferences || [];
+      let newPreferences;
+      
+      if (checked === true) {
+        // Add the option if it's not already included
+        newPreferences = currentPreferences.includes(optionId) 
+          ? currentPreferences 
+          : [...currentPreferences, optionId];
+      } else {
+        // Remove the option
+        newPreferences = currentPreferences.filter(id => id !== optionId);
+      }
+      
+      console.log('New preferences:', newPreferences);
+      return {
+        ...prev,
+        collaboration_preferences: newPreferences
+      };
+    });
   };
 
   const handleAddLocation = () => {
@@ -222,9 +237,9 @@ const ProfilePage = () => {
                   <div key={option.id} className="flex items-center space-x-2">
                     <Checkbox
                       id={option.id}
-                      checked={profile.collaboration_preferences.includes(option.id)}
+                      checked={profile.collaboration_preferences?.includes(option.id) || false}
                       onCheckedChange={(checked) => 
-                        handleCollaborationChange(option.id, checked as boolean)
+                        handleCollaborationChange(option.id, checked)
                       }
                       disabled={!isEditing}
                     />
