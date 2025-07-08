@@ -9,9 +9,11 @@ import { ArrowLeft, Edit } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { ModularProfile } from '@/types/profile';
 import AddressBlock from '@/components/profile/AddressBlock';
+import MenuBlock from '@/components/profile/MenuBlock';
 import ProductBlock from '@/components/profile/ProductBlock';
 import CTAButtons from '@/components/profile/CTAButtons';
 import CollaborationPreferencesBlock from '@/components/profile/CollaborationPreferencesBlock';
+import SocialLinksBlock from '@/components/profile/SocialLinksBlock';
 
 const ProfilePage = () => {
   const navigate = useNavigate();
@@ -31,7 +33,14 @@ const ProfilePage = () => {
     },
     
     menu_block: {
-      dishes: []
+      dishes: [
+        {
+          id: '1',
+          name: 'Pollo a la Brasa',
+          description: 'Traditional roasted chicken with our special spice blend',
+          price: '€16.50'
+        }
+      ]
     },
     
     product_block: {
@@ -73,7 +82,8 @@ const ProfilePage = () => {
     },
     
     social_links: {
-      instagram: '@polloshermanos_madrid'
+      instagram: '@polloshermanos_madrid',
+      facebook: 'facebook.com/polloshermanosmadrid'
     }
   });
 
@@ -207,6 +217,12 @@ const ProfilePage = () => {
           onChange={(data) => setProfile({...profile, address_block: data})}
         />
 
+        <MenuBlock
+          data={profile.menu_block}
+          isEditing={isEditing}
+          onChange={(data) => setProfile({...profile, menu_block: data})}
+        />
+
         <ProductBlock
           data={profile.product_block}
           isEditing={isEditing}
@@ -223,6 +239,12 @@ const ProfilePage = () => {
           data={profile.collaboration_preferences}
           isEditing={isEditing}
           onChange={(data) => setProfile({...profile, collaboration_preferences: data})}
+        />
+
+        <SocialLinksBlock
+          data={profile.social_links}
+          isEditing={isEditing}
+          onChange={(data) => setProfile({...profile, social_links: data})}
         />
 
         {/* Save Button */}
