@@ -14,6 +14,7 @@ import CollaborationPreferencesBlock from '@/components/profile/CollaborationPre
 import WebsiteLinksBlock from '@/components/profile/WebsiteLinksBlock';
 import AddressHoursBlock from '@/components/profile/AddressHoursBlock';
 import CollabPreferencesBlock from '@/components/profile/CollabPreferencesBlock';
+import type { CTAButton, CollaborationPreferences } from '@/types/profile';
 
 const ProfilePage = () => {
   const navigate = useNavigate();
@@ -51,6 +52,7 @@ const ProfilePage = () => {
           description: 'Our famous homemade hot sauce with a perfect blend of spices',
           price: '€12.99',
           sku: 'PH-HS-001',
+          image: '',
           order_link: 'https://shop.polloshermanos.es/hot-sauce'
         }
       ]
@@ -58,7 +60,7 @@ const ProfilePage = () => {
     
     // Collaboration Preferences
     collaboration_preferences: {
-      types: ['influencer_visits', 'product_sendouts', 'sponsored_content']
+      types: ['influencer_visits', 'product_sendouts', 'sponsored_content'] as ('influencer_visits' | 'product_sendouts' | 'menu_collaborations' | 'recipe_content' | 'sponsored_content' | 'event_invitations')[]
     },
     
     // Legacy fields for existing components
@@ -82,18 +84,18 @@ const ProfilePage = () => {
       {
         id: '1',
         label: 'Reserve a Table',
-        type: 'reserve',
+        type: 'reserve' as const,
         link: 'https://reservations.polloshermanos.es',
         isActive: true
       },
       {
         id: '2',
         label: 'Buy Our Products',
-        type: 'shop',
+        type: 'shop' as const,
         link: 'https://shop.polloshermanos.es',
         isActive: true
       }
-    ],
+    ] as CTAButton[],
     
     social_links: {
       instagram: '@polloshermanos_madrid'
