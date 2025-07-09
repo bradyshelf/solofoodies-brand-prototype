@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent } from '@/components/ui/sheet';
-import { Menu } from 'lucide-react';
+import { Menu, Users } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useRestaurants } from '@/contexts/RestaurantContext';
 import ProfileSidebar from '@/components/ProfileSidebar';
@@ -39,6 +39,18 @@ const MainApp = () => {
             >
               <Menu className="w-4 h-4 mr-2" />
               Open Restaurant Menu
+            </Button>
+            
+            <Button 
+              onClick={() => {
+                console.log('Navigating to collaborations...');
+                navigate('/collaborations');
+              }}
+              variant="outline"
+              className="border-red-500 text-red-500 hover:bg-red-50"
+            >
+              <Users className="w-4 h-4 mr-2" />
+              View Collaborations
             </Button>
           </div>
         </div>
