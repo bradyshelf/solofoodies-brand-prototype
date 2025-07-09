@@ -12,11 +12,12 @@ const CreateCollaborationPage = () => {
   const navigate = useNavigate();
   
   // Form state
-  const [selectedLocations, setSelectedLocations] = useState<string[]>([]);
+  const [selectedLocations, setSelectedLocations] = useState<string[]>(['local-valencia']);
   const [minFollowers, setMinFollowers] = useState([10]);
   const [foodieCount, setFoodieCount] = useState(1);
+  const [creditType, setCreditType] = useState<'percentage' | 'euro'>('percentage');
   const [discountPercentage, setDiscountPercentage] = useState([100]);
-  const [selectedDays, setSelectedDays] = useState<string[]>(['Lunes', 'Martes']);
+  const [selectedDays, setSelectedDays] = useState<string[]>(['lunes', 'martes']);
   const [description, setDescription] = useState('');
 
   const locations = [
@@ -56,13 +57,13 @@ const CreateCollaborationPage = () => {
       locations: selectedLocations,
       minFollowers: minFollowers[0],
       foodieCount,
+      creditType,
       discountPercentage: discountPercentage[0],
       availableDays: selectedDays,
       description
     };
     
     console.log('Creating collaboration:', collaborationData);
-    // Here you would typically save to backend
     navigate('/collaborations');
   };
 
@@ -111,7 +112,7 @@ const CreateCollaborationPage = () => {
                 <CardContent className="p-4">
                   <div className="flex items-center space-x-4">
                     <Checkbox
-                      checked={location.selected || selectedLocations.includes(location.id)}
+                      checked={location.id === 'local-valencia' || selectedLocations.includes(location.id)}
                       onCheckedChange={(checked) => handleLocationSelect(location.id, !!checked)}
                       className="w-6 h-6"
                     />
@@ -199,23 +200,51 @@ const CreateCollaborationPage = () => {
             <h2 className="text-lg font-semibold">Crédito</h2>
           </div>
           
-          <div className="text-center mb-4">
-            <div className="text-4xl font-bold mb-2">{discountPercentage[0]}%</div>
-            <Slider
-              value={discountPercentage}
-              onValueChange={setDiscountPercentage}
-              max={100}
-              min={0}
-              step={5}
-              className="w-full"
-            />
+          <div className="space-y-4">
+            {/* Credit Type Toggle */}
+            <div className="flex space-x-2">
+              <button
+                onClick={() => setCreditType('percentage')}
+                className={`px-4 py-2 rounded-lg text-sm font-medium ${
+                  creditType === 'percentage'
+                    ? 'bg-blue-600 text-white'
+                    : 'bg-gray-100 text-gray-600'
+                }`}
+              >
+                %
+              </button>
+              <button
+                onClick={() => setCreditType('euro')}
+                className={`px-4 py-2 rounded-lg text-sm font-medium ${
+                  creditType === 'euro'
+                    ? 'bg-blue-600 text-white'
+                    : 'bg-gray-100 text-gray-600'
+                }`}
+              >
+                €
+              </button>
+            </div>
+            
+            <div className="text-center">
+              <div className="text-4xl font-bold mb-2">
+                {creditType === 'percentage' ? `${discountPercentage[0]}%` : `${discountPercentage[0]}€`}
+              </div>
+              <Slider
+                value={discountPercentage}
+                onValueChange={setDiscountPercentage}
+                max={100}
+                min={0}
+                step={5}
+                className="w-full"
+              />
+            </div>
           </div>
         </div>
 
         {/* Available Days */}
         <div>
           <div className="flex items-center space-x-2 mb-4">
-            <span className="text-orange-500">📅</span>
+            <span className="text-orange-500">⏰</span>
             <h2 className="text-lg font-semibold">Días disponibles (4)</h2>
           </div>
           
@@ -225,7 +254,7 @@ const CreateCollaborationPage = () => {
                 key={day.id}
                 onClick={() => handleDayToggle(day.id)}
                 className={`p-3 rounded-lg text-sm font-medium ${
-                  day.selected || selectedDays.includes(day.id)
+                  (day.id === 'lunes' || day.id === 'martes') || selectedDays.includes(day.id)
                     ? 'bg-gray-900 text-white'
                     : 'bg-gray-100 text-gray-600'
                 }`}
@@ -275,7 +304,9 @@ const CreateCollaborationPage = () => {
                 </div>
                 <div className="flex items-center space-x-2">
                   <Percent className="w-4 h-4" />
-                  <span className="text-sm">{discountPercentage[0]}% Descuento</span>
+                  <span className="text-sm">
+                    {creditType === 'percentage' ? `${discountPercentage[0]}% Descuento` : `${discountPercentage[0]}€ Crédito`}
+                  </span>
                 </div>
                 <div className="flex items-center space-x-2">
                   <span className="text-sm">📅</span>
