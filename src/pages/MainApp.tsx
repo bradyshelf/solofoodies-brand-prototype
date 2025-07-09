@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent } from '@/components/ui/sheet';
-import { Menu, Settings } from 'lucide-react';
+import { Menu } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useRestaurants } from '@/contexts/RestaurantContext';
 import ProfileSidebar from '@/components/ProfileSidebar';
@@ -27,7 +27,7 @@ const MainApp = () => {
         
         <div className="space-y-4">
           <h1 className="text-2xl font-bold text-gray-900">Restaurant Management</h1>
-          <p className="text-gray-600">Manage your restaurants and subscriptions</p>
+          <p className="text-gray-600">Manage your restaurants and collaborations</p>
           
           <div className="flex flex-col gap-3">
             <Button 
@@ -39,18 +39,6 @@ const MainApp = () => {
             >
               <Menu className="w-4 h-4 mr-2" />
               Open Restaurant Menu
-            </Button>
-            
-            <Button 
-              onClick={() => {
-                console.log('Navigating to subscription management...');
-                navigate('/subscription-management');
-              }}
-              variant="outline"
-              className="border-red-500 text-red-500 hover:bg-red-50"
-            >
-              <Settings className="w-4 h-4 mr-2" />
-              Manage Subscriptions
             </Button>
           </div>
         </div>
