@@ -3,9 +3,12 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { BarChart3, Users, MessageSquare, TrendingUp } from 'lucide-react';
+import { BarChart3, Users, MessageSquare, TrendingUp, Plus } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const Dashboard = () => {
+  const navigate = useNavigate();
+
   const stats = [
     {
       title: 'Active Collaborations',
@@ -41,8 +44,19 @@ const Dashboard = () => {
     <div className="min-h-screen bg-gray-50 p-4">
       <div className="container mx-auto max-w-6xl">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Dashboard</h1>
-          <p className="text-gray-600">Welcome back! Here's what's happening with your restaurant.</p>
+          <div className="flex justify-between items-center mb-4">
+            <div>
+              <h1 className="text-3xl font-bold text-gray-900 mb-2">Dashboard</h1>
+              <p className="text-gray-600">Welcome back! Here's what's happening with your restaurant.</p>
+            </div>
+            <Button 
+              onClick={() => navigate('/collaborations')}
+              className="bg-red-500 hover:bg-red-600 text-white"
+            >
+              <Plus className="w-4 h-4 mr-2" />
+              View Collaborations
+            </Button>
+          </div>
         </div>
 
         {/* Stats Grid */}
@@ -92,7 +106,11 @@ const Dashboard = () => {
               <CardTitle>Quick Actions</CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
-              <Button className="w-full justify-start" variant="outline">
+              <Button 
+                className="w-full justify-start" 
+                variant="outline"
+                onClick={() => navigate('/collaborations/create')}
+              >
                 Create New Collaboration
               </Button>
               <Button className="w-full justify-start" variant="outline">
