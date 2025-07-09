@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Plus, MapPin, Users, DollarSign } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 interface Collaboration {
   id: string;
@@ -17,6 +18,7 @@ interface Collaboration {
 }
 
 const CollaborationsPage = () => {
+  const navigate = useNavigate();
   const [collaborations] = useState<Collaboration[]>([
     {
       id: '1',
@@ -30,6 +32,14 @@ const CollaborationsPage = () => {
     }
   ]);
 
+  const handleNewCollaboration = () => {
+    navigate('/collaborations/create');
+  };
+
+  const handleViewDetails = (id: string) => {
+    navigate(`/collaboration/${id}`);
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 p-4">
       <div className="container mx-auto max-w-6xl">
@@ -38,7 +48,7 @@ const CollaborationsPage = () => {
             <h1 className="text-3xl font-bold text-gray-900 mb-2">My Collaborations</h1>
             <p className="text-gray-600">Manage your influencer partnerships</p>
           </div>
-          <Button className="bg-red-500 hover:bg-red-600">
+          <Button onClick={handleNewCollaboration} className="bg-red-500 hover:bg-red-600">
             <Plus className="w-4 h-4 mr-2" />
             New Collaboration
           </Button>
@@ -79,7 +89,11 @@ const CollaborationsPage = () => {
               <CardContent>
                 <div className="flex justify-between items-center">
                   <p className="text-gray-600">Restaurant: {collab.restaurant}</p>
-                  <Button variant="outline" size="sm">
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    onClick={() => handleViewDetails(collab.id)}
+                  >
                     View Details
                   </Button>
                 </div>
