@@ -1,11 +1,10 @@
+
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Phone, MapPin, Calendar } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const ColabDetail = () => {
-  const {
-    id
-  } = useParams();
+  const { id } = useParams();
   const navigate = useNavigate();
 
   // Mock collaboration data - in real app this would come from API
@@ -54,13 +53,10 @@ const ColabDetail = () => {
           <button onClick={handleBack} className="absolute top-4 left-4 bg-white/80 backdrop-blur-sm rounded-full p-2 z-10">
             <ArrowLeft className="w-5 h-5 text-gray-700" />
           </button>
-
-          {/* Chat icon overlay */}
-          
         </div>
 
         {/* Content */}
-        <div className="px-4 py-6">
+        <div className="px-4 sm:px-6 lg:px-8 py-6">
           {/* Restaurant name */}
           <h1 className="text-2xl font-bold text-gray-900 mb-4">
             {colabData.restaurantName}
