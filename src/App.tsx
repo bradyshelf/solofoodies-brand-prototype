@@ -10,8 +10,6 @@ import SubscriptionManagementPage from "./pages/SubscriptionManagementPage";
 import ProfilePage from "./pages/ProfilePage";
 import CollaborationsPage from "./pages/CollaborationsPage";
 import CreateCollaborationPage from "./pages/CreateCollaborationPage";
-import LocationSelectionPage from "./pages/LocationSelectionPage";
-import FoodieSelectionPage from "./pages/FoodieSelectionPage";
 import ColabDetail from "./pages/ColabDetail";
 
 const queryClient = new QueryClient();
@@ -30,8 +28,6 @@ const App = () => (
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="/collaborations" element={<CollaborationsPage />} />
             <Route path="/collaborations/create" element={<CreateCollaborationPage />} />
-            <Route path="/collaborations/location" element={<LocationSelectionPage />} />
-            <Route path="/collaborations/foodies" element={<FoodieSelectionPage />} />
             <Route path="/collaboration/:id" element={<ColabDetail />} />
             <Route path="*" element={<MainApp />} />
           </Routes>

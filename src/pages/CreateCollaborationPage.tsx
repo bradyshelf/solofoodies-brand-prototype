@@ -1,157 +1,301 @@
+
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { Label } from '@/components/ui/label';
-import { ArrowLeft, Calendar, Users } from 'lucide-react';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Slider } from '@/components/ui/slider';
+import { Textarea } from '@/components/ui/textarea';
+import { ArrowLeft, MapPin, Users, Percent, Plus, Minus } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+
 const CreateCollaborationPage = () => {
   const navigate = useNavigate();
-  const [selectedType, setSelectedType] = useState<string>('');
   
-  const handleContinue = () => {
-    if (selectedType) {
-      console.log('Selected collaboration type:', selectedType);
-      navigate('/collaborations/location', { 
-        state: { collaborationType: selectedType } 
-      });
+  // Form state
+  const [selectedLocations, setSelectedLocations] = useState<string[]>([]);
+  const [minFollowers, setMinFollowers] = useState([10]);
+  const [foodieCount, setFoodieCount] = useState(1);
+  const [discountPercentage, setDiscountPercentage] = useState([100]);
+  const [selectedDays, setSelectedDays] = useState<string[]>(['Lunes', 'Martes']);
+  const [description, setDescription] = useState('');
+
+  const locations = [
+    { id: 'local-valencia', name: 'Local Valencia', address: 'Calle Colon, 27', selected: true },
+    { id: 'sucursal-barcelona', name: 'Sucursal Barcelona', address: 'Passeig de Gràcia, 92', selected: false },
+    { id: 'sede-central', name: 'Sede Central', address: 'Calle Gran Vía, 45', selected: false }
+  ];
+
+  const days = [
+    { id: 'lunes', name: 'Lunes', selected: true },
+    { id: 'martes', name: 'Martes', selected: true },
+    { id: 'miercoles', name: 'Miércoles', selected: false },
+    { id: 'jueves', name: 'Jueves', selected: false },
+    { id: 'viernes', name: 'Viernes', selected: false },
+    { id: 'sabado', name: 'Sábado', selected: false },
+    { id: 'domingo', name: 'Domingo', selected: false }
+  ];
+
+  const handleLocationSelect = (locationId: string, checked: boolean) => {
+    if (checked) {
+      setSelectedLocations(prev => [...prev, locationId]);
+    } else {
+      setSelectedLocations(prev => prev.filter(id => id !== locationId));
     }
   };
 
-  const handleElegirClick = (type: string) => {
-    setSelectedType(type);
-    navigate('/collaborations/location', { 
-      state: { collaborationType: type } 
-    });
+  const handleDayToggle = (dayId: string) => {
+    setSelectedDays(prev => 
+      prev.includes(dayId) 
+        ? prev.filter(id => id !== dayId)
+        : [...prev, dayId]
+    );
   };
 
-  return <div className="min-h-screen bg-white">
+  const handleCreateCollaboration = () => {
+    const collaborationData = {
+      locations: selectedLocations,
+      minFollowers: minFollowers[0],
+      foodieCount,
+      discountPercentage: discountPercentage[0],
+      availableDays: selectedDays,
+      description
+    };
+    
+    console.log('Creating collaboration:', collaborationData);
+    // Here you would typically save to backend
+    navigate('/collaborations');
+  };
+
+  return (
+    <div className="min-h-screen bg-white">
       {/* Header */}
       <div className="bg-white border-b border-gray-200 px-4 py-4">
         <div className="flex items-center space-x-4">
-          <button onClick={() => navigate('/collaborations')} className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center">
+          <button 
+            onClick={() => navigate('/collaborations')} 
+            className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center"
+          >
             <ArrowLeft className="w-5 h-5 text-gray-600" />
           </button>
-          <h1 className="text-lg font-semibold text-gray-900">ATRÁS</h1>
+          <h1 className="text-lg font-semibold text-gray-900">Crear Colaboración</h1>
         </div>
       </div>
 
       {/* Content */}
-      <div className="px-4 py-6">
-        {/* Date and Companions Section */}
-        <div className="mb-8">
-          <div className="flex items-center justify-between mb-4">
-            <div className="text-center">
-              <div className="text-sm text-gray-500 mb-1">Fecha</div>
-              <div className="flex space-x-2 text-sm text-gray-400">
-                <span>L</span>
-                <span>M</span>
-                <span className="font-semibold text-blue-600">X</span>
-                <span>J</span>
-                <span>V</span>
-                <span>S</span>
-                <span>D</span>
-              </div>
+      <div className="px-4 py-6 space-y-6">
+        {/* Info Banner */}
+        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+          <div className="flex items-start space-x-2">
+            <div className="w-5 h-5 bg-blue-500 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+              <span className="text-white text-xs">i</span>
             </div>
-            <div className="text-right">
-              <div className="text-lg font-semibold text-gray-900">Dto.</div>
-            </div>
+            <p className="text-sm text-blue-800">
+              Define las condiciones de tu colaboración y recibe solicitudes de foodies interesados
+            </p>
           </div>
-
-          <div className="flex items-center space-x-3 mb-6">
-            <div className="w-12 h-12 rounded-full border-2 border-blue-400 flex items-center justify-center">
-              <Users className="w-6 h-6 text-blue-400" />
-              <span className="text-xs text-blue-400 ml-1">0</span>
-            </div>
-            <div className="text-sm text-gray-500">
-              + acompañantes
-            </div>
-          </div>
-
-          <div className="flex items-center space-x-2 text-sm text-gray-500 mb-2">
-            <Calendar className="w-4 h-4" />
-            <span>Sede Central</span>
-          </div>
-          
-          <h2 className="text-lg font-semibold text-gray-900 mb-6">
-            Tipo de colaboración
-          </h2>
         </div>
 
-        {/* Collaboration Type Selection */}
-        <RadioGroup value={selectedType} onValueChange={setSelectedType} className="space-y-4">
-          {/* Public Collaboration */}
-          <div className="relative">
-            <Card className="border-gray-200">
-              <CardContent className="p-4">
-                <div className="flex items-start justify-between">
-                  <div className="flex-1">
-                    <div className="flex items-center space-x-3 mb-2">
-                      <RadioGroupItem value="public" id="public" />
-                      <Label htmlFor="public" className="text-lg font-semibold text-gray-900">
-                        Pública
-                      </Label>
-                    </div>
-                    <p className="text-sm text-gray-600 ml-6">
-                      Define las condiciones y recibe solicitudes de foodies
-                    </p>
-                  </div>
-                  <Button 
-                    onClick={() => handleElegirClick('public')}
-                    className="px-4 py-2 text-sm rounded-full bg-gray-900 text-white hover:bg-gray-800"
-                  >
-                    Elegir
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
+        {/* Location Selection */}
+        <div>
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center space-x-2">
+              <MapPin className="w-5 h-5 text-orange-500" />
+              <h2 className="text-lg font-semibold">Ubicación (1)</h2>
+            </div>
+            <button className="text-blue-600 text-sm">Seleccionar todo</button>
           </div>
-
-          {/* Private Collaboration */}
-          <div className="relative">
-            <Card className="border-gray-200">
-              <CardContent className="p-4">
-                <div className="flex items-start justify-between">
-                  <div className="flex-1">
-                    <div className="flex items-center space-x-3 mb-2">
-                      <RadioGroupItem value="private" id="private" />
-                      <Label htmlFor="private" className="text-lg font-semibold text-gray-900">
-                        Por invitación
-                      </Label>
+          
+          <div className="space-y-3">
+            {locations.map((location) => (
+              <Card key={location.id} className="border-gray-200">
+                <CardContent className="p-4">
+                  <div className="flex items-center space-x-4">
+                    <Checkbox
+                      checked={location.selected || selectedLocations.includes(location.id)}
+                      onCheckedChange={(checked) => handleLocationSelect(location.id, !!checked)}
+                      className="w-6 h-6"
+                    />
+                    <div className="flex-1">
+                      <h3 className="font-medium text-gray-900">{location.name}</h3>
+                      <p className="text-sm text-gray-500">{location.address}</p>
                     </div>
-                    <p className="text-sm text-gray-600 ml-6">
-                      Define las condiciones y elige los foodies con los que quieres colaborar
-                    </p>
                   </div>
-                  <Button 
-                    onClick={() => handleElegirClick('private')}
-                    className="px-4 py-2 text-sm rounded-full bg-gray-900 text-white hover:bg-gray-800"
-                  >
-                    Elegir
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
+                </CardContent>
+              </Card>
+            ))}
+            
+            <Button variant="outline" className="w-full justify-center text-gray-600">
+              <Plus className="w-4 h-4 mr-2" />
+              Añadir ubicación
+            </Button>
           </div>
-        </RadioGroup>
+        </div>
 
-        {/* Note */}
-        <p className="text-xs text-gray-500 mt-4 italic">
-          *En todo momento puedes volver atrás y editar tu selección
-        </p>
-      </div>
+        {/* Followers Section */}
+        <div>
+          <div className="flex items-center space-x-2 mb-4">
+            <Users className="w-5 h-5 text-orange-500" />
+            <h2 className="text-lg font-semibold">Seguidores</h2>
+          </div>
+          
+          <div className="space-y-4">
+            <div>
+              <div className="flex justify-between text-sm text-gray-600 mb-2">
+                <span>Mínimo seguidores: {minFollowers[0]}k</span>
+              </div>
+              <Slider
+                value={minFollowers}
+                onValueChange={setMinFollowers}
+                max={50}
+                min={1}
+                step={1}
+                className="w-full"
+              />
+              <div className="flex justify-between text-xs text-gray-400 mt-1">
+                <span>1k</span>
+                <span>foodies disponibles</span>
+                <span>50k</span>
+              </div>
+            </div>
+          </div>
+        </div>
 
-      {/* Navigation Buttons */}
-      <div className="fixed bottom-6 left-4 right-4 flex justify-between items-center">
-        <button onClick={() => navigate('/collaborations')} className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center">
-          <ArrowLeft className="w-5 h-5 text-gray-600" />
-        </button>
-        
-        <Button onClick={handleContinue} disabled={!selectedType} className="w-12 h-12 rounded-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center justify-center">
-          <ArrowLeft className="w-5 h-5 text-white rotate-180" />
+        {/* Participants Section */}
+        <div>
+          <div className="flex items-center space-x-2 mb-4">
+            <Users className="w-5 h-5 text-orange-500" />
+            <h2 className="text-lg font-semibold">Participantes</h2>
+          </div>
+          
+          <div>
+            <p className="text-sm text-gray-600 mb-4">Acompañantes máx por foodie</p>
+            <div className="flex items-center justify-center space-x-6">
+              <button
+                onClick={() => setFoodieCount(Math.max(1, foodieCount - 1))}
+                className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center"
+              >
+                <Minus className="w-5 h-5" />
+              </button>
+              
+              <div className="text-center">
+                <div className="text-2xl font-bold">Foodie + {foodieCount}</div>
+                <div className="text-sm text-orange-500">Acompañante máx</div>
+              </div>
+              
+              <button
+                onClick={() => setFoodieCount(foodieCount + 1)}
+                className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center"
+              >
+                <Plus className="w-5 h-5" />
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Credit Section */}
+        <div>
+          <div className="flex items-center space-x-2 mb-4">
+            <Percent className="w-5 h-5 text-orange-500" />
+            <h2 className="text-lg font-semibold">Crédito</h2>
+          </div>
+          
+          <div className="text-center mb-4">
+            <div className="text-4xl font-bold mb-2">{discountPercentage[0]}%</div>
+            <Slider
+              value={discountPercentage}
+              onValueChange={setDiscountPercentage}
+              max={100}
+              min={0}
+              step={5}
+              className="w-full"
+            />
+          </div>
+        </div>
+
+        {/* Available Days */}
+        <div>
+          <div className="flex items-center space-x-2 mb-4">
+            <span className="text-orange-500">📅</span>
+            <h2 className="text-lg font-semibold">Días disponibles (4)</h2>
+          </div>
+          
+          <div className="grid grid-cols-2 gap-2">
+            {days.map((day) => (
+              <button
+                key={day.id}
+                onClick={() => handleDayToggle(day.id)}
+                className={`p-3 rounded-lg text-sm font-medium ${
+                  day.selected || selectedDays.includes(day.id)
+                    ? 'bg-gray-900 text-white'
+                    : 'bg-gray-100 text-gray-600'
+                }`}
+              >
+                {day.name}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Description */}
+        <div>
+          <div className="flex items-center space-x-2 mb-4">
+            <span className="text-orange-500">📝</span>
+            <h2 className="text-lg font-semibold">Descripción</h2>
+          </div>
+          
+          <div>
+            <p className="text-sm text-gray-600 mb-2">Describe lo que espera de esta colaboración</p>
+            <Textarea
+              placeholder="Describe lo que espera de esta colaboración"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              className="min-h-[100px]"
+            />
+            <div className="text-right text-xs text-gray-400 mt-1">500/500</div>
+          </div>
+        </div>
+
+        {/* Preview */}
+        <div>
+          <h3 className="font-semibold mb-4">Vista previa</h3>
+          <Card className="bg-gray-900 text-white">
+            <CardContent className="p-4">
+              <div className="space-y-2">
+                <div className="flex items-center space-x-2">
+                  <MapPin className="w-4 h-4" />
+                  <span className="text-sm">Local Valencia</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Users className="w-4 h-4" />
+                  <span className="text-sm">Mín. {minFollowers[0]}k seguidores</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Users className="w-4 h-4" />
+                  <span className="text-sm">Foodie +{foodieCount} acompañantes máx.</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Percent className="w-4 h-4" />
+                  <span className="text-sm">{discountPercentage[0]}% Descuento</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <span className="text-sm">📅</span>
+                  <span className="text-sm">lunes, martes, +2 más</span>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Create Button */}
+        <Button 
+          onClick={handleCreateCollaboration}
+          className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg"
+        >
+          Crear colaboración
         </Button>
       </div>
-    </div>;
+    </div>
+  );
 };
 
 export default CreateCollaborationPage;
