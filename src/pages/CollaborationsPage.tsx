@@ -25,9 +25,7 @@ const CollaborationsPage = () => {
         navigate('/collaborations/create-postal');
         break;
       case 'event-invitation':
-        // TODO: Navigate to event invitation flow when implemented
-        console.log('Event invitation flow not yet implemented');
-        navigate('/collaborations/create'); // Fallback for now
+        navigate('/collaborations/create-event');
         break;
       default:
         navigate('/collaborations/create');

@@ -10,6 +10,7 @@ import ProfilePage from "./pages/ProfilePage";
 import CollaborationsPage from "./pages/CollaborationsPage";
 import CreateCollaborationPage from "./pages/CreateCollaborationPage";
 import CreatePostalCollaborationPage from "./pages/CreatePostalCollaborationPage";
+import CreateEventCollaborationPage from "./pages/CreateEventCollaborationPage";
 import ColabDetail from "./pages/ColabDetail";
 
 const queryClient = new QueryClient();
@@ -28,6 +29,7 @@ const App = () => (
             <Route path="/collaborations" element={<CollaborationsPage />} />
             <Route path="/collaborations/create" element={<CreateCollaborationPage />} />
             <Route path="/collaborations/create-postal" element={<CreatePostalCollaborationPage />} />
+            <Route path="/collaborations/create-event" element={<CreateEventCollaborationPage />} />
             <Route path="/collaboration/:id" element={<ColabDetail />} />
             <Route path="*" element={<MainApp />} />
           </Routes>
