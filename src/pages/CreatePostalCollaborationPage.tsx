@@ -11,7 +11,8 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import { ArrowLeft, Package, Globe, MapPin } from 'lucide-react';
+import { ArrowLeft, Package, Globe, MapPin, X } from 'lucide-react';
+import { Checkbox } from '@/components/ui/checkbox';
 
 const postalCollaborationSchema = z.object({
   productName: z.string().min(1, 'Product name is required'),
@@ -19,14 +20,36 @@ const postalCollaborationSchema = z.object({
   quantityPerCreator: z.number().min(1, 'Quantity must be at least 1'),
   retailValue: z.number().optional(),
   productVariations: z.string().optional(),
-  shippingScope: z.enum(['domestic', 'international']),
+  shippingScope: z.enum(['global', 'country', 'cities']),
+  selectedCountry: z.string().optional(),
+  selectedCities: z.array(z.string()).optional(),
 });
 
 type PostalCollaborationForm = z.infer<typeof postalCollaborationSchema>;
 
+// Mock data - in a real app, these would come from an API
+const countries = [
+  { code: 'US', name: 'United States' },
+  { code: 'CA', name: 'Canada' },
+  { code: 'UK', name: 'United Kingdom' },
+  { code: 'AU', name: 'Australia' },
+  { code: 'DE', name: 'Germany' },
+  { code: 'FR', name: 'France' },
+];
+
+const citiesByCountry: Record<string, string[]> = {
+  US: ['New York', 'Los Angeles', 'Chicago', 'Houston', 'Phoenix', 'Philadelphia', 'San Antonio', 'San Diego'],
+  CA: ['Toronto', 'Montreal', 'Vancouver', 'Calgary', 'Edmonton', 'Ottawa', 'Winnipeg', 'Quebec City'],
+  UK: ['London', 'Manchester', 'Birmingham', 'Leeds', 'Glasgow', 'Liverpool', 'Newcastle', 'Sheffield'],
+  AU: ['Sydney', 'Melbourne', 'Brisbane', 'Perth', 'Adelaide', 'Gold Coast', 'Newcastle', 'Canberra'],
+  DE: ['Berlin', 'Hamburg', 'Munich', 'Cologne', 'Frankfurt', 'Stuttgart', 'Düsseldorf', 'Dortmund'],
+  FR: ['Paris', 'Marseille', 'Lyon', 'Toulouse', 'Nice', 'Nantes', 'Strasbourg', 'Montpellier'],
+};
+
 const CreatePostalCollaborationPage = () => {
   const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [selectedCities, setSelectedCities] = useState<string[]>([]);
 
   const form = useForm<PostalCollaborationForm>({
     resolver: zodResolver(postalCollaborationSchema),
@@ -36,9 +59,14 @@ const CreatePostalCollaborationPage = () => {
       quantityPerCreator: 1,
       retailValue: undefined,
       productVariations: '',
-      shippingScope: 'domestic',
+      shippingScope: 'global',
+      selectedCountry: '',
+      selectedCities: [],
     },
   });
+
+  const watchedShippingScope = form.watch('shippingScope');
+  const watchedCountry = form.watch('selectedCountry');
 
   const onSubmit = async (data: PostalCollaborationForm) => {
     setIsSubmitting(true);
@@ -56,6 +84,38 @@ const CreatePostalCollaborationPage = () => {
 
   const handleBack = () => {
     navigate('/collaborations');
+  };
+
+  const handleCityToggle = (city: string) => {
+    const updatedCities = selectedCities.includes(city)
+      ? selectedCities.filter(c => c !== city)
+      : [...selectedCities, city];
+    
+    setSelectedCities(updatedCities);
+    form.setValue('selectedCities', updatedCities);
+  };
+
+  const removeCityTag = (city: string) => {
+    const updatedCities = selectedCities.filter(c => c !== city);
+    setSelectedCities(updatedCities);
+    form.setValue('selectedCities', updatedCities);
+  };
+
+  const handleCountryChange = (country: string) => {
+    form.setValue('selectedCountry', country);
+    setSelectedCities([]);
+    form.setValue('selectedCities', []);
+  };
+
+  const handleShippingScopeChange = (scope: string) => {
+    form.setValue('shippingScope', scope as 'global' | 'country' | 'cities');
+    if (scope !== 'cities') {
+      setSelectedCities([]);
+      form.setValue('selectedCities', []);
+    }
+    if (scope === 'global') {
+      form.setValue('selectedCountry', '');
+    }
   };
 
   return (
@@ -198,51 +258,155 @@ const CreatePostalCollaborationPage = () => {
               <CardHeader>
                 <CardTitle className="flex items-center space-x-2">
                   <Globe className="w-5 h-5" />
-                  <span>Shipping Scope</span>
+                  <span>Shipping Locations</span>
                 </CardTitle>
               </CardHeader>
-              <CardContent>
+              <CardContent className="space-y-4">
                 <FormField
                   control={form.control}
                   name="shippingScope"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Shipping Availability *</FormLabel>
-                      <Select onValueChange={field.onChange} defaultValue={field.value}>
-                        <FormControl>
-                          <SelectTrigger className="w-full">
-                            <SelectValue placeholder="Select shipping scope" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          <SelectItem value="domestic">
-                            <div className="flex items-center space-x-2">
-                              <MapPin className="w-4 h-4" />
-                              <div>
-                                <div className="font-medium">Domestic Only</div>
-                                <div className="text-xs text-gray-500">
-                                  Ship within your country only
-                                </div>
-                              </div>
+                      <div className="space-y-3">
+                        <div className="flex items-center space-x-2">
+                          <input
+                            type="radio"
+                            id="global"
+                            name="shippingScope"
+                            value="global"
+                            checked={field.value === 'global'}
+                            onChange={() => handleShippingScopeChange('global')}
+                            className="w-4 h-4 text-blue-600"
+                          />
+                          <label htmlFor="global" className="flex items-center space-x-2 cursor-pointer">
+                            <Globe className="w-4 h-4" />
+                            <div>
+                              <div className="font-medium">Global</div>
+                              <div className="text-xs text-gray-500">Ship to all countries</div>
                             </div>
-                          </SelectItem>
-                          <SelectItem value="international">
-                            <div className="flex items-center space-x-2">
-                              <Globe className="w-4 h-4" />
-                              <div>
-                                <div className="font-medium">International</div>
-                                <div className="text-xs text-gray-500">
-                                  Ship worldwide (additional costs may apply)
-                                </div>
-                              </div>
+                          </label>
+                        </div>
+
+                        <div className="flex items-center space-x-2">
+                          <input
+                            type="radio"
+                            id="country"
+                            name="shippingScope"
+                            value="country"
+                            checked={field.value === 'country'}
+                            onChange={() => handleShippingScopeChange('country')}
+                            className="w-4 h-4 text-blue-600"
+                          />
+                          <label htmlFor="country" className="flex items-center space-x-2 cursor-pointer">
+                            <MapPin className="w-4 h-4" />
+                            <div>
+                              <div className="font-medium">Specific Country</div>
+                              <div className="text-xs text-gray-500">Ship to one country only</div>
                             </div>
-                          </SelectItem>
-                        </SelectContent>
-                      </Select>
+                          </label>
+                        </div>
+
+                        <div className="flex items-center space-x-2">
+                          <input
+                            type="radio"
+                            id="cities"
+                            name="shippingScope"
+                            value="cities"
+                            checked={field.value === 'cities'}
+                            onChange={() => handleShippingScopeChange('cities')}
+                            className="w-4 h-4 text-blue-600"
+                          />
+                          <label htmlFor="cities" className="flex items-center space-x-2 cursor-pointer">
+                            <MapPin className="w-4 h-4" />
+                            <div>
+                              <div className="font-medium">Specific Cities</div>
+                              <div className="text-xs text-gray-500">Ship to selected cities only</div>
+                            </div>
+                          </label>
+                        </div>
+                      </div>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
+
+                {/* Country Selection */}
+                {(watchedShippingScope === 'country' || watchedShippingScope === 'cities') && (
+                  <div className="space-y-3 pl-6 border-l-2 border-gray-100">
+                    <FormField
+                      control={form.control}
+                      name="selectedCountry"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Select Country</FormLabel>
+                          <Select onValueChange={handleCountryChange} value={field.value}>
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Choose a country" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              {countries.map((country) => (
+                                <SelectItem key={country.code} value={country.code}>
+                                  {country.name}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                )}
+
+                {/* City Selection */}
+                {watchedShippingScope === 'cities' && watchedCountry && (
+                  <div className="space-y-3 pl-6 border-l-2 border-gray-100">
+                    <div>
+                      <Label>Select Cities</Label>
+                      <p className="text-xs text-gray-500 mt-1">Choose specific cities within {countries.find(c => c.code === watchedCountry)?.name}</p>
+                    </div>
+
+                    {/* Selected Cities Tags */}
+                    {selectedCities.length > 0 && (
+                      <div className="flex flex-wrap gap-2 mb-3">
+                        {selectedCities.map((city) => (
+                          <div
+                            key={city}
+                            className="inline-flex items-center gap-1 px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm"
+                          >
+                            {city}
+                            <button
+                              type="button"
+                              onClick={() => removeCityTag(city)}
+                              className="ml-1 hover:bg-blue-200 rounded-full p-0.5"
+                            >
+                              <X className="w-3 h-3" />
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    {/* City Checkboxes */}
+                    <div className="grid grid-cols-2 gap-2 max-h-48 overflow-y-auto border rounded-md p-3">
+                      {citiesByCountry[watchedCountry]?.map((city) => (
+                        <div key={city} className="flex items-center space-x-2">
+                          <Checkbox
+                            id={city}
+                            checked={selectedCities.includes(city)}
+                            onCheckedChange={() => handleCityToggle(city)}
+                          />
+                          <label htmlFor={city} className="text-sm cursor-pointer">
+                            {city}
+                          </label>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </CardContent>
             </Card>
 
