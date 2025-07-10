@@ -1,15 +1,40 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Search, Plus } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { CollaborationTypeSelector } from '@/components/CollaborationTypeSelector';
 
 const CollaborationsPage = () => {
   const navigate = useNavigate();
+  const [showTypeSelector, setShowTypeSelector] = useState(false);
 
   const handleCreateCollaboration = () => {
-    navigate('/collaborations/create');
+    setShowTypeSelector(true);
+  };
+
+  const handleTypeSelected = (type: string) => {
+    console.log('Selected collaboration type:', type);
+    
+    // Route to appropriate flow based on type
+    switch (type) {
+      case 'influencer-visit':
+        navigate('/collaborations/create');
+        break;
+      case 'product-sendout':
+        // TODO: Navigate to product send-out flow when implemented
+        console.log('Product send-out flow not yet implemented');
+        navigate('/collaborations/create'); // Fallback for now
+        break;
+      case 'event-invitation':
+        // TODO: Navigate to event invitation flow when implemented
+        console.log('Event invitation flow not yet implemented');
+        navigate('/collaborations/create'); // Fallback for now
+        break;
+      default:
+        navigate('/collaborations/create');
+    }
   };
 
   return (
@@ -58,6 +83,13 @@ const CollaborationsPage = () => {
           </div>
         </div>
       </div>
+
+      {/* Collaboration Type Selector Modal */}
+      <CollaborationTypeSelector
+        open={showTypeSelector}
+        onOpenChange={setShowTypeSelector}
+        onTypeSelected={handleTypeSelected}
+      />
     </div>
   );
 };
