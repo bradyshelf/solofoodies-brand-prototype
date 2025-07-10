@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -23,9 +22,7 @@ const CollaborationsPage = () => {
         navigate('/collaborations/create');
         break;
       case 'product-sendout':
-        // TODO: Navigate to product send-out flow when implemented
-        console.log('Product send-out flow not yet implemented');
-        navigate('/collaborations/create'); // Fallback for now
+        navigate('/collaborations/create-postal');
         break;
       case 'event-invitation':
         // TODO: Navigate to event invitation flow when implemented
