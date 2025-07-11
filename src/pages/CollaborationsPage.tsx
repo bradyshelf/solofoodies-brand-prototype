@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -34,9 +35,9 @@ const CollaborationsPage = () => {
 
   return (
     <div className="min-h-screen bg-white">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-4xl mx-auto px-6 py-8">
         {/* Header */}
-        <div className="bg-white border-b border-gray-200 py-4">
+        <div className="bg-white border-b border-gray-200 pb-4 mb-6">
           <div className="flex items-center justify-between">
             <h1 className="text-lg font-semibold text-gray-900 uppercase tracking-wide">COLABORACIONES</h1>
             <Search className="w-5 h-5 text-gray-400" />
@@ -44,9 +45,9 @@ const CollaborationsPage = () => {
         </div>
 
         {/* Content */}
-        <div className="py-6">
+        <div className="space-y-6">
           {/* My Collaborations Section */}
-          <div className="mb-6">
+          <div>
             <h2 className="text-lg font-semibold text-gray-900 mb-4">Mis Colaboraciones (0)</h2>
             
             {/* Empty State Card */}
@@ -67,7 +68,7 @@ const CollaborationsPage = () => {
           </div>
 
           {/* Bottom Create Button */}
-          <div className="fixed bottom-6 left-4 right-4 max-w-4xl mx-auto">
+          <div className="fixed bottom-6 left-6 right-6 max-w-4xl mx-auto">
             <Button 
               onClick={handleCreateCollaboration}
               className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg"
