@@ -14,6 +14,7 @@ const CreateEventCollaborationPage = () => {
   const [eventName, setEventName] = useState('');
   const [eventLocation, setEventLocation] = useState('');
   const [selectedEventTypes, setSelectedEventTypes] = useState<string[]>([]);
+  const [customEventType, setCustomEventType] = useState('');
   const [eventDate, setEventDate] = useState('');
   const [startTime, setStartTime] = useState('');
   const [endTime, setEndTime] = useState('');
@@ -40,7 +41,8 @@ const CreateEventCollaborationPage = () => {
     { id: 'pop-up', name: 'Pop-up' },
     { id: 'launch-party', name: 'Launch party' },
     { id: 'workshop-class', name: 'Workshop / Class' },
-    { id: 'brand-experience', name: 'Brand experience' }
+    { id: 'brand-experience', name: 'Brand experience' },
+    { id: 'other', name: 'Other' }
   ];
 
   const expectations = [
@@ -74,6 +76,7 @@ const CreateEventCollaborationPage = () => {
       eventName,
       eventLocation,
       selectedEventTypes,
+      customEventType,
       eventDate,
       startTime,
       endTime,
@@ -182,6 +185,19 @@ const CreateEventCollaborationPage = () => {
               </button>
             ))}
           </div>
+          
+          {selectedEventTypes.includes('other') && (
+            <div className="mt-4">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Especifica el tipo de evento
+              </label>
+              <Input
+                value={customEventType}
+                onChange={(e) => setCustomEventType(e.target.value)}
+                placeholder="Ej: Cata de vinos, Showcooking, etc."
+              />
+            </div>
+          )}
         </div>
 
         {/* Timing & Attendance */}
