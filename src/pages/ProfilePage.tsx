@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -38,6 +37,7 @@ interface Location {
 const collaborationOptions = [
   { id: 'influencer_visits', label: 'Influencer visits' },
   { id: 'product_sendouts', label: 'Product send-outs' },
+  { id: 'menu_collaborations', label: 'Menu collaborations' },
   { id: 'event_invitations', label: 'Event invitations' },
 ];
 
