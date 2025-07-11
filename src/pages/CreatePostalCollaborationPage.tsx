@@ -19,7 +19,7 @@ const postalCollaborationSchema = z.object({
   quantityPerCreator: z.number().min(1, 'Quantity must be at least 1'),
   retailValue: z.number().optional(),
   productVariations: z.string().optional(),
-  shippingScope: z.enum(['global', 'country', 'cities']),
+  shippingScope: z.enum(['global', 'specific']),
   selectedCountry: z.string().optional(),
   selectedCities: z.array(z.string()).optional(),
   zoneName: z.string().optional(),
@@ -98,6 +98,13 @@ const CreatePostalCollaborationPage = () => {
     
     setSelectedCountries(updatedCountries);
     form.setValue('selectedCountry', updatedCountries[0] || '');
+    
+    // If switching to specific countries mode, update shipping scope
+    if (updatedCountries.length > 0) {
+      form.setValue('shippingScope', 'specific');
+    } else {
+      form.setValue('shippingScope', 'global');
+    }
   };
 
   const handleCityToggle = (city: string) => {
@@ -110,14 +117,12 @@ const CreatePostalCollaborationPage = () => {
   };
 
   const handleShippingScopeChange = (scope: string) => {
-    form.setValue('shippingScope', scope as 'global' | 'country' | 'cities');
-    if (scope !== 'cities') {
-      setSelectedCities([]);
-      form.setValue('selectedCities', []);
-    }
+    form.setValue('shippingScope', scope as 'global' | 'specific');
     if (scope === 'global') {
       form.setValue('selectedCountry', '');
       setSelectedCountries([]);
+      setSelectedCities([]);
+      form.setValue('selectedCities', []);
     }
   };
 
@@ -333,13 +338,13 @@ const CreatePostalCollaborationPage = () => {
                             </div>
                           </div>
                           <div className="text-sm text-gray-500">
-                            {selectedCountries.includes(country.code) && watchedShippingScope === 'cities' && 
+                            {selectedCountries.includes(country.code) && 
                               `${getSelectedCitiesCount(country.code)} of ${getTotalCitiesCount(country.code)} provinces`
                             }
                           </div>
                         </div>
 
-                        {/* Cities for selected country - now shows for ANY selected country */}
+                        {/* Cities for selected country - shows for ANY selected country */}
                         {selectedCountries.includes(country.code) && (
                           <div className="px-12 pb-4 bg-gray-50">
                             <div className="grid grid-cols-2 gap-2">
@@ -349,13 +354,10 @@ const CreatePostalCollaborationPage = () => {
                                     id={`${country.code}-${city}`}
                                     checked={selectedCities.includes(city)}
                                     onCheckedChange={() => handleCityToggle(city)}
-                                    disabled={watchedShippingScope !== 'cities'}
                                   />
                                   <label 
                                     htmlFor={`${country.code}-${city}`} 
-                                    className={`text-sm cursor-pointer ${
-                                      watchedShippingScope !== 'cities' ? 'text-gray-400' : ''
-                                    }`}
+                                    className="text-sm cursor-pointer"
                                   >
                                     {city}
                                   </label>
@@ -368,7 +370,7 @@ const CreatePostalCollaborationPage = () => {
                     ))}
                   </div>
 
-                  {/* Shipping Scope Options */}
+                  {/* Shipping Scope Options - Only Global option remains */}
                   <div className="space-y-3 mt-6">
                     <div className="flex items-center space-x-2">
                       <input
@@ -385,44 +387,6 @@ const CreatePostalCollaborationPage = () => {
                         <div>
                           <div className="font-medium">Ship to all countries</div>
                           <div className="text-xs text-gray-500">Available worldwide</div>
-                        </div>
-                      </label>
-                    </div>
-
-                    <div className="flex items-center space-x-2">
-                      <input
-                        type="radio"
-                        id="country"
-                        name="shippingScope"
-                        value="country"
-                        checked={watchedShippingScope === 'country'}
-                        onChange={() => handleShippingScopeChange('country')}
-                        className="w-4 h-4 text-blue-600"
-                      />
-                      <label htmlFor="country" className="flex items-center space-x-2 cursor-pointer">
-                        <MapPin className="w-4 h-4" />
-                        <div>
-                          <div className="font-medium">Ship to selected countries</div>
-                          <div className="text-xs text-gray-500">Choose specific countries above</div>
-                        </div>
-                      </label>
-                    </div>
-
-                    <div className="flex items-center space-x-2">
-                      <input
-                        type="radio"
-                        id="cities"
-                        name="shippingScope"
-                        value="cities"
-                        checked={watchedShippingScope === 'cities'}
-                        onChange={() => handleShippingScopeChange('cities')}
-                        className="w-4 h-4 text-blue-600"
-                      />
-                      <label htmlFor="cities" className="flex items-center space-x-2 cursor-pointer">
-                        <MapPin className="w-4 h-4" />
-                        <div>
-                          <div className="font-medium">Ship to specific regions</div>
-                          <div className="text-xs text-gray-500">Choose countries and regions above</div>
                         </div>
                       </label>
                     </div>
