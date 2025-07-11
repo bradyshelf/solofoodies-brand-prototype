@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -142,20 +141,28 @@ const CreatePostalCollaborationPage = () => {
 
   return (
     <div className="min-h-screen bg-white">
-      <div className="max-w-2xl mx-auto px-6 py-8">
-        {/* Header */}
-        <div className="flex items-center mb-6">
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => navigate('/collaborations')}
-            className="mr-4 p-2"
+      {/* Header */}
+      <div className="bg-white border-b border-gray-200 px-6 py-4">
+        <div className="flex items-center space-x-4">
+          <button 
+            onClick={() => navigate('/collaborations')} 
+            className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center"
           >
-            <ArrowLeft className="w-4 h-4" />
-          </Button>
-          <div>
-            <h1 className="text-2xl font-bold text-gray-900">Create Product Send-Out</h1>
-            <p className="text-sm text-gray-600 mt-1">
+            <ArrowLeft className="w-5 h-5 text-gray-600" />
+          </button>
+          <h1 className="text-lg font-semibold text-gray-900">Create Product Send-Out</h1>
+        </div>
+      </div>
+
+      {/* Content */}
+      <div className="max-w-4xl mx-auto px-6 py-8 space-y-6">
+        {/* Info Banner */}
+        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+          <div className="flex items-start space-x-2">
+            <div className="w-5 h-5 bg-blue-500 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+              <span className="text-white text-xs">i</span>
+            </div>
+            <p className="text-sm text-blue-800">
               Set up a collaboration to send products to creators for review
             </p>
           </div>
@@ -164,14 +171,13 @@ const CreatePostalCollaborationPage = () => {
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             {/* Product Information */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center space-x-2">
-                  <Package className="w-5 h-5" />
-                  <span>Product Information</span>
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
+            <div>
+              <div className="flex items-center space-x-2 mb-4">
+                <Package className="w-5 h-5 text-orange-500" />
+                <h2 className="text-lg font-semibold">Product Information</h2>
+              </div>
+              
+              <div className="space-y-4">
                 <FormField
                   control={form.control}
                   name="productName"
@@ -272,18 +278,17 @@ const CreatePostalCollaborationPage = () => {
                     </FormItem>
                   )}
                 />
-              </CardContent>
-            </Card>
+              </div>
+            </div>
 
             {/* Shipping Information */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center space-x-2">
-                  <Globe className="w-5 h-5" />
-                  <span>Shipping Zone</span>
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-6">
+            <div>
+              <div className="flex items-center space-x-2 mb-4">
+                <Globe className="w-5 h-5 text-orange-500" />
+                <h2 className="text-lg font-semibold">Shipping Zone</h2>
+              </div>
+              
+              <div className="space-y-6">
                 {/* Zone Name */}
                 <FormField
                   control={form.control}
@@ -393,26 +398,17 @@ const CreatePostalCollaborationPage = () => {
                     </div>
                   </div>
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
 
             {/* Submit Button */}
-            <div className="flex justify-end space-x-3 pt-6">
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => navigate('/collaborations')}
-              >
-                Cancel
-              </Button>
-              <Button
-                type="submit"
-                disabled={isSubmitting}
-                className="bg-blue-600 hover:bg-blue-700"
-              >
-                {isSubmitting ? 'Creating...' : 'Create Collaboration'}
-              </Button>
-            </div>
+            <Button 
+              type="submit" 
+              disabled={isSubmitting}
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg"
+            >
+              {isSubmitting ? 'Creating...' : 'Create Collaboration'}
+            </Button>
           </form>
         </Form>
       </div>
