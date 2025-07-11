@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -103,7 +102,7 @@ const CreateEventCollaborationPage = () => {
   return (
     <div className="min-h-screen bg-white">
       {/* Header */}
-      <div className="bg-white border-b border-gray-200 px-16 py-4">
+      <div className="bg-white border-b border-gray-200 px-6 py-4">
         <div className="flex items-center space-x-4">
           <button 
             onClick={() => navigate('/collaborations')} 
@@ -116,7 +115,7 @@ const CreateEventCollaborationPage = () => {
       </div>
 
       {/* Content */}
-      <div className="px-16 py-6 space-y-6">
+      <div className="px-6 py-8 space-y-6">
         {/* Info Banner */}
         <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
           <div className="flex items-start space-x-2">
