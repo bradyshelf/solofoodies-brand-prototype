@@ -125,8 +125,9 @@ const CreatePostalCollaborationPage = () => {
     country.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const getSelectedCitiesCount = () => {
-    return selectedCities.length;
+  const getSelectedCitiesCount = (countryCode: string) => {
+    const countryCities = citiesByCountry[countryCode] || [];
+    return selectedCities.filter(city => countryCities.includes(city)).length;
   };
 
   const getTotalCitiesCount = (countryCode: string) => {
@@ -333,13 +334,13 @@ const CreatePostalCollaborationPage = () => {
                           </div>
                           <div className="text-sm text-gray-500">
                             {selectedCountries.includes(country.code) && watchedShippingScope === 'cities' && 
-                              `${getSelectedCitiesCount()} of ${getTotalCitiesCount(country.code)} provinces`
+                              `${getSelectedCitiesCount(country.code)} of ${getTotalCitiesCount(country.code)} provinces`
                             }
                           </div>
                         </div>
 
-                        {/* Cities for selected country */}
-                        {selectedCountries.includes(country.code) && watchedShippingScope === 'cities' && (
+                        {/* Cities for selected country - now shows for ANY selected country */}
+                        {selectedCountries.includes(country.code) && (
                           <div className="px-12 pb-4 bg-gray-50">
                             <div className="grid grid-cols-2 gap-2">
                               {citiesByCountry[country.code]?.map((city) => (
@@ -348,8 +349,14 @@ const CreatePostalCollaborationPage = () => {
                                     id={`${country.code}-${city}`}
                                     checked={selectedCities.includes(city)}
                                     onCheckedChange={() => handleCityToggle(city)}
+                                    disabled={watchedShippingScope !== 'cities'}
                                   />
-                                  <label htmlFor={`${country.code}-${city}`} className="text-sm cursor-pointer">
+                                  <label 
+                                    htmlFor={`${country.code}-${city}`} 
+                                    className={`text-sm cursor-pointer ${
+                                      watchedShippingScope !== 'cities' ? 'text-gray-400' : ''
+                                    }`}
+                                  >
                                     {city}
                                   </label>
                                 </div>
