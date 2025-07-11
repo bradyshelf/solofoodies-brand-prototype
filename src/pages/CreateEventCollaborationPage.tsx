@@ -1,5 +1,3 @@
-
-
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -280,6 +278,38 @@ const CreateEventCollaborationPage = () => {
               />
             </div>
 
+            {/* Additional Guests Section */}
+            <div>
+              <div className="flex items-center space-x-2 mb-4">
+                <Users className="w-5 h-5 text-orange-500" />
+                <h3 className="text-lg font-semibold">Acompañantes</h3>
+              </div>
+              
+              <div>
+                <p className="text-sm text-gray-600 mb-4">Acompañantes máximo por foodie</p>
+                <div className="flex items-center justify-center space-x-6">
+                  <button
+                    onClick={() => setAdditionalGuests(Math.max(0, additionalGuests - 1))}
+                    className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center"
+                  >
+                    <Minus className="w-5 h-5" />
+                  </button>
+                  
+                  <div className="text-center">
+                    <div className="text-2xl font-bold">Foodie + {additionalGuests}</div>
+                    <div className="text-sm text-orange-500">Acompañantes máx</div>
+                  </div>
+                  
+                  <button
+                    onClick={() => setAdditionalGuests(additionalGuests + 1)}
+                    className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center"
+                  >
+                    <Plus className="w-5 h-5" />
+                  </button>
+                </div>
+              </div>
+            </div>
+
             <div className="flex items-center space-x-3">
               <Checkbox
                 checked={canBringPlusOne}
@@ -365,38 +395,6 @@ const CreateEventCollaborationPage = () => {
                     {option.name}
                   </button>
                 ))}
-              </div>
-            </div>
-
-            {/* Additional Guests Section */}
-            <div>
-              <div className="flex items-center space-x-2 mb-4">
-                <Users className="w-5 h-5 text-orange-500" />
-                <h3 className="text-lg font-semibold">Acompañantes</h3>
-              </div>
-              
-              <div>
-                <p className="text-sm text-gray-600 mb-4">Acompañantes máximo por foodie</p>
-                <div className="flex items-center justify-center space-x-6">
-                  <button
-                    onClick={() => setAdditionalGuests(Math.max(0, additionalGuests - 1))}
-                    className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center"
-                  >
-                    <Minus className="w-5 h-5" />
-                  </button>
-                  
-                  <div className="text-center">
-                    <div className="text-2xl font-bold">Foodie + {additionalGuests}</div>
-                    <div className="text-sm text-orange-500">Acompañantes máx</div>
-                  </div>
-                  
-                  <button
-                    onClick={() => setAdditionalGuests(additionalGuests + 1)}
-                    className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center"
-                  >
-                    <Plus className="w-5 h-5" />
-                  </button>
-                </div>
               </div>
             </div>
           </div>
@@ -574,4 +572,3 @@ const CreateEventCollaborationPage = () => {
 };
 
 export default CreateEventCollaborationPage;
-
