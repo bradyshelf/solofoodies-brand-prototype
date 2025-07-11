@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -347,8 +348,7 @@ const CreateEventCollaborationPage = () => {
               <div className="flex space-x-2">
                 {[
                   { id: 'yes', name: 'Sí' },
-                  { id: 'no', name: 'No' },
-                  { id: 'limited', name: 'Limitado a ciertos momentos' }
+                  { id: 'no', name: 'No' }
                 ].map((option) => (
                   <button
                     key={option.id}
