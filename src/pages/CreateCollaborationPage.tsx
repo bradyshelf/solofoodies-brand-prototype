@@ -266,7 +266,7 @@ const CreateCollaborationPage = () => {
             <button
               key={days[6].id}
               onClick={() => handleDayToggle(days[6].id)}
-              className={`p-3 rounded-lg text-sm font-medium ${
+              className={`p-3 rounded-lg text-sm font-medium w-[calc(50%-0.25rem)] ${
                 selectedDays.includes(days[6].id)
                   ? 'bg-gray-900 text-white'
                   : 'bg-gray-100 text-gray-600'
