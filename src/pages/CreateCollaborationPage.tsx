@@ -248,7 +248,7 @@ const CreateCollaborationPage = () => {
           </div>
           
           <div className="grid grid-cols-2 gap-2">
-            {days.map((day) => (
+            {days.slice(0, 6).map((day) => (
               <button
                 key={day.id}
                 onClick={() => handleDayToggle(day.id)}
@@ -261,6 +261,19 @@ const CreateCollaborationPage = () => {
                 {day.name}
               </button>
             ))}
+          </div>
+          <div className="flex justify-center mt-2">
+            <button
+              key={days[6].id}
+              onClick={() => handleDayToggle(days[6].id)}
+              className={`p-3 rounded-lg text-sm font-medium w-32 ${
+                selectedDays.includes(days[6].id)
+                  ? 'bg-gray-900 text-white'
+                  : 'bg-gray-100 text-gray-600'
+              }`}
+            >
+              {days[6].name}
+            </button>
           </div>
         </div>
 
