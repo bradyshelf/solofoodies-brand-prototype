@@ -96,238 +96,252 @@ const CreateCollaborationPage = () => {
         </div>
 
         {/* Location Selection */}
-        <div>
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center space-x-2">
-              <MapPin className="w-5 h-5 text-orange-500" />
-              <h2 className="text-lg font-semibold">Ubicación (1)</h2>
+        <Card className="border border-gray-200">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center space-x-2">
+                <MapPin className="w-5 h-5 text-orange-500" />
+                <h2 className="text-lg font-semibold">Ubicación (1)</h2>
+              </div>
+              <button className="text-blue-600 text-sm">Seleccionar todo</button>
             </div>
-            <button className="text-blue-600 text-sm">Seleccionar todo</button>
-          </div>
-          
-          <div className="space-y-3">
-            {locations.map((location) => (
-              <Card key={location.id} className="border-gray-200">
-                <CardContent className="p-4">
-                  <div className="flex items-center space-x-4">
-                    <Checkbox
-                      checked={location.id === 'local-valencia' || selectedLocations.includes(location.id)}
-                      onCheckedChange={(checked) => handleLocationSelect(location.id, !!checked)}
-                      className="w-6 h-6"
-                    />
-                    <div className="flex-1">
-                      <h3 className="font-medium text-gray-900">{location.name}</h3>
-                      <p className="text-sm text-gray-500">{location.address}</p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
             
-            <Button variant="outline" className="w-full justify-center text-gray-600">
-              <Plus className="w-4 h-4 mr-2" />
-              Añadir ubicación
-            </Button>
-          </div>
-        </div>
+            <div className="space-y-3">
+              {locations.map((location) => (
+                <Card key={location.id} className="border-gray-200">
+                  <CardContent className="p-4">
+                    <div className="flex items-center space-x-4">
+                      <Checkbox
+                        checked={location.id === 'local-valencia' || selectedLocations.includes(location.id)}
+                        onCheckedChange={(checked) => handleLocationSelect(location.id, !!checked)}
+                        className="w-6 h-6"
+                      />
+                      <div className="flex-1">
+                        <h3 className="font-medium text-gray-900">{location.name}</h3>
+                        <p className="text-sm text-gray-500">{location.address}</p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+              
+              <Button variant="outline" className="w-full justify-center text-gray-600">
+                <Plus className="w-4 h-4 mr-2" />
+                Añadir ubicación
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
 
         {/* Followers Section */}
-        <div>
-          <div className="flex items-center space-x-2 mb-4">
-            <Users className="w-5 h-5 text-orange-500" />
-            <h2 className="text-lg font-semibold">Seguidores</h2>
-          </div>
-          
-          <div className="space-y-4">
-            <div>
-              <div className="flex justify-between text-sm text-gray-600 mb-2">
-                <span>Mínimo seguidores: {minFollowers[0]}k</span>
-              </div>
-              <Slider
-                value={minFollowers}
-                onValueChange={setMinFollowers}
-                max={50}
-                min={1}
-                step={1}
-                className="w-full"
-              />
-              <div className="flex justify-between text-xs text-gray-400 mt-1">
-                <span>1k</span>
-                <span>foodies disponibles</span>
-                <span>50k</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Participants Section */}
-        <div>
-          <div className="flex items-center space-x-2 mb-4">
-            <Users className="w-5 h-5 text-orange-500" />
-            <h2 className="text-lg font-semibold">Participantes</h2>
-          </div>
-          
-          <div>
-            <p className="text-sm text-gray-600 mb-4">Acompañantes máx por foodie</p>
-            <div className="flex items-center justify-center space-x-6">
-              <button
-                onClick={() => setFoodieCount(Math.max(1, foodieCount - 1))}
-                className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center"
-              >
-                <Minus className="w-5 h-5" />
-              </button>
-              
-              <div className="text-center">
-                <div className="text-2xl font-bold">Foodie + {foodieCount}</div>
-                <div className="text-sm text-orange-500">Acompañante máx</div>
-              </div>
-              
-              <button
-                onClick={() => setFoodieCount(foodieCount + 1)}
-                className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center"
-              >
-                <Plus className="w-5 h-5" />
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* Credit Section */}
-        <div>
-          <div className="flex items-center space-x-2 mb-4">
-            <Percent className="w-5 h-5 text-orange-500" />
-            <h2 className="text-lg font-semibold">Crédito</h2>
-          </div>
-          
-          <div className="space-y-4">
-            {/* Credit Type Toggle */}
-            <div className="flex space-x-2">
-              <button
-                onClick={() => setCreditType('percentage')}
-                className={`px-4 py-2 rounded-lg text-sm font-medium ${
-                  creditType === 'percentage'
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-gray-100 text-gray-600'
-                }`}
-              >
-                %
-              </button>
-              <button
-                onClick={() => setCreditType('euro')}
-                className={`px-4 py-2 rounded-lg text-sm font-medium ${
-                  creditType === 'euro'
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-gray-100 text-gray-600'
-                }`}
-              >
-                €
-              </button>
+        <Card className="border border-gray-200">
+          <CardContent className="p-6">
+            <div className="flex items-center space-x-2 mb-4">
+              <Users className="w-5 h-5 text-orange-500" />
+              <h2 className="text-lg font-semibold">Seguidores</h2>
             </div>
             
-            <div className="text-center">
-              <div className="text-4xl font-bold mb-2">
-                {creditType === 'percentage' ? `${discountPercentage[0]}%` : `${discountPercentage[0]}€`}
+            <div className="space-y-4">
+              <div>
+                <div className="flex justify-between text-sm text-gray-600 mb-2">
+                  <span>Mínimo seguidores: {minFollowers[0]}k</span>
+                </div>
+                <Slider
+                  value={minFollowers}
+                  onValueChange={setMinFollowers}
+                  max={50}
+                  min={1}
+                  step={1}
+                  className="w-full"
+                />
+                <div className="flex justify-between text-xs text-gray-400 mt-1">
+                  <span>1k</span>
+                  <span>foodies disponibles</span>
+                  <span>50k</span>
+                </div>
               </div>
-              <Slider
-                value={discountPercentage}
-                onValueChange={setDiscountPercentage}
-                max={100}
-                min={0}
-                step={5}
-                className="w-full"
-              />
             </div>
-          </div>
-        </div>
+          </CardContent>
+        </Card>
+
+        {/* Participants Section */}
+        <Card className="border border-gray-200">
+          <CardContent className="p-6">
+            <div className="flex items-center space-x-2 mb-4">
+              <Users className="w-5 h-5 text-orange-500" />
+              <h2 className="text-lg font-semibold">Participantes</h2>
+            </div>
+            
+            <div>
+              <p className="text-sm text-gray-600 mb-4">Acompañantes máx por foodie</p>
+              <div className="flex items-center justify-center space-x-6">
+                <button
+                  onClick={() => setFoodieCount(Math.max(1, foodieCount - 1))}
+                  className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center"
+                >
+                  <Minus className="w-5 h-5" />
+                </button>
+                
+                <div className="text-center">
+                  <div className="text-2xl font-bold">Foodie + {foodieCount}</div>
+                  <div className="text-sm text-orange-500">Acompañante máx</div>
+                </div>
+                
+                <button
+                  onClick={() => setFoodieCount(foodieCount + 1)}
+                  className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center"
+                >
+                  <Plus className="w-5 h-5" />
+                </button>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Credit Section */}
+        <Card className="border border-gray-200">
+          <CardContent className="p-6">
+            <div className="flex items-center space-x-2 mb-4">
+              <Percent className="w-5 h-5 text-orange-500" />
+              <h2 className="text-lg font-semibold">Crédito</h2>
+            </div>
+            
+            <div className="space-y-4">
+              {/* Credit Type Toggle */}
+              <div className="flex space-x-2">
+                <button
+                  onClick={() => setCreditType('percentage')}
+                  className={`px-4 py-2 rounded-lg text-sm font-medium ${
+                    creditType === 'percentage'
+                      ? 'bg-blue-600 text-white'
+                      : 'bg-gray-100 text-gray-600'
+                  }`}
+                >
+                  %
+                </button>
+                <button
+                  onClick={() => setCreditType('euro')}
+                  className={`px-4 py-2 rounded-lg text-sm font-medium ${
+                    creditType === 'euro'
+                      ? 'bg-blue-600 text-white'
+                      : 'bg-gray-100 text-gray-600'
+                  }`}
+                >
+                  €
+                </button>
+              </div>
+              
+              <div className="text-center">
+                <div className="text-4xl font-bold mb-2">
+                  {creditType === 'percentage' ? `${discountPercentage[0]}%` : `${discountPercentage[0]}€`}
+                </div>
+                <Slider
+                  value={discountPercentage}
+                  onValueChange={setDiscountPercentage}
+                  max={100}
+                  min={0}
+                  step={5}
+                  className="w-full"
+                />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
 
         {/* Available Days */}
-        <div>
-          <div className="flex items-center space-x-2 mb-4">
-            <span className="text-orange-500">⏰</span>
-            <h2 className="text-lg font-semibold">Días disponibles (4)</h2>
-          </div>
-          
-          <div className="grid grid-cols-2 gap-2">
-            {days.slice(0, 6).map((day) => (
+        <Card className="border border-gray-200">
+          <CardContent className="p-6">
+            <div className="flex items-center space-x-2 mb-4">
+              <span className="text-orange-500">⏰</span>
+              <h2 className="text-lg font-semibold">Días disponibles (4)</h2>
+            </div>
+            
+            <div className="grid grid-cols-2 gap-2">
+              {days.slice(0, 6).map((day) => (
+                <button
+                  key={day.id}
+                  onClick={() => handleDayToggle(day.id)}
+                  className={`p-3 rounded-lg text-sm font-medium ${
+                    (day.id === 'lunes' || day.id === 'martes') || selectedDays.includes(day.id)
+                      ? 'bg-gray-900 text-white'
+                      : 'bg-gray-100 text-gray-600'
+                  }`}
+                >
+                  {day.name}
+                </button>
+              ))}
+            </div>
+            <div className="flex justify-center mt-2">
               <button
-                key={day.id}
-                onClick={() => handleDayToggle(day.id)}
-                className={`p-3 rounded-lg text-sm font-medium ${
-                  (day.id === 'lunes' || day.id === 'martes') || selectedDays.includes(day.id)
+                key={days[6].id}
+                onClick={() => handleDayToggle(days[6].id)}
+                className={`p-3 rounded-lg text-sm font-medium w-[calc(50%-0.25rem)] ${
+                  selectedDays.includes(days[6].id)
                     ? 'bg-gray-900 text-white'
                     : 'bg-gray-100 text-gray-600'
                 }`}
               >
-                {day.name}
+                {days[6].name}
               </button>
-            ))}
-          </div>
-          <div className="flex justify-center mt-2">
-            <button
-              key={days[6].id}
-              onClick={() => handleDayToggle(days[6].id)}
-              className={`p-3 rounded-lg text-sm font-medium w-[calc(50%-0.25rem)] ${
-                selectedDays.includes(days[6].id)
-                  ? 'bg-gray-900 text-white'
-                  : 'bg-gray-100 text-gray-600'
-              }`}
-            >
-              {days[6].name}
-            </button>
-          </div>
-        </div>
+            </div>
+          </CardContent>
+        </Card>
 
         {/* Description */}
-        <div>
-          <div className="flex items-center space-x-2 mb-4">
-            <span className="text-orange-500">📝</span>
-            <h2 className="text-lg font-semibold">Descripción</h2>
-          </div>
-          
-          <div>
-            <p className="text-sm text-gray-600 mb-2">Describe lo que espera de esta colaboración</p>
-            <Textarea
-              placeholder="Describe lo que espera de esta colaboración"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              className="min-h-[100px]"
-            />
-            <div className="text-right text-xs text-gray-400 mt-1">500/500</div>
-          </div>
-        </div>
+        <Card className="border border-gray-200">
+          <CardContent className="p-6">
+            <div className="flex items-center space-x-2 mb-4">
+              <span className="text-orange-500">📝</span>
+              <h2 className="text-lg font-semibold">Descripción</h2>
+            </div>
+            
+            <div>
+              <p className="text-sm text-gray-600 mb-2">Describe lo que espera de esta colaboración</p>
+              <Textarea
+                placeholder="Describe lo que espera de esta colaboración"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                className="min-h-[100px]"
+              />
+              <div className="text-right text-xs text-gray-400 mt-1">500/500</div>
+            </div>
+          </CardContent>
+        </Card>
 
         {/* Preview */}
-        <div>
-          <h3 className="font-semibold mb-4">Vista previa</h3>
-          <Card className="bg-gray-900 text-white">
-            <CardContent className="p-4">
-              <div className="space-y-2">
-                <div className="flex items-center space-x-2">
-                  <MapPin className="w-4 h-4" />
-                  <span className="text-sm">Local Valencia</span>
+        <Card className="border border-gray-200">
+          <CardContent className="p-6">
+            <h3 className="font-semibold mb-4">Vista previa</h3>
+            <Card className="bg-gray-900 text-white">
+              <CardContent className="p-4">
+                <div className="space-y-2">
+                  <div className="flex items-center space-x-2">
+                    <MapPin className="w-4 h-4" />
+                    <span className="text-sm">Local Valencia</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <Users className="w-4 h-4" />
+                    <span className="text-sm">Mín. {minFollowers[0]}k seguidores</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <Users className="w-4 h-4" />
+                    <span className="text-sm">Foodie +{foodieCount} acompañantes máx.</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <Percent className="w-4 h-4" />
+                    <span className="text-sm">
+                      {creditType === 'percentage' ? `${discountPercentage[0]}% Descuento` : `${discountPercentage[0]}€ Crédito`}
+                    </span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <span className="text-sm">📅</span>
+                    <span className="text-sm">lunes, martes, +2 más</span>
+                  </div>
                 </div>
-                <div className="flex items-center space-x-2">
-                  <Users className="w-4 h-4" />
-                  <span className="text-sm">Mín. {minFollowers[0]}k seguidores</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <Users className="w-4 h-4" />
-                  <span className="text-sm">Foodie +{foodieCount} acompañantes máx.</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <Percent className="w-4 h-4" />
-                  <span className="text-sm">
-                    {creditType === 'percentage' ? `${discountPercentage[0]}% Descuento` : `${discountPercentage[0]}€ Crédito`}
-                  </span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <span className="text-sm">📅</span>
-                  <span className="text-sm">lunes, martes, +2 más</span>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+              </CardContent>
+            </Card>
+          </CardContent>
+        </Card>
 
         {/* Create Button */}
         <Button 
