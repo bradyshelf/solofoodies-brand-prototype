@@ -35,6 +35,8 @@ const CreateEventCollaborationPage = () => {
   const [compensation, setCompensation] = useState('');
   const [participationFlow, setParticipationFlow] = useState('invite-only');
   const [customQuestion, setCustomQuestion] = useState('');
+  const [selectedDays, setSelectedDays] = useState<string[]>([]);
+  const [discountPercentage, setDiscountPercentage] = useState(100);
 
   const eventTypes = [
     { id: 'private-event', name: 'Private event' },
@@ -56,6 +58,16 @@ const CreateEventCollaborationPage = () => {
     { id: 'photography', name: 'Professional photography' }
   ];
 
+  const days = [
+    { id: 'lunes', name: 'Lunes' },
+    { id: 'martes', name: 'Martes' },
+    { id: 'miercoles', name: 'Miércoles' },
+    { id: 'jueves', name: 'Jueves' },
+    { id: 'viernes', name: 'Viernes' },
+    { id: 'sabado', name: 'Sábado' },
+    { id: 'domingo', name: 'Domingo' }
+  ];
+
   const handleEventTypeToggle = (typeId: string) => {
     setSelectedEventTypes(prev => 
       prev.includes(typeId) 
@@ -69,6 +81,14 @@ const CreateEventCollaborationPage = () => {
       prev.includes(expectationId) 
         ? prev.filter(id => id !== expectationId)
         : [...prev, expectationId]
+    );
+  };
+
+  const handleDayToggle = (dayId: string) => {
+    setSelectedDays(prev => 
+      prev.includes(dayId) 
+        ? prev.filter(id => id !== dayId)
+        : [...prev, dayId]
     );
   };
 
@@ -97,7 +117,9 @@ const CreateEventCollaborationPage = () => {
       isPaidCollab,
       compensation,
       participationFlow,
-      customQuestion
+      customQuestion,
+      selectedDays,
+      discountPercentage
     };
     
     console.log('Creating event collaboration:', eventData);
@@ -115,457 +137,304 @@ const CreateEventCollaborationPage = () => {
           >
             <ArrowLeft className="w-5 h-5 text-gray-600" />
           </button>
-          <h1 className="text-lg font-semibold text-gray-900">Crear Evento</h1>
+          <h1 className="text-lg font-semibold text-gray-900">Crear Colaboración</h1>
         </div>
       </div>
 
       {/* Content */}
-      <div className="max-w-4xl mx-auto px-6 py-8 space-y-6">
+      <div className="max-w-4xl mx-auto px-6 py-8">
         {/* Info Banner */}
-        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
           <div className="flex items-start space-x-2">
             <div className="w-5 h-5 bg-blue-500 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
               <span className="text-white text-xs">i</span>
             </div>
             <p className="text-sm text-blue-800">
-              Crea un evento especial e invita a creadores para que participen y generen contenido
+              Define las condiciones de tu colaboración y recibe solicitudes de foodies interesados
             </p>
           </div>
         </div>
 
-        {/* Event Basics */}
-        <div>
-          <div className="flex items-center space-x-2 mb-4">
-            <Calendar className="w-5 h-5 text-orange-500" />
-            <h2 className="text-lg font-semibold">Información del Evento</h2>
-          </div>
+        {/* Grey Container */}
+        <div className="bg-gray-50 rounded-lg p-6 space-y-6">
           
-          <div className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Nombre del evento
-              </label>
-              <Input
-                value={eventName}
-                onChange={(e) => setEventName(e.target.value)}
-                placeholder="Ej: Lanzamiento de nueva colección"
-              />
+          {/* Ubicación */}
+          <div>
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center space-x-2">
+                <MapPin className="w-5 h-5 text-orange-500" />
+                <h2 className="text-lg font-semibold">Ubicación (1)</h2>
+              </div>
+              <button className="text-blue-600 text-sm">Seleccionar todo</button>
             </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Ubicación del evento
-              </label>
-              <Input
-                value={eventLocation}
-                onChange={(e) => setEventLocation(e.target.value)}
-                placeholder="Dirección completa del evento"
-              />
-            </div>
-          </div>
-        </div>
-
-        {/* Event Type */}
-        <div>
-          <div className="flex items-center space-x-2 mb-4">
-            <Users className="w-5 h-5 text-orange-500" />
-            <h2 className="text-lg font-semibold">Tipo de Evento</h2>
-          </div>
-          
-          <div className="grid grid-cols-2 gap-3">
-            {eventTypes.map((type) => (
-              <button
-                key={type.id}
-                onClick={() => handleEventTypeToggle(type.id)}
-                className={`p-3 rounded-lg text-sm font-medium text-left ${
-                  selectedEventTypes.includes(type.id)
-                    ? 'bg-gray-900 text-white'
-                    : 'bg-gray-100 text-gray-600'
-                }`}
-              >
-                {type.name}
+            
+            <div className="space-y-2">
+              <div className="flex items-center space-x-3 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
+                <div>
+                  <div className="font-medium">Local Valencia</div>
+                  <div className="text-sm text-gray-600">Calle Colón, 27</div>
+                </div>
+              </div>
+              <div className="flex items-center space-x-3 p-3 bg-white border border-gray-200 rounded-lg">
+                <div className="w-2 h-2 bg-gray-300 rounded-full"></div>
+                <div>
+                  <div className="font-medium">Sucursal Barcelona</div>
+                  <div className="text-sm text-gray-600">Passeig de Gràcia, 92</div>
+                </div>
+              </div>
+              <div className="flex items-center space-x-3 p-3 bg-white border border-gray-200 rounded-lg">
+                <div className="w-2 h-2 bg-gray-300 rounded-full"></div>
+                <div>
+                  <div className="font-medium">Sede Central</div>
+                  <div className="text-sm text-gray-600">Calle Gran Vía, 45</div>
+                </div>
+              </div>
+              <button className="w-full p-3 border border-dashed border-gray-300 rounded-lg text-gray-600 text-sm flex items-center justify-center space-x-2">
+                <Plus className="w-4 h-4" />
+                <span>Añadir ubicación</span>
               </button>
-            ))}
+            </div>
           </div>
-          
-          {selectedEventTypes.includes('other') && (
-            <div className="mt-4">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Especifica el tipo de evento
-              </label>
-              <Input
-                value={customEventType}
-                onChange={(e) => setCustomEventType(e.target.value)}
-                placeholder="Ej: Cata de vinos, Showcooking, etc."
-              />
-            </div>
-          )}
-        </div>
 
-        {/* Timing & Attendance */}
-        <div>
-          <div className="flex items-center space-x-2 mb-4">
-            <Clock className="w-5 h-5 text-orange-500" />
-            <h2 className="text-lg font-semibold">Horarios y Asistencia</h2>
-          </div>
-          
-          <div className="space-y-4">
+          {/* Seguidores */}
+          <div>
+            <div className="flex items-center space-x-2 mb-4">
+              <Users className="w-5 h-5 text-orange-500" />
+              <h2 className="text-lg font-semibold">Seguidores</h2>
+            </div>
+            
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Fecha del evento
-              </label>
-              <Input
-                type="date"
-                value={eventDate}
-                onChange={(e) => setEventDate(e.target.value)}
-              />
-            </div>
-
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Hora de inicio
-                </label>
-                <Input
-                  type="time"
-                  value={startTime}
-                  onChange={(e) => setStartTime(e.target.value)}
+              <div className="flex justify-between items-center mb-2">
+                <span className="text-sm text-gray-600">Mínimo seguidores: 10k</span>
+                <span className="text-sm text-gray-600">foodies disponibles: 30k</span>
+              </div>
+              <div className="relative">
+                <input
+                  type="range"
+                  min="1000"
+                  max="100000"
+                  value="10000"
+                  className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
                 />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Hora de fin
-                </label>
-                <Input
-                  type="time"
-                  value={endTime}
-                  onChange={(e) => setEndTime(e.target.value)}
-                />
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Hora de llegada de creadores (opcional)
-              </label>
-              <Input
-                type="time"
-                value={creatorArrivalTime}
-                onChange={(e) => setCreatorArrivalTime(e.target.value)}
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Fecha límite RSVP
-              </label>
-              <Input
-                type="date"
-                value={rsvpDeadline}
-                onChange={(e) => setRsvpDeadline(e.target.value)}
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Número máximo de invitados
-              </label>
-              <Input
-                type="number"
-                value={guestCap}
-                onChange={(e) => setGuestCap(e.target.value)}
-                placeholder="Ej: 50"
-              />
-            </div>
-
-            {/* Additional Guests Section */}
-            <div>
-              <div className="flex items-center space-x-2 mb-4">
-                <Users className="w-5 h-5 text-orange-500" />
-                <h3 className="text-lg font-semibold">Acompañantes</h3>
-              </div>
-              
-              <div>
-                <p className="text-sm text-gray-600 mb-4">Acompañantes máximo por foodie</p>
-                <div className="flex items-center justify-center space-x-6">
-                  <button
-                    onClick={() => setAdditionalGuests(Math.max(0, additionalGuests - 1))}
-                    className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center"
-                  >
-                    <Minus className="w-5 h-5" />
-                  </button>
-                  
-                  <div className="text-center">
-                    <div className="text-2xl font-bold">Foodie + {additionalGuests}</div>
-                    <div className="text-sm text-orange-500">Acompañantes máx</div>
-                  </div>
-                  
-                  <button
-                    onClick={() => setAdditionalGuests(additionalGuests + 1)}
-                    className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center"
-                  >
-                    <Plus className="w-5 h-5" />
-                  </button>
+                <div className="flex justify-between text-xs text-gray-500 mt-1">
+                  <span>1k</span>
+                  <span>100k</span>
                 </div>
               </div>
             </div>
+          </div>
 
-            <div className="flex items-center space-x-3">
-              <Checkbox
-                checked={canBringPlusOne}
-                onCheckedChange={(checked) => setCanBringPlusOne(!!checked)}
-              />
-              <label className="text-sm font-medium text-gray-700">
-                ¿Pueden los creadores traer un acompañante?
-              </label>
+          {/* Participantes */}
+          <div>
+            <div className="flex items-center space-x-2 mb-4">
+              <Users className="w-5 h-5 text-orange-500" />
+              <h2 className="text-lg font-semibold">Participantes</h2>
+            </div>
+            
+            <div>
+              <p className="text-sm text-gray-600 mb-4">Acompañantes máx por foodie</p>
+              <div className="flex items-center justify-center space-x-6">
+                <button
+                  onClick={() => setAdditionalGuests(Math.max(0, additionalGuests - 1))}
+                  className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center"
+                >
+                  <Minus className="w-5 h-5" />
+                </button>
+                
+                <div className="text-center">
+                  <div className="text-2xl font-bold">Foodie + {additionalGuests}</div>
+                  <div className="text-sm text-orange-500">Acompañantes máx</div>
+                </div>
+                
+                <button
+                  onClick={() => setAdditionalGuests(additionalGuests + 1)}
+                  className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center"
+                >
+                  <Plus className="w-5 h-5" />
+                </button>
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Event Agenda */}
-        <div>
-          <div className="flex items-center space-x-2 mb-4">
-            <span className="text-orange-500">📝</span>
-            <h2 className="text-lg font-semibold">Agenda del Evento</h2>
+          {/* Crédito */}
+          <div>
+            <div className="flex items-center space-x-2 mb-4">
+              <span className="text-orange-500">💰</span>
+              <h2 className="text-lg font-semibold">Crédito</h2>
+            </div>
+            
+            <div className="space-y-4">
+              <div className="flex space-x-2">
+                <button className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm">
+                  %
+                </button>
+                <button className="px-4 py-2 bg-gray-100 text-gray-600 rounded-lg text-sm">
+                  €
+                </button>
+              </div>
+              
+              <div className="text-center">
+                <div className="text-6xl font-bold mb-4">{discountPercentage}%</div>
+                <div className="relative mb-4">
+                  <input
+                    type="range"
+                    min="0"
+                    max="100"
+                    value={discountPercentage}
+                    onChange={(e) => setDiscountPercentage(Number(e.target.value))}
+                    className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+                  />
+                  <div className="w-4 h-4 bg-white border-2 border-gray-400 rounded-full absolute top-1/2 transform -translate-y-1/2" style={{left: `${discountPercentage}%`}}></div>
+                </div>
+              </div>
+            </div>
           </div>
-          
-          <div className="space-y-4">
+
+          {/* Días disponibles */}
+          <div>
+            <div className="flex items-center space-x-2 mb-4">
+              <Clock className="w-5 h-5 text-orange-500" />
+              <h2 className="text-lg font-semibold">Días disponibles (4)</h2>
+            </div>
+            
+            <div className="grid grid-cols-2 gap-2">
+              <button
+                onClick={() => handleDayToggle('lunes')}
+                className={`p-3 rounded-lg text-sm font-medium ${
+                  selectedDays.includes('lunes')
+                    ? 'bg-gray-900 text-white'
+                    : 'bg-white border border-gray-200 text-gray-600'
+                }`}
+              >
+                Lunes
+              </button>
+              <button
+                onClick={() => handleDayToggle('martes')}
+                className={`p-3 rounded-lg text-sm font-medium ${
+                  selectedDays.includes('martes')
+                    ? 'bg-gray-900 text-white'
+                    : 'bg-white border border-gray-200 text-gray-600'
+                }`}
+              >
+                Martes
+              </button>
+              <button
+                onClick={() => handleDayToggle('miercoles')}
+                className={`p-3 rounded-lg text-sm font-medium ${
+                  selectedDays.includes('miercoles')
+                    ? 'bg-gray-900 text-white'
+                    : 'bg-white border border-gray-200 text-gray-600'
+                }`}
+              >
+                Miércoles
+              </button>
+              <button
+                onClick={() => handleDayToggle('jueves')}
+                className={`p-3 rounded-lg text-sm font-medium ${
+                  selectedDays.includes('jueves')
+                    ? 'bg-gray-900 text-white'
+                    : 'bg-white border border-gray-200 text-gray-600'
+                }`}
+              >
+                Jueves
+              </button>
+              <button
+                onClick={() => handleDayToggle('viernes')}
+                className={`p-3 rounded-lg text-sm font-medium ${
+                  selectedDays.includes('viernes')
+                    ? 'bg-white border border-gray-200 text-gray-600'
+                    : 'bg-white border border-gray-200 text-gray-600'
+                }`}
+              >
+                Viernes
+              </button>
+              <button
+                onClick={() => handleDayToggle('sabado')}
+                className={`p-3 rounded-lg text-sm font-medium ${
+                  selectedDays.includes('sabado')
+                    ? 'bg-white border border-gray-200 text-gray-600'
+                    : 'bg-white border border-gray-200 text-gray-600'
+                }`}
+              >
+                Sábado
+              </button>
+              <div className="col-span-2 flex justify-center">
+                <button
+                  onClick={() => handleDayToggle('domingo')}
+                  className={`p-3 rounded-lg text-sm font-medium w-32 ${
+                    selectedDays.includes('domingo')
+                      ? 'bg-white border border-gray-200 text-gray-600'
+                      : 'bg-white border border-gray-200 text-gray-600'
+                  }`}
+                >
+                  Domingo
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Descripción */}
+          <div>
+            <div className="flex items-center space-x-2 mb-4">
+              <span className="text-orange-500">📝</span>
+              <h2 className="text-lg font-semibold">Descripción</h2>
+            </div>
+            
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Descripción del evento
-              </label>
+              <p className="text-sm text-gray-600 mb-2">Describe lo que espera de esta colaboración</p>
               <Textarea
                 value={eventDescription}
                 onChange={(e) => setEventDescription(e.target.value)}
-                placeholder="Describe qué pasará en el evento y por qué los creadores deberían asistir"
-                className="min-h-[100px]"
+                placeholder="Describe lo que espera de esta colaboración"
+                className="min-h-[100px] resize-none"
               />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                ¿Qué pueden esperar?
-              </label>
-              <div className="grid grid-cols-2 gap-2">
-                {expectations.map((expectation) => (
-                  <button
-                    key={expectation.id}
-                    onClick={() => handleExpectationToggle(expectation.id)}
-                    className={`p-3 rounded-lg text-sm font-medium text-left ${
-                      selectedExpectations.includes(expectation.id)
-                        ? 'bg-gray-900 text-white'
-                        : 'bg-gray-100 text-gray-600'
-                    }`}
-                  >
-                    {expectation.name}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Código de vestimenta / Tema (opcional)
-              </label>
-              <Input
-                value={dressCode}
-                onChange={(e) => setDressCode(e.target.value)}
-                placeholder="Ej: Casual elegante, temática años 80"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                ¿Se fomenta la creación de contenido?
-              </label>
-              <div className="flex space-x-2">
-                {[
-                  { id: 'yes', name: 'Sí' },
-                  { id: 'no', name: 'No' }
-                ].map((option) => (
-                  <button
-                    key={option.id}
-                    onClick={() => setContentCreationEncouraged(option.id)}
-                    className={`px-4 py-2 rounded-lg text-sm font-medium ${
-                      contentCreationEncouraged === option.id
-                        ? 'bg-blue-600 text-white'
-                        : 'bg-gray-100 text-gray-600'
-                    }`}
-                  >
-                    {option.name}
-                  </button>
-                ))}
-              </div>
+              <div className="text-right text-xs text-gray-400 mt-1">500/800</div>
             </div>
           </div>
+
+          {/* Vista previa */}
+          <div>
+            <h3 className="font-semibold mb-4">Vista previa</h3>
+            <Card className="bg-gray-900 text-white">
+              <CardContent className="p-4">
+                <div className="space-y-2">
+                  <div className="flex items-center space-x-2">
+                    <MapPin className="w-4 h-4" />
+                    <span className="text-sm">Local Valencia</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <span className="text-sm">Calle Colón, 27</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <Users className="w-4 h-4" />
+                    <span className="text-sm">Mín. 10k seguidores</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <Users className="w-4 h-4" />
+                    <span className="text-sm">Foodie +{additionalGuests} acompañantes máx.</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <span className="text-orange-500">💰</span>
+                    <span className="text-sm">{discountPercentage}% Descuento</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <Clock className="w-4 h-4" />
+                    <span className="text-sm">lunes, martes, +2 más</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Create Button */}
+          <Button 
+            onClick={handleCreateEvent}
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg"
+          >
+            Crear colaboración
+          </Button>
         </div>
-
-        {/* Content & Collaboration Expectations */}
-        <div>
-          <div className="flex items-center space-x-2 mb-4">
-            <Camera className="w-5 h-5 text-orange-500" />
-            <h2 className="text-lg font-semibold">Expectativas de Contenido</h2>
-          </div>
-          
-          <div className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                ¿Qué tipo de contenido esperas que publiquen?
-              </label>
-              <Textarea
-                value={contentTypes}
-                onChange={(e) => setContentTypes(e.target.value)}
-                placeholder="Ej: Stories, Reels, Video recap, Menciones de producto, Cobertura del evento"
-                className="min-h-[80px]"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Hashtags a usar
-              </label>
-              <Input
-                value={hashtags}
-                onChange={(e) => setHashtags(e.target.value)}
-                placeholder="Ej: #MiMarcaEvent #Lanzamiento2024"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Cuentas a etiquetar
-              </label>
-              <Input
-                value={accountsToTag}
-                onChange={(e) => setAccountsToTag(e.target.value)}
-                placeholder="Ej: @mimarca @eventospop"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Sugerencias de tono/mensaje (opcional)
-              </label>
-              <Textarea
-                value={messagingTone}
-                onChange={(e) => setMessagingTone(e.target.value)}
-                placeholder="Describe el tono o mensaje que te gustaría que transmitan"
-                className="min-h-[80px]"
-              />
-            </div>
-
-            <div className="flex items-center space-x-3">
-              <Checkbox
-                checked={isPaidCollab}
-                onCheckedChange={(checked) => setIsPaidCollab(!!checked)}
-              />
-              <label className="text-sm font-medium text-gray-700">
-                Colaboración pagada
-              </label>
-            </div>
-
-            {isPaidCollab && (
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Compensación
-                </label>
-                <Input
-                  value={compensation}
-                  onChange={(e) => setCompensation(e.target.value)}
-                  placeholder="Ej: 500€ por creador, productos valorados en 200€"
-                />
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* Participation Flow */}
-        <div>
-          <div className="flex items-center space-x-2 mb-4">
-            <span className="text-orange-500">🙋‍♀️</span>
-            <h2 className="text-lg font-semibold">Flujo de Participación</h2>
-          </div>
-          
-          <div className="space-y-4">
-            <div className="flex space-x-2">
-              <button
-                onClick={() => setParticipationFlow('invite-only')}
-                className={`px-4 py-2 rounded-lg text-sm font-medium ${
-                  participationFlow === 'invite-only'
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-gray-100 text-gray-600'
-                }`}
-              >
-                Solo por invitación
-              </button>
-              <button
-                onClick={() => setParticipationFlow('open-applications')}
-                className={`px-4 py-2 rounded-lg text-sm font-medium ${
-                  participationFlow === 'open-applications'
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-gray-100 text-gray-600'
-                }`}
-              >
-                Aplicaciones abiertas
-              </button>
-            </div>
-
-            {participationFlow === 'open-applications' && (
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Pregunta personalizada (opcional)
-                </label>
-                <Input
-                  value={customQuestion}
-                  onChange={(e) => setCustomQuestion(e.target.value)}
-                  placeholder="Ej: Cuéntanos por qué te gustaría unirte a este evento"
-                />
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* Preview */}
-        <div>
-          <h3 className="font-semibold mb-4">Vista previa</h3>
-          <Card className="bg-gray-900 text-white">
-            <CardContent className="p-4">
-              <div className="space-y-2">
-                <div className="font-semibold text-lg">
-                  {eventName || 'Nombre del evento'}
-                </div>
-                <div className="flex items-center space-x-2">
-                  <MapPin className="w-4 h-4" />
-                  <span className="text-sm">{eventLocation || 'Ubicación'}</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <Calendar className="w-4 h-4" />
-                  <span className="text-sm">{eventDate || 'Fecha'}</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <Clock className="w-4 h-4" />
-                  <span className="text-sm">{startTime && endTime ? `${startTime} - ${endTime}` : 'Horario'}</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <Users className="w-4 h-4" />
-                  <span className="text-sm">{guestCap ? `Máx. ${guestCap} invitados` : 'Sin límite'}</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <Users className="w-4 h-4" />
-                  <span className="text-sm">Foodie +{additionalGuests} acompañantes máx.</span>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Create Button */}
-        <Button 
-          onClick={handleCreateEvent}
-          className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg"
-        >
-          Crear evento
-        </Button>
       </div>
     </div>
   );
