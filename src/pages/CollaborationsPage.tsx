@@ -91,7 +91,7 @@ const CollaborationsPage = () => {
       case 'influencer-visit':
         return { label: 'Visita Influencer', color: 'bg-blue-100 text-blue-800' };
       case 'product-sendout':
-        return { label: 'Envío Producto', color: 'bg-green-100 text-green-800' };
+        return { label: 'Delivery', color: 'bg-orange-100 text-orange-800' };
       case 'event-invitation':
         return { label: 'Invitación Evento', color: 'bg-purple-100 text-purple-800' };
       default:
