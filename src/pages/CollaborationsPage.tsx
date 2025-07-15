@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Search, Plus, Pause, Play, ChevronDown, ChevronUp, MapPin, Users, Calendar, Percent, Clock } from 'lucide-react';
+import { Search, Plus, Pause, Play, ChevronDown, ChevronUp, MapPin, Users, Calendar, Percent, Clock, Package, PartyPopper } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { CollaborationTypeSelector } from '@/components/CollaborationTypeSelector';
 import { PauseCollaborationDialog } from '@/components/PauseCollaborationDialog';
@@ -18,6 +18,7 @@ const CollaborationsPage = () => {
   const [activeCollaborations, setActiveCollaborations] = useState([
     {
       id: 1,
+      type: "influencer-visit",
       title: "Colaboración",
       description: "Colaboración para promocionar nuestro nuevo menú mediterráneo",
       date: "31/12/23",
@@ -29,14 +30,26 @@ const CollaborationsPage = () => {
     },
     {
       id: 2,
+      type: "product-sendout",
       title: "Colaboración",
-      description: "Colaboración exclusiva para influencers de cocina catalana",
+      description: "Envío de productos gourmet exclusivos para review",
       date: "09/01/24",
-      location: "Barcelona",
-      companions: "2 acompañantes máx.",
-      period: "15/01/24 - 15/02/24",
-      discount: "50€ Descuento",
-      schedule: "viernes, sábado, domingo"
+      productDetails: "Kit degustación premium",
+      estimatedValue: "75€ valor estimado",
+      deliveryTime: "3-5 días laborables",
+      requirements: "Post en Instagram + Stories"
+    },
+    {
+      id: 3,
+      type: "event-invitation",
+      title: "Colaboración", 
+      description: "Invitación exclusiva al lanzamiento de nuestra nueva carta",
+      date: "15/01/24",
+      eventLocation: "Barcelona, Eixample",
+      eventDate: "20/02/24 - 19:30h",
+      attendees: "50 invitados máx.",
+      dresscode: "Smart casual",
+      includes: "Cena + bebidas + networking"
     }
   ]);
   
@@ -71,6 +84,93 @@ const CollaborationsPage = () => {
       setPausedCollaborations(prev => prev.filter(c => c.id !== collaborationId));
       setActiveCollaborations(prev => [...prev, collaboration]);
     }
+  };
+
+  const getCollaborationTypeInfo = (type: string) => {
+    switch (type) {
+      case 'influencer-visit':
+        return { label: 'Visita Influencer', color: 'bg-blue-100 text-blue-800' };
+      case 'product-sendout':
+        return { label: 'Envío Producto', color: 'bg-green-100 text-green-800' };
+      case 'event-invitation':
+        return { label: 'Invitación Evento', color: 'bg-purple-100 text-purple-800' };
+      default:
+        return { label: 'Colaboración', color: 'bg-gray-100 text-gray-800' };
+    }
+  };
+
+  const renderCollaborationDetails = (collaboration: any) => {
+    if (collaboration.type === 'product-sendout') {
+      return (
+        <div className="space-y-2 text-sm text-gray-600 mb-4">
+          <div className="flex items-center">
+            <Package className="w-4 h-4 mr-2" />
+            {collaboration.productDetails}
+          </div>
+          <div className="flex items-center">
+            <Percent className="w-4 h-4 mr-2" />
+            {collaboration.estimatedValue}
+          </div>
+          <div className="flex items-center">
+            <Clock className="w-4 h-4 mr-2" />
+            {collaboration.deliveryTime}
+          </div>
+          <div className="flex items-center">
+            <Users className="w-4 h-4 mr-2" />
+            {collaboration.requirements}
+          </div>
+        </div>
+      );
+    }
+
+    if (collaboration.type === 'event-invitation') {
+      return (
+        <div className="space-y-2 text-sm text-gray-600 mb-4">
+          <div className="flex items-center">
+            <MapPin className="w-4 h-4 mr-2" />
+            {collaboration.eventLocation}
+          </div>
+          <div className="flex items-center">
+            <Calendar className="w-4 h-4 mr-2" />
+            {collaboration.eventDate}
+          </div>
+          <div className="flex items-center">
+            <Users className="w-4 h-4 mr-2" />
+            {collaboration.attendees}
+          </div>
+          <div className="flex items-center">
+            <PartyPopper className="w-4 h-4 mr-2" />
+            {collaboration.includes}
+          </div>
+        </div>
+      );
+    }
+
+    // Default: influencer-visit
+    return (
+      <div className="space-y-2 text-sm text-gray-600 mb-4">
+        <div className="flex items-center">
+          <MapPin className="w-4 h-4 mr-2" />
+          {collaboration.location}
+        </div>
+        <div className="flex items-center">
+          <Users className="w-4 h-4 mr-2" />
+          Foodie+ {collaboration.companions}
+        </div>
+        <div className="flex items-center">
+          <Calendar className="w-4 h-4 mr-2" />
+          {collaboration.period}
+        </div>
+        <div className="flex items-center">
+          <Percent className="w-4 h-4 mr-2" />
+          {collaboration.discount}
+        </div>
+        <div className="flex items-center">
+          <Clock className="w-4 h-4 mr-2" />
+          {collaboration.schedule}
+        </div>
+      </div>
+    );
   };
 
   const handleTypeSelected = (type: string) => {
@@ -125,71 +225,57 @@ const CollaborationsPage = () => {
               </Card>
             ) : (
               <div className="space-y-4">
-                {activeCollaborations.map((collaboration) => (
-                  <Card key={collaboration.id} className="border-gray-200">
-                    <CardContent className="p-6">
-                      <div className="flex justify-between items-start mb-4">
-                        <div>
-                          <h3 className="font-medium text-gray-900 mb-1">{collaboration.title}</h3>
-                          <p className="text-gray-600 text-sm mb-3">{collaboration.description}</p>
+                {activeCollaborations.map((collaboration) => {
+                  const typeInfo = getCollaborationTypeInfo(collaboration.type);
+                  return (
+                    <Card key={collaboration.id} className="border-gray-200">
+                      <CardContent className="p-6">
+                        <div className="flex justify-between items-start mb-4">
+                          <div>
+                            <div className="flex items-center gap-2 mb-2">
+                              <h3 className="font-medium text-gray-900">{collaboration.title}</h3>
+                              <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${typeInfo.color}`}>
+                                {typeInfo.label}
+                              </span>
+                            </div>
+                            <p className="text-gray-600 text-sm mb-3">{collaboration.description}</p>
+                          </div>
+                          <div className="flex items-center space-x-2 text-gray-400">
+                            <span className="text-xs">{collaboration.date}</span>
+                            <button className="hover:text-gray-600">
+                              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                              </svg>
+                            </button>
+                            <button 
+                              className="hover:text-yellow-600"
+                              onClick={() => handlePauseClick(collaboration.id)}
+                            >
+                              <Pause className="w-4 h-4 text-yellow-500" />
+                            </button>
+                            <button className="hover:text-gray-600">
+                              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                              </svg>
+                            </button>
+                          </div>
                         </div>
-                        <div className="flex items-center space-x-2 text-gray-400">
-                          <span className="text-xs">{collaboration.date}</span>
-                          <button className="hover:text-gray-600">
-                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                        
+                        {renderCollaborationDetails(collaboration)}
+                        
+                        <div className="flex justify-end">
+                          <button className="text-blue-600 hover:text-blue-700 text-sm font-medium flex items-center">
+                            <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 616 0z" />
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                             </svg>
-                          </button>
-                          <button 
-                            className="hover:text-yellow-600"
-                            onClick={() => handlePauseClick(collaboration.id)}
-                          >
-                            <Pause className="w-4 h-4 text-yellow-500" />
-                          </button>
-                          <button className="hover:text-gray-600">
-                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                            </svg>
+                            Ver Detalles
                           </button>
                         </div>
-                      </div>
-                      
-                      <div className="space-y-2 text-sm text-gray-600 mb-4">
-                        <div className="flex items-center">
-                          <MapPin className="w-4 h-4 mr-2" />
-                          {collaboration.location}
-                        </div>
-                        <div className="flex items-center">
-                          <Users className="w-4 h-4 mr-2" />
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                          Foodie+ {collaboration.companions}
-                        </div>
-                        <div className="flex items-center">
-                          <Calendar className="w-4 h-4 mr-2" />
-                          {collaboration.period}
-                        </div>
-                        <div className="flex items-center">
-                          <Percent className="w-4 h-4 mr-2" />
-                          {collaboration.discount}
-                        </div>
-                        <div className="flex items-center">
-                          <Clock className="w-4 h-4 mr-2" />
-                          {collaboration.schedule}
-                        </div>
-                      </div>
-                      
-                      <div className="flex justify-end">
-                        <button className="text-blue-600 hover:text-blue-700 text-sm font-medium flex items-center">
-                          <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                          </svg>
-                          Ver Detalles
-                        </button>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
+                      </CardContent>
+                    </Card>
+                  );
+                })}
               </div>
             )}
           </div>
@@ -209,65 +295,60 @@ const CollaborationsPage = () => {
               </CollapsibleTrigger>
               
               <CollapsibleContent className="space-y-4 mt-4">
-                {pausedCollaborations.map((collaboration) => (
-                  <Card key={collaboration.id} className="border-gray-200 bg-gray-50">
-                    <CardContent className="p-6">
-                      <div className="flex justify-between items-start mb-4">
-                        <div>
-                          <h3 className="font-medium text-gray-900 mb-1">{collaboration.title}</h3>
-                          <p className="text-gray-600 text-sm mb-3">{collaboration.description}</p>
-                          <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
-                            Pausada
-                          </span>
+                {pausedCollaborations.map((collaboration) => {
+                  const typeInfo = getCollaborationTypeInfo(collaboration.type);
+                  return (
+                    <Card key={collaboration.id} className="border-gray-200 bg-gray-50">
+                      <CardContent className="p-6">
+                        <div className="flex justify-between items-start mb-4">
+                          <div>
+                            <div className="flex items-center gap-2 mb-2">
+                              <h3 className="font-medium text-gray-900">{collaboration.title}</h3>
+                              <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${typeInfo.color}`}>
+                                {typeInfo.label}
+                              </span>
+                            </div>
+                            <p className="text-gray-600 text-sm mb-3">{collaboration.description}</p>
+                            <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                              Pausada
+                            </span>
+                          </div>
+                          <div className="flex items-center space-x-2 text-gray-400">
+                            <span className="text-xs">{collaboration.date}</span>
+                            <button className="hover:text-gray-600">
+                              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                              </svg>
+                            </button>
+                            <button 
+                              className="hover:text-green-600"
+                              onClick={() => handleResumeCollaboration(collaboration.id)}
+                            >
+                              <Play className="w-4 h-4 text-green-500" />
+                            </button>
+                            <button className="hover:text-gray-600">
+                              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                              </svg>
+                            </button>
+                          </div>
                         </div>
-                        <div className="flex items-center space-x-2 text-gray-400">
-                          <span className="text-xs">{collaboration.date}</span>
-                          <button className="hover:text-gray-600">
-                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                        
+                        {renderCollaborationDetails(collaboration)}
+                        
+                        <div className="flex justify-end">
+                          <button className="text-blue-600 hover:text-blue-700 text-sm font-medium flex items-center">
+                            <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 616 0z" />
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                             </svg>
-                          </button>
-                          <button 
-                            className="hover:text-green-600"
-                            onClick={() => handleResumeCollaboration(collaboration.id)}
-                          >
-                            <Play className="w-4 h-4 text-green-500" />
-                          </button>
-                          <button className="hover:text-gray-600">
-                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                            </svg>
+                            Ver Detalles
                           </button>
                         </div>
-                      </div>
-                      
-                      <div className="space-y-2 text-sm text-gray-600 mb-4">
-                        <div className="flex items-center">
-                          <MapPin className="w-4 h-4 mr-2" />
-                          {collaboration.location}
-                        </div>
-                        <div className="flex items-center">
-                          <Users className="w-4 h-4 mr-2" />
-                          Foodie+ {collaboration.companions}
-                        </div>
-                        <div className="flex items-center">
-                          <Calendar className="w-4 h-4 mr-2" />
-                          {collaboration.period}
-                        </div>
-                      </div>
-                      
-                      <div className="flex justify-end">
-                        <button className="text-blue-600 hover:text-blue-700 text-sm font-medium flex items-center">
-                          <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                          </svg>
-                          Ver Detalles
-                        </button>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
+                      </CardContent>
+                    </Card>
+                  );
+                })}
               </CollapsibleContent>
             </Collapsible>
           )}
