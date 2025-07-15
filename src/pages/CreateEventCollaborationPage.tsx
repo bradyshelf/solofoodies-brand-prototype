@@ -136,13 +136,17 @@ const CreateEventCollaborationPage = () => {
         </div>
 
         {/* Photo Upload Section */}
-        <CollaborationPhotoUpload 
-          value={collaborationPhoto}
-          onChange={setCollaborationPhoto}
-        />
+        <div className="bg-gray-50 rounded-lg p-6 border border-gray-200">
+          <CollaborationPhotoUpload 
+            value={collaborationPhoto}
+            onChange={setCollaborationPhoto}
+          />
+        </div>
+
+        <div className="border-t border-gray-200 my-8"></div>
 
         {/* Event Basics */}
-        <div>
+        <div className="bg-white rounded-lg p-6 border border-gray-200">
           <div className="flex items-center space-x-2 mb-4">
             <Calendar className="w-5 h-5 text-orange-500" />
             <h2 className="text-lg font-semibold">Información del Evento</h2>
@@ -173,8 +177,10 @@ const CreateEventCollaborationPage = () => {
           </div>
         </div>
 
+        <div className="border-t border-gray-200 my-8"></div>
+
         {/* Event Type */}
-        <div>
+        <div className="bg-gray-50 rounded-lg p-6 border border-gray-200">
           <div className="flex items-center space-x-2 mb-4">
             <Users className="w-5 h-5 text-orange-500" />
             <h2 className="text-lg font-semibold">Tipo de Evento</h2>
@@ -210,8 +216,10 @@ const CreateEventCollaborationPage = () => {
           )}
         </div>
 
+        <div className="border-t border-gray-200 my-8"></div>
+
         {/* Timing & Attendance */}
-        <div>
+        <div className="bg-white rounded-lg p-6 border border-gray-200">
           <div className="flex items-center space-x-2 mb-4">
             <Clock className="w-5 h-5 text-orange-500" />
             <h2 className="text-lg font-semibold">Horarios y Asistencia</h2>
@@ -330,8 +338,10 @@ const CreateEventCollaborationPage = () => {
           </div>
         </div>
 
+        <div className="border-t border-gray-200 my-8"></div>
+
         {/* Event Agenda */}
-        <div>
+        <div className="bg-gray-50 rounded-lg p-6 border border-gray-200">
           <div className="flex items-center space-x-2 mb-4">
             <span className="text-orange-500">📝</span>
             <h2 className="text-lg font-semibold">Agenda del Evento</h2>
@@ -408,8 +418,10 @@ const CreateEventCollaborationPage = () => {
           </div>
         </div>
 
+        <div className="border-t border-gray-200 my-8"></div>
+
         {/* Content & Collaboration Expectations */}
-        <div>
+        <div className="bg-white rounded-lg p-6 border border-gray-200">
           <div className="flex items-center space-x-2 mb-4">
             <Camera className="w-5 h-5 text-orange-500" />
             <h2 className="text-lg font-semibold">Expectativas de Contenido</h2>
@@ -487,8 +499,10 @@ const CreateEventCollaborationPage = () => {
           </div>
         </div>
 
+        <div className="border-t border-gray-200 my-8"></div>
+
         {/* Participation Flow */}
-        <div>
+        <div className="bg-gray-50 rounded-lg p-6 border border-gray-200">
           <div className="flex items-center space-x-2 mb-4">
             <span className="text-orange-500">🙋‍♀️</span>
             <h2 className="text-lg font-semibold">Flujo de Participación</h2>
@@ -533,8 +547,10 @@ const CreateEventCollaborationPage = () => {
           </div>
         </div>
 
+        <div className="border-t border-gray-200 my-8"></div>
+
         {/* Preview */}
-        <div>
+        <div className="bg-white rounded-lg p-6 border border-gray-200">
           <h3 className="font-semibold mb-4">Vista previa</h3>
           <Card className="bg-gray-900 text-white">
             <CardContent className="p-4">
@@ -566,6 +582,8 @@ const CreateEventCollaborationPage = () => {
             </CardContent>
           </Card>
         </div>
+
+        <div className="border-t border-gray-200 my-8"></div>
 
         {/* Create Button */}
         <Button 

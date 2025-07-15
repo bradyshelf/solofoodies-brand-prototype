@@ -98,13 +98,17 @@ const CreateCollaborationPage = () => {
         </div>
 
         {/* Photo Upload Section */}
-        <CollaborationPhotoUpload 
-          value={collaborationPhoto}
-          onChange={setCollaborationPhoto}
-        />
+        <div className="bg-gray-50 rounded-lg p-6 border border-gray-200">
+          <CollaborationPhotoUpload 
+            value={collaborationPhoto}
+            onChange={setCollaborationPhoto}
+          />
+        </div>
+
+        <div className="border-t border-gray-200 my-8"></div>
 
         {/* Location Selection */}
-        <div>
+        <div className="bg-white rounded-lg p-6 border border-gray-200">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center space-x-2">
               <MapPin className="w-5 h-5 text-orange-500" />
@@ -139,8 +143,10 @@ const CreateCollaborationPage = () => {
           </div>
         </div>
 
+        <div className="border-t border-gray-200 my-8"></div>
+
         {/* Followers Section */}
-        <div>
+        <div className="bg-gray-50 rounded-lg p-6 border border-gray-200">
           <div className="flex items-center space-x-2 mb-4">
             <Users className="w-5 h-5 text-orange-500" />
             <h2 className="text-lg font-semibold">Seguidores</h2>
@@ -168,8 +174,10 @@ const CreateCollaborationPage = () => {
           </div>
         </div>
 
+        <div className="border-t border-gray-200 my-8"></div>
+
         {/* Participants Section */}
-        <div>
+        <div className="bg-white rounded-lg p-6 border border-gray-200">
           <div className="flex items-center space-x-2 mb-4">
             <Users className="w-5 h-5 text-orange-500" />
             <h2 className="text-lg font-semibold">Participantes</h2>
@@ -200,8 +208,10 @@ const CreateCollaborationPage = () => {
           </div>
         </div>
 
+        <div className="border-t border-gray-200 my-8"></div>
+
         {/* Credit Section */}
-        <div>
+        <div className="bg-gray-50 rounded-lg p-6 border border-gray-200">
           <div className="flex items-center space-x-2 mb-4">
             <Percent className="w-5 h-5 text-orange-500" />
             <h2 className="text-lg font-semibold">Crédito</h2>
@@ -248,8 +258,10 @@ const CreateCollaborationPage = () => {
           </div>
         </div>
 
+        <div className="border-t border-gray-200 my-8"></div>
+
         {/* Available Days */}
-        <div>
+        <div className="bg-white rounded-lg p-6 border border-gray-200">
           <div className="flex items-center space-x-2 mb-4">
             <span className="text-orange-500">⏰</span>
             <h2 className="text-lg font-semibold">Días disponibles (4)</h2>
@@ -272,8 +284,10 @@ const CreateCollaborationPage = () => {
           </div>
         </div>
 
+        <div className="border-t border-gray-200 my-8"></div>
+
         {/* Description */}
-        <div>
+        <div className="bg-gray-50 rounded-lg p-6 border border-gray-200">
           <div className="flex items-center space-x-2 mb-4">
             <span className="text-orange-500">📝</span>
             <h2 className="text-lg font-semibold">Descripción</h2>
@@ -291,8 +305,10 @@ const CreateCollaborationPage = () => {
           </div>
         </div>
 
+        <div className="border-t border-gray-200 my-8"></div>
+
         {/* Preview */}
-        <div>
+        <div className="bg-white rounded-lg p-6 border border-gray-200">
           <h3 className="font-semibold mb-4">Vista previa</h3>
           <Card className="bg-gray-900 text-white">
             <CardContent className="p-4">
@@ -323,6 +339,8 @@ const CreateCollaborationPage = () => {
             </CardContent>
           </Card>
         </div>
+
+        <div className="border-t border-gray-200 my-8"></div>
 
         {/* Create Button */}
         <Button 

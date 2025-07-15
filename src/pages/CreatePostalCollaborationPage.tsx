@@ -171,15 +171,19 @@ const CreatePostalCollaborationPage = () => {
         </div>
 
         {/* Photo Upload Section */}
-        <CollaborationPhotoUpload 
-          value={collaborationPhoto}
-          onChange={setCollaborationPhoto}
-        />
+        <div className="bg-gray-50 rounded-lg p-6 border border-gray-200">
+          <CollaborationPhotoUpload 
+            value={collaborationPhoto}
+            onChange={setCollaborationPhoto}
+          />
+        </div>
+
+        <div className="border-t border-gray-200 my-8"></div>
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             {/* Product Information */}
-            <div>
+            <div className="bg-white rounded-lg p-6 border border-gray-200">
               <div className="flex items-center space-x-2 mb-4">
                 <Package className="w-5 h-5 text-orange-500" />
                 <h2 className="text-lg font-semibold">Product Information</h2>
@@ -289,8 +293,10 @@ const CreatePostalCollaborationPage = () => {
               </div>
             </div>
 
+            <div className="border-t border-gray-200 my-8"></div>
+
             {/* Shipping Information */}
-            <div>
+            <div className="bg-gray-50 rounded-lg p-6 border border-gray-200">
               <div className="flex items-center space-x-2 mb-4">
                 <Globe className="w-5 h-5 text-orange-500" />
                 <h2 className="text-lg font-semibold">Shipping Zone</h2>
@@ -404,7 +410,9 @@ const CreatePostalCollaborationPage = () => {
                         </div>
                       </label>
                     </div>
-                  </div>
+            </div>
+
+            <div className="border-t border-gray-200 my-8"></div>
                 </div>
               </div>
             </div>
