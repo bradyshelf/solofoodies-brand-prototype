@@ -93,7 +93,7 @@ const CollaborationsPage = () => {
       case 'product-sendout':
         return { label: 'Delivery', color: 'bg-orange-100 text-orange-800' };
       case 'event-invitation':
-        return { label: 'Invitación Evento', color: 'bg-purple-100 text-purple-800' };
+        return { label: 'Evento', color: 'bg-green-100 text-green-800' };
       default:
         return { label: 'Colaboración', color: 'bg-gray-100 text-gray-800' };
     }
