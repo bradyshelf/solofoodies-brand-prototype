@@ -50,25 +50,48 @@ export const CollaborationPhotoUpload = ({
       return;
     }
 
-    if (file.size > 5 * 1024 * 1024) { // 5MB limit
-      alert('El archivo es demasiado grande. El límite es 5MB');
+    if (file.size > 2 * 1024 * 1024) { // 2MB limit
+      alert('El archivo es demasiado grande. El límite es 2MB');
       return;
     }
 
     setIsUploading(true);
     
     try {
-      // Convert file to base64 for preview (in a real app, you'd upload to a server)
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        const result = e.target?.result as string;
-        onChange?.(result);
+      // Check image dimensions
+      const img = new Image();
+      const objectUrl = URL.createObjectURL(file);
+      
+      img.onload = () => {
+        URL.revokeObjectURL(objectUrl);
+        
+        // Check minimum dimensions
+        if (img.width < 800 || img.height < 450) {
+          alert('La imagen debe tener al menos 800x450 píxeles (16:9)');
+          setIsUploading(false);
+          return;
+        }
+
+        // Convert file to base64 for preview (in a real app, you'd upload to a server)
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const result = e.target?.result as string;
+          onChange?.(result);
+          setIsUploading(false);
+        };
+        reader.readAsDataURL(file);
       };
-      reader.readAsDataURL(file);
+
+      img.onerror = () => {
+        URL.revokeObjectURL(objectUrl);
+        alert('Error al cargar la imagen');
+        setIsUploading(false);
+      };
+
+      img.src = objectUrl;
     } catch (error) {
       console.error('Error uploading file:', error);
       alert('Error al subir la imagen');
-    } finally {
       setIsUploading(false);
     }
   };
@@ -99,6 +122,7 @@ export const CollaborationPhotoUpload = ({
                 src={value} 
                 alt="Collaboration photo" 
                 className="w-full h-48 object-cover rounded-lg"
+                style={{ aspectRatio: '16/9' }}
               />
               <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-all duration-200 rounded-lg flex items-center justify-center">
                 <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex space-x-2">
@@ -158,7 +182,7 @@ export const CollaborationPhotoUpload = ({
                   Arrastra una imagen aquí o haz clic para seleccionar
                 </p>
                 <p className="text-xs text-gray-500">
-                  PNG, JPG hasta 5MB
+                  Formato 16:9 • Mínimo 800x450px • PNG, JPG hasta 2MB
                 </p>
               </div>
               <Button 
@@ -183,7 +207,7 @@ export const CollaborationPhotoUpload = ({
       />
       
       <p className="text-xs text-gray-500">
-        Sube una imagen que represente tu colaboración. Esto ayudará a los foodies a entender mejor tu propuesta.
+        Sube una imagen en formato 16:9 (mínimo 800x450 píxeles) que represente tu colaboración. Esto ayudará a los foodies a entender mejor tu propuesta.
       </p>
     </div>
   );
