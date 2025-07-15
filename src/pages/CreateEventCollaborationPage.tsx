@@ -1,10 +1,9 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
-import { ArrowLeft, MapPin, Calendar, Clock, Users, Camera, Plus, Minus } from 'lucide-react';
+import { ArrowLeft, MapPin, Calendar, Clock, Users, Camera } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const CreateEventCollaborationPage = () => {
@@ -36,7 +35,6 @@ const CreateEventCollaborationPage = () => {
   const [participationFlow, setParticipationFlow] = useState('invite-only');
   const [customQuestion, setCustomQuestion] = useState('');
   const [selectedDays, setSelectedDays] = useState<string[]>([]);
-  const [discountPercentage, setDiscountPercentage] = useState(100);
 
   const eventTypes = [
     { id: 'private-event', name: 'Private event' },
@@ -118,16 +116,16 @@ const CreateEventCollaborationPage = () => {
       compensation,
       participationFlow,
       customQuestion,
-      selectedDays,
-      discountPercentage
+      selectedDays
     };
     
     console.log('Creating event collaboration:', eventData);
+    console.log("Navigating to collaborations...");
     navigate('/collaborations');
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <div className="bg-white border-b border-gray-200 px-6 py-4">
         <div className="flex items-center space-x-4">
@@ -137,7 +135,7 @@ const CreateEventCollaborationPage = () => {
           >
             <ArrowLeft className="w-5 h-5 text-gray-600" />
           </button>
-          <h1 className="text-lg font-semibold text-gray-900">Crear Colaboración</h1>
+          <h1 className="text-lg font-semibold text-gray-900">Create Event Invitation</h1>
         </div>
       </div>
 
@@ -150,290 +148,411 @@ const CreateEventCollaborationPage = () => {
               <span className="text-white text-xs">i</span>
             </div>
             <p className="text-sm text-blue-800">
-              Define las condiciones de tu colaboración y recibe solicitudes de foodies interesados
+              Create an event invitation to collaborate with food content creators at your establishment.
             </p>
           </div>
         </div>
 
-        {/* Grey Container */}
-        <div className="bg-gray-50 rounded-lg p-6 space-y-6">
-          
-          {/* Ubicación */}
-          <div>
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center space-x-2">
-                <MapPin className="w-5 h-5 text-orange-500" />
-                <h2 className="text-lg font-semibold">Ubicación (1)</h2>
-              </div>
-              <button className="text-blue-600 text-sm">Seleccionar todo</button>
-            </div>
-            
-            <div className="space-y-2">
-              <div className="flex items-center space-x-3 p-3 bg-blue-50 border border-blue-200 rounded-lg">
-                <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
-                <div>
-                  <div className="font-medium">Local Valencia</div>
-                  <div className="text-sm text-gray-600">Calle Colón, 27</div>
-                </div>
-              </div>
-              <div className="flex items-center space-x-3 p-3 bg-white border border-gray-200 rounded-lg">
-                <div className="w-2 h-2 bg-gray-300 rounded-full"></div>
-                <div>
-                  <div className="font-medium">Sucursal Barcelona</div>
-                  <div className="text-sm text-gray-600">Passeig de Gràcia, 92</div>
-                </div>
-              </div>
-              <div className="flex items-center space-x-3 p-3 bg-white border border-gray-200 rounded-lg">
-                <div className="w-2 h-2 bg-gray-300 rounded-full"></div>
-                <div>
-                  <div className="font-medium">Sede Central</div>
-                  <div className="text-sm text-gray-600">Calle Gran Vía, 45</div>
-                </div>
-              </div>
-              <button className="w-full p-3 border border-dashed border-gray-300 rounded-lg text-gray-600 text-sm flex items-center justify-center space-x-2">
-                <Plus className="w-4 h-4" />
-                <span>Añadir ubicación</span>
-              </button>
-            </div>
-          </div>
-
-          {/* Seguidores */}
-          <div>
-            <div className="flex items-center space-x-2 mb-4">
-              <Users className="w-5 h-5 text-orange-500" />
-              <h2 className="text-lg font-semibold">Seguidores</h2>
-            </div>
-            
-            <div>
-              <div className="flex justify-between items-center mb-2">
-                <span className="text-sm text-gray-600">Mínimo seguidores: 10k</span>
-                <span className="text-sm text-gray-600">foodies disponibles: 30k</span>
-              </div>
-              <div className="relative">
-                <input
-                  type="range"
-                  min="1000"
-                  max="100000"
-                  value="10000"
-                  className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
-                />
-                <div className="flex justify-between text-xs text-gray-500 mt-1">
-                  <span>1k</span>
-                  <span>100k</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Participantes */}
-          <div>
-            <div className="flex items-center space-x-2 mb-4">
-              <Users className="w-5 h-5 text-orange-500" />
-              <h2 className="text-lg font-semibold">Participantes</h2>
-            </div>
-            
-            <div>
-              <p className="text-sm text-gray-600 mb-4">Acompañantes máx por foodie</p>
-              <div className="flex items-center justify-center space-x-6">
-                <button
-                  onClick={() => setAdditionalGuests(Math.max(0, additionalGuests - 1))}
-                  className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center"
-                >
-                  <Minus className="w-5 h-5" />
-                </button>
-                
-                <div className="text-center">
-                  <div className="text-2xl font-bold">Foodie + {additionalGuests}</div>
-                  <div className="text-sm text-orange-500">Acompañantes máx</div>
-                </div>
-                
-                <button
-                  onClick={() => setAdditionalGuests(additionalGuests + 1)}
-                  className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center"
-                >
-                  <Plus className="w-5 h-5" />
-                </button>
-              </div>
-            </div>
-          </div>
-
-          {/* Crédito */}
-          <div>
-            <div className="flex items-center space-x-2 mb-4">
-              <span className="text-orange-500">💰</span>
-              <h2 className="text-lg font-semibold">Crédito</h2>
-            </div>
+        <div className="space-y-8">
+          {/* Basic Event Information */}
+          <section>
+            <h2 className="text-lg font-semibold mb-4 flex items-center">
+              <Calendar className="w-5 h-5 mr-2 text-orange-500" />
+              Event Details
+            </h2>
             
             <div className="space-y-4">
-              <div className="flex space-x-2">
-                <button className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm">
-                  %
-                </button>
-                <button className="px-4 py-2 bg-gray-100 text-gray-600 rounded-lg text-sm">
-                  €
-                </button>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Event Name</label>
+                <Input
+                  value={eventName}
+                  onChange={(e) => setEventName(e.target.value)}
+                  placeholder="Enter event name"
+                />
               </div>
               
-              <div className="text-center">
-                <div className="text-6xl font-bold mb-4">{discountPercentage}%</div>
-                <div className="relative mb-4">
-                  <input
-                    type="range"
-                    min="0"
-                    max="100"
-                    value={discountPercentage}
-                    onChange={(e) => setDiscountPercentage(Number(e.target.value))}
-                    className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Location</label>
+                <div className="flex items-center space-x-2">
+                  <MapPin className="w-5 h-5 text-gray-400" />
+                  <Input
+                    value={eventLocation}
+                    onChange={(e) => setEventLocation(e.target.value)}
+                    placeholder="Enter event location"
                   />
-                  <div className="w-4 h-4 bg-white border-2 border-gray-400 rounded-full absolute top-1/2 transform -translate-y-1/2" style={{left: `${discountPercentage}%`}}></div>
                 </div>
               </div>
-            </div>
-          </div>
 
-          {/* Días disponibles */}
-          <div>
-            <div className="flex items-center space-x-2 mb-4">
-              <Clock className="w-5 h-5 text-orange-500" />
-              <h2 className="text-lg font-semibold">Días disponibles (4)</h2>
-            </div>
-            
-            <div className="grid grid-cols-2 gap-2">
-              <button
-                onClick={() => handleDayToggle('lunes')}
-                className={`p-3 rounded-lg text-sm font-medium ${
-                  selectedDays.includes('lunes')
-                    ? 'bg-gray-900 text-white'
-                    : 'bg-white border border-gray-200 text-gray-600'
-                }`}
-              >
-                Lunes
-              </button>
-              <button
-                onClick={() => handleDayToggle('martes')}
-                className={`p-3 rounded-lg text-sm font-medium ${
-                  selectedDays.includes('martes')
-                    ? 'bg-gray-900 text-white'
-                    : 'bg-white border border-gray-200 text-gray-600'
-                }`}
-              >
-                Martes
-              </button>
-              <button
-                onClick={() => handleDayToggle('miercoles')}
-                className={`p-3 rounded-lg text-sm font-medium ${
-                  selectedDays.includes('miercoles')
-                    ? 'bg-gray-900 text-white'
-                    : 'bg-white border border-gray-200 text-gray-600'
-                }`}
-              >
-                Miércoles
-              </button>
-              <button
-                onClick={() => handleDayToggle('jueves')}
-                className={`p-3 rounded-lg text-sm font-medium ${
-                  selectedDays.includes('jueves')
-                    ? 'bg-gray-900 text-white'
-                    : 'bg-white border border-gray-200 text-gray-600'
-                }`}
-              >
-                Jueves
-              </button>
-              <button
-                onClick={() => handleDayToggle('viernes')}
-                className={`p-3 rounded-lg text-sm font-medium ${
-                  selectedDays.includes('viernes')
-                    ? 'bg-white border border-gray-200 text-gray-600'
-                    : 'bg-white border border-gray-200 text-gray-600'
-                }`}
-              >
-                Viernes
-              </button>
-              <button
-                onClick={() => handleDayToggle('sabado')}
-                className={`p-3 rounded-lg text-sm font-medium ${
-                  selectedDays.includes('sabado')
-                    ? 'bg-white border border-gray-200 text-gray-600'
-                    : 'bg-white border border-gray-200 text-gray-600'
-                }`}
-              >
-                Sábado
-              </button>
-              <div className="col-span-2 flex justify-center">
-                <button
-                  onClick={() => handleDayToggle('domingo')}
-                  className={`p-3 rounded-lg text-sm font-medium w-32 ${
-                    selectedDays.includes('domingo')
-                      ? 'bg-white border border-gray-200 text-gray-600'
-                      : 'bg-white border border-gray-200 text-gray-600'
-                  }`}
-                >
-                  Domingo
-                </button>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Event Type</label>
+                <div className="grid grid-cols-2 gap-3">
+                  {eventTypes.map((type) => (
+                    <div key={type.id} className="flex items-center space-x-2">
+                      <Checkbox
+                        id={type.id}
+                        checked={selectedEventTypes.includes(type.id)}
+                        onCheckedChange={() => handleEventTypeToggle(type.id)}
+                      />
+                      <label htmlFor={type.id} className="text-sm text-gray-700">
+                        {type.name}
+                      </label>
+                    </div>
+                  ))}
+                </div>
+                
+                {selectedEventTypes.includes('other') && (
+                  <div className="mt-3">
+                    <Input
+                      value={customEventType}
+                      onChange={(e) => setCustomEventType(e.target.value)}
+                      placeholder="Specify other event type"
+                    />
+                  </div>
+                )}
               </div>
             </div>
-          </div>
+          </section>
 
-          {/* Descripción */}
-          <div>
-            <div className="flex items-center space-x-2 mb-4">
-              <span className="text-orange-500">📝</span>
-              <h2 className="text-lg font-semibold">Descripción</h2>
+          {/* Date & Time */}
+          <section>
+            <h2 className="text-lg font-semibold mb-4 flex items-center">
+              <Clock className="w-5 h-5 mr-2 text-orange-500" />
+              Date & Time
+            </h2>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Event Date</label>
+                <Input
+                  type="date"
+                  value={eventDate}
+                  onChange={(e) => setEventDate(e.target.value)}
+                />
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Start Time</label>
+                <Input
+                  type="time"
+                  value={startTime}
+                  onChange={(e) => setStartTime(e.target.value)}
+                />
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">End Time</label>
+                <Input
+                  type="time"
+                  value={endTime}
+                  onChange={(e) => setEndTime(e.target.value)}
+                />
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Creator Arrival Time</label>
+                <Input
+                  type="time"
+                  value={creatorArrivalTime}
+                  onChange={(e) => setCreatorArrivalTime(e.target.value)}
+                />
+              </div>
+            </div>
+          </section>
+
+          {/* Guests & RSVP */}
+          <section>
+            <h2 className="text-lg font-semibold mb-4 flex items-center">
+              <Users className="w-5 h-5 mr-2 text-orange-500" />
+              Guest Information
+            </h2>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Guest Cap</label>
+                <Input
+                  type="number"
+                  value={guestCap}
+                  onChange={(e) => setGuestCap(e.target.value)}
+                  placeholder="Maximum number of guests"
+                />
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">RSVP Deadline</label>
+                <Input
+                  type="date"
+                  value={rsvpDeadline}
+                  onChange={(e) => setRsvpDeadline(e.target.value)}
+                />
+              </div>
             </div>
             
-            <div>
-              <p className="text-sm text-gray-600 mb-2">Describe lo que espera de esta colaboración</p>
-              <Textarea
-                value={eventDescription}
-                onChange={(e) => setEventDescription(e.target.value)}
-                placeholder="Describe lo que espera de esta colaboración"
-                className="min-h-[100px] resize-none"
-              />
-              <div className="text-right text-xs text-gray-400 mt-1">500/800</div>
+            <div className="mt-4">
+              <div className="flex items-center space-x-2">
+                <Checkbox
+                  id="plus-one"
+                  checked={canBringPlusOne}
+                  onCheckedChange={(checked) => setCanBringPlusOne(checked === true)}
+                />
+                <label htmlFor="plus-one" className="text-sm text-gray-700">
+                  Allow creators to bring a plus one
+                </label>
+              </div>
             </div>
-          </div>
+          </section>
 
-          {/* Vista previa */}
-          <div>
-            <h3 className="font-semibold mb-4">Vista previa</h3>
-            <Card className="bg-gray-900 text-white">
-              <CardContent className="p-4">
+          {/* Event Expectations */}
+          <section>
+            <h2 className="text-lg font-semibold mb-4">What to Expect</h2>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              {expectations.map((expectation) => (
+                <div key={expectation.id} className="flex items-center space-x-2">
+                  <Checkbox
+                    id={expectation.id}
+                    checked={selectedExpectations.includes(expectation.id)}
+                    onCheckedChange={() => handleExpectationToggle(expectation.id)}
+                  />
+                  <label htmlFor={expectation.id} className="text-sm text-gray-700">
+                    {expectation.name}
+                  </label>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* Additional Info */}
+          <section>
+            <h2 className="text-lg font-semibold mb-4">Additional Information</h2>
+            
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Dress Code</label>
+                <Input
+                  value={dressCode}
+                  onChange={(e) => setDressCode(e.target.value)}
+                  placeholder="Casual, business casual, formal, etc."
+                />
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Event Description</label>
+                <Textarea
+                  value={eventDescription}
+                  onChange={(e) => setEventDescription(e.target.value)}
+                  placeholder="Describe the event, atmosphere, and what creators can expect"
+                  className="min-h-[100px]"
+                />
+              </div>
+            </div>
+          </section>
+
+          {/* Content Creation */}
+          <section>
+            <h2 className="text-lg font-semibold mb-4 flex items-center">
+              <Camera className="w-5 h-5 mr-2 text-orange-500" />
+              Content Creation
+            </h2>
+            
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Content Creation Encouraged?</label>
+                <div className="flex space-x-4">
+                  <label className="flex items-center">
+                    <input
+                      type="radio"
+                      name="content-creation"
+                      value="yes"
+                      checked={contentCreationEncouraged === 'yes'}
+                      onChange={(e) => setContentCreationEncouraged(e.target.value)}
+                      className="mr-2"
+                    />
+                    Yes
+                  </label>
+                  <label className="flex items-center">
+                    <input
+                      type="radio"
+                      name="content-creation"
+                      value="no"
+                      checked={contentCreationEncouraged === 'no'}
+                      onChange={(e) => setContentCreationEncouraged(e.target.value)}
+                      className="mr-2"
+                    />
+                    No
+                  </label>
+                  <label className="flex items-center">
+                    <input
+                      type="radio"
+                      name="content-creation"
+                      value="required"
+                      checked={contentCreationEncouraged === 'required'}
+                      onChange={(e) => setContentCreationEncouraged(e.target.value)}
+                      className="mr-2"
+                    />
+                    Required
+                  </label>
+                </div>
+              </div>
+              
+              {contentCreationEncouraged !== 'no' && (
+                <>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Content Types</label>
+                    <Input
+                      value={contentTypes}
+                      onChange={(e) => setContentTypes(e.target.value)}
+                      placeholder="Instagram posts, stories, reels, etc."
+                    />
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Hashtags</label>
+                    <Input
+                      value={hashtags}
+                      onChange={(e) => setHashtags(e.target.value)}
+                      placeholder="#yourrestaurant #foodie #event"
+                    />
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Accounts to Tag</label>
+                    <Input
+                      value={accountsToTag}
+                      onChange={(e) => setAccountsToTag(e.target.value)}
+                      placeholder="@yourrestaurant @chefname"
+                    />
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Messaging Tone</label>
+                    <Input
+                      value={messagingTone}
+                      onChange={(e) => setMessagingTone(e.target.value)}
+                      placeholder="Fun and casual, professional, creative, etc."
+                    />
+                  </div>
+                </>
+              )}
+            </div>
+          </section>
+
+          {/* Compensation */}
+          <section>
+            <h2 className="text-lg font-semibold mb-4">Compensation</h2>
+            
+            <div className="space-y-4">
+              <div className="flex items-center space-x-2">
+                <Checkbox
+                  id="paid-collab"
+                  checked={isPaidCollab}
+                  onCheckedChange={(checked) => setIsPaidCollab(checked === true)}
+                />
+                <label htmlFor="paid-collab" className="text-sm text-gray-700">
+                  This is a paid collaboration
+                </label>
+              </div>
+              
+              {isPaidCollab && (
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Compensation Details</label>
+                  <Textarea
+                    value={compensation}
+                    onChange={(e) => setCompensation(e.target.value)}
+                    placeholder="Describe the compensation (monetary amount, products, etc.)"
+                    className="min-h-[80px]"
+                  />
+                </div>
+              )}
+            </div>
+          </section>
+
+          {/* Participation Flow */}
+          <section>
+            <h2 className="text-lg font-semibold mb-4">Participation Flow</h2>
+            
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">How should creators participate?</label>
                 <div className="space-y-2">
-                  <div className="flex items-center space-x-2">
-                    <MapPin className="w-4 h-4" />
-                    <span className="text-sm">Local Valencia</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <span className="text-sm">Calle Colón, 27</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <Users className="w-4 h-4" />
-                    <span className="text-sm">Mín. 10k seguidores</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <Users className="w-4 h-4" />
-                    <span className="text-sm">Foodie +{additionalGuests} acompañantes máx.</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <span className="text-orange-500">💰</span>
-                    <span className="text-sm">{discountPercentage}% Descuento</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <Clock className="w-4 h-4" />
-                    <span className="text-sm">lunes, martes, +2 más</span>
-                  </div>
+                  <label className="flex items-center">
+                    <input
+                      type="radio"
+                      name="participation-flow"
+                      value="invite-only"
+                      checked={participationFlow === 'invite-only'}
+                      onChange={(e) => setParticipationFlow(e.target.value)}
+                      className="mr-2"
+                    />
+                    Invite only (you'll invite specific creators)
+                  </label>
+                  <label className="flex items-center">
+                    <input
+                      type="radio"
+                      name="participation-flow"
+                      value="application"
+                      checked={participationFlow === 'application'}
+                      onChange={(e) => setParticipationFlow(e.target.value)}
+                      className="mr-2"
+                    />
+                    Open application (creators can apply)
+                  </label>
+                  <label className="flex items-center">
+                    <input
+                      type="radio"
+                      name="participation-flow"
+                      value="first-come"
+                      checked={participationFlow === 'first-come'}
+                      onChange={(e) => setParticipationFlow(e.target.value)}
+                      className="mr-2"
+                    />
+                    First come, first served
+                  </label>
                 </div>
-              </CardContent>
-            </Card>
-          </div>
+              </div>
+              
+              {participationFlow === 'application' && (
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Custom Application Question</label>
+                  <Textarea
+                    value={customQuestion}
+                    onChange={(e) => setCustomQuestion(e.target.value)}
+                    placeholder="What would you like to ask creators when they apply?"
+                    className="min-h-[80px]"
+                  />
+                </div>
+              )}
+            </div>
+          </section>
+
+          {/* Available Days */}
+          <section>
+            <h2 className="text-lg font-semibold mb-4">Available Days</h2>
+            
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+              {days.map((day) => (
+                <div key={day.id} className="flex items-center space-x-2">
+                  <Checkbox
+                    id={day.id}
+                    checked={selectedDays.includes(day.id)}
+                    onCheckedChange={() => handleDayToggle(day.id)}
+                  />
+                  <label htmlFor={day.id} className="text-sm text-gray-700">
+                    {day.name}
+                  </label>
+                </div>
+              ))}
+            </div>
+          </section>
 
           {/* Create Button */}
-          <Button 
-            onClick={handleCreateEvent}
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg"
-          >
-            Crear colaboración
-          </Button>
+          <div className="pt-6">
+            <Button 
+              onClick={handleCreateEvent}
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg"
+            >
+              Create Event Invitation
+            </Button>
+          </div>
         </div>
       </div>
     </div>
