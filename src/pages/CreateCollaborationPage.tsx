@@ -6,6 +6,7 @@ import { Slider } from '@/components/ui/slider';
 import { Textarea } from '@/components/ui/textarea';
 import { ArrowLeft, MapPin, Users, Percent, Plus, Minus } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { CollaborationPhotoUpload } from '@/components/CollaborationPhotoUpload';
 
 const CreateCollaborationPage = () => {
   const navigate = useNavigate();
@@ -18,6 +19,7 @@ const CreateCollaborationPage = () => {
   const [discountPercentage, setDiscountPercentage] = useState([100]);
   const [selectedDays, setSelectedDays] = useState<string[]>(['lunes', 'martes']);
   const [description, setDescription] = useState('');
+  const [collaborationPhoto, setCollaborationPhoto] = useState<string | null>(null);
 
   const locations = [
     { id: 'local-valencia', name: 'Local Valencia', address: 'Calle Colon, 27', selected: true },
@@ -94,6 +96,12 @@ const CreateCollaborationPage = () => {
             </p>
           </div>
         </div>
+
+        {/* Photo Upload Section */}
+        <CollaborationPhotoUpload 
+          value={collaborationPhoto}
+          onChange={setCollaborationPhoto}
+        />
 
         {/* Location Selection */}
         <div>

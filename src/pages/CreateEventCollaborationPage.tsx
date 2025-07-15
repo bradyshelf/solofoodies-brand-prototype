@@ -6,6 +6,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
 import { ArrowLeft, MapPin, Calendar, Clock, Users, Camera, Plus, Minus } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { CollaborationPhotoUpload } from '@/components/CollaborationPhotoUpload';
 
 const CreateEventCollaborationPage = () => {
   const navigate = useNavigate();
@@ -35,6 +36,7 @@ const CreateEventCollaborationPage = () => {
   const [compensation, setCompensation] = useState('');
   const [participationFlow, setParticipationFlow] = useState('invite-only');
   const [customQuestion, setCustomQuestion] = useState('');
+  const [collaborationPhoto, setCollaborationPhoto] = useState<string | null>(null);
 
   const eventTypes = [
     { id: 'private-event', name: 'Private event' },
@@ -132,6 +134,12 @@ const CreateEventCollaborationPage = () => {
             </p>
           </div>
         </div>
+
+        {/* Photo Upload Section */}
+        <CollaborationPhotoUpload 
+          value={collaborationPhoto}
+          onChange={setCollaborationPhoto}
+        />
 
         {/* Event Basics */}
         <div>

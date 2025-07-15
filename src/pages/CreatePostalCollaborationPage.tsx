@@ -12,6 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { ArrowLeft, Package, Globe, MapPin, X, Search, Check } from 'lucide-react';
 import { Checkbox } from '@/components/ui/checkbox';
+import { CollaborationPhotoUpload } from '@/components/CollaborationPhotoUpload';
 
 const postalCollaborationSchema = z.object({
   productName: z.string().min(1, 'Product name is required'),
@@ -54,6 +55,7 @@ const CreatePostalCollaborationPage = () => {
   const [selectedCities, setSelectedCities] = useState<string[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
+  const [collaborationPhoto, setCollaborationPhoto] = useState<string | null>(null);
 
   const form = useForm<PostalCollaborationForm>({
     resolver: zodResolver(postalCollaborationSchema),
@@ -167,6 +169,12 @@ const CreatePostalCollaborationPage = () => {
             </p>
           </div>
         </div>
+
+        {/* Photo Upload Section */}
+        <CollaborationPhotoUpload 
+          value={collaborationPhoto}
+          onChange={setCollaborationPhoto}
+        />
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
