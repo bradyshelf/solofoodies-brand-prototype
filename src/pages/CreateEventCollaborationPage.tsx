@@ -125,7 +125,7 @@ const CreateEventCollaborationPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-white">
       {/* Header */}
       <div className="bg-white border-b border-gray-200 px-6 py-4">
         <div className="flex items-center space-x-4">
@@ -153,13 +153,15 @@ const CreateEventCollaborationPage = () => {
           </div>
         </div>
 
-        <div className="space-y-8">
+        {/* Grey Container */}
+        <div className="bg-gray-50 rounded-lg p-6 space-y-6">
+          
           {/* Basic Event Information */}
-          <section>
-            <h2 className="text-lg font-semibold mb-4 flex items-center">
-              <Calendar className="w-5 h-5 mr-2 text-orange-500" />
-              Event Details
-            </h2>
+          <div>
+            <div className="flex items-center space-x-2 mb-4">
+              <Calendar className="w-5 h-5 text-orange-500" />
+              <h2 className="text-lg font-semibold">Event Details</h2>
+            </div>
             
             <div className="space-y-4">
               <div>
@@ -168,6 +170,7 @@ const CreateEventCollaborationPage = () => {
                   value={eventName}
                   onChange={(e) => setEventName(e.target.value)}
                   placeholder="Enter event name"
+                  className="bg-white"
                 />
               </div>
               
@@ -179,6 +182,7 @@ const CreateEventCollaborationPage = () => {
                     value={eventLocation}
                     onChange={(e) => setEventLocation(e.target.value)}
                     placeholder="Enter event location"
+                    className="bg-white"
                   />
                 </div>
               </div>
@@ -187,7 +191,7 @@ const CreateEventCollaborationPage = () => {
                 <label className="block text-sm font-medium text-gray-700 mb-2">Event Type</label>
                 <div className="grid grid-cols-2 gap-3">
                   {eventTypes.map((type) => (
-                    <div key={type.id} className="flex items-center space-x-2">
+                    <div key={type.id} className="flex items-center space-x-2 p-3 bg-white border border-gray-200 rounded-lg">
                       <Checkbox
                         id={type.id}
                         checked={selectedEventTypes.includes(type.id)}
@@ -206,19 +210,20 @@ const CreateEventCollaborationPage = () => {
                       value={customEventType}
                       onChange={(e) => setCustomEventType(e.target.value)}
                       placeholder="Specify other event type"
+                      className="bg-white"
                     />
                   </div>
                 )}
               </div>
             </div>
-          </section>
+          </div>
 
           {/* Date & Time */}
-          <section>
-            <h2 className="text-lg font-semibold mb-4 flex items-center">
-              <Clock className="w-5 h-5 mr-2 text-orange-500" />
-              Date & Time
-            </h2>
+          <div>
+            <div className="flex items-center space-x-2 mb-4">
+              <Clock className="w-5 h-5 text-orange-500" />
+              <h2 className="text-lg font-semibold">Date & Time</h2>
+            </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
@@ -227,6 +232,7 @@ const CreateEventCollaborationPage = () => {
                   type="date"
                   value={eventDate}
                   onChange={(e) => setEventDate(e.target.value)}
+                  className="bg-white"
                 />
               </div>
               
@@ -236,6 +242,7 @@ const CreateEventCollaborationPage = () => {
                   type="time"
                   value={startTime}
                   onChange={(e) => setStartTime(e.target.value)}
+                  className="bg-white"
                 />
               </div>
               
@@ -245,6 +252,7 @@ const CreateEventCollaborationPage = () => {
                   type="time"
                   value={endTime}
                   onChange={(e) => setEndTime(e.target.value)}
+                  className="bg-white"
                 />
               </div>
               
@@ -254,17 +262,18 @@ const CreateEventCollaborationPage = () => {
                   type="time"
                   value={creatorArrivalTime}
                   onChange={(e) => setCreatorArrivalTime(e.target.value)}
+                  className="bg-white"
                 />
               </div>
             </div>
-          </section>
+          </div>
 
           {/* Guests & RSVP */}
-          <section>
-            <h2 className="text-lg font-semibold mb-4 flex items-center">
-              <Users className="w-5 h-5 mr-2 text-orange-500" />
-              Guest Information
-            </h2>
+          <div>
+            <div className="flex items-center space-x-2 mb-4">
+              <Users className="w-5 h-5 text-orange-500" />
+              <h2 className="text-lg font-semibold">Guest Information</h2>
+            </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
@@ -274,6 +283,7 @@ const CreateEventCollaborationPage = () => {
                   value={guestCap}
                   onChange={(e) => setGuestCap(e.target.value)}
                   placeholder="Maximum number of guests"
+                  className="bg-white"
                 />
               </div>
               
@@ -283,11 +293,12 @@ const CreateEventCollaborationPage = () => {
                   type="date"
                   value={rsvpDeadline}
                   onChange={(e) => setRsvpDeadline(e.target.value)}
+                  className="bg-white"
                 />
               </div>
             </div>
             
-            <div className="mt-4">
+            <div className="mt-4 p-3 bg-white border border-gray-200 rounded-lg">
               <div className="flex items-center space-x-2">
                 <Checkbox
                   id="plus-one"
@@ -299,15 +310,18 @@ const CreateEventCollaborationPage = () => {
                 </label>
               </div>
             </div>
-          </section>
+          </div>
 
           {/* Event Expectations */}
-          <section>
-            <h2 className="text-lg font-semibold mb-4">What to Expect</h2>
+          <div>
+            <div className="flex items-center space-x-2 mb-4">
+              <span className="text-orange-500">🎉</span>
+              <h2 className="text-lg font-semibold">What to Expect</h2>
+            </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               {expectations.map((expectation) => (
-                <div key={expectation.id} className="flex items-center space-x-2">
+                <div key={expectation.id} className="flex items-center space-x-2 p-3 bg-white border border-gray-200 rounded-lg">
                   <Checkbox
                     id={expectation.id}
                     checked={selectedExpectations.includes(expectation.id)}
@@ -319,11 +333,14 @@ const CreateEventCollaborationPage = () => {
                 </div>
               ))}
             </div>
-          </section>
+          </div>
 
           {/* Additional Info */}
-          <section>
-            <h2 className="text-lg font-semibold mb-4">Additional Information</h2>
+          <div>
+            <div className="flex items-center space-x-2 mb-4">
+              <span className="text-orange-500">📝</span>
+              <h2 className="text-lg font-semibold">Additional Information</h2>
+            </div>
             
             <div className="space-y-4">
               <div>
@@ -332,6 +349,7 @@ const CreateEventCollaborationPage = () => {
                   value={dressCode}
                   onChange={(e) => setDressCode(e.target.value)}
                   placeholder="Casual, business casual, formal, etc."
+                  className="bg-white"
                 />
               </div>
               
@@ -341,23 +359,23 @@ const CreateEventCollaborationPage = () => {
                   value={eventDescription}
                   onChange={(e) => setEventDescription(e.target.value)}
                   placeholder="Describe the event, atmosphere, and what creators can expect"
-                  className="min-h-[100px]"
+                  className="min-h-[100px] bg-white resize-none"
                 />
               </div>
             </div>
-          </section>
+          </div>
 
           {/* Content Creation */}
-          <section>
-            <h2 className="text-lg font-semibold mb-4 flex items-center">
-              <Camera className="w-5 h-5 mr-2 text-orange-500" />
-              Content Creation
-            </h2>
+          <div>
+            <div className="flex items-center space-x-2 mb-4">
+              <Camera className="w-5 h-5 text-orange-500" />
+              <h2 className="text-lg font-semibold">Content Creation</h2>
+            </div>
             
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Content Creation Encouraged?</label>
-                <div className="flex space-x-4">
+                <div className="flex space-x-4 p-3 bg-white border border-gray-200 rounded-lg">
                   <label className="flex items-center">
                     <input
                       type="radio"
@@ -402,6 +420,7 @@ const CreateEventCollaborationPage = () => {
                       value={contentTypes}
                       onChange={(e) => setContentTypes(e.target.value)}
                       placeholder="Instagram posts, stories, reels, etc."
+                      className="bg-white"
                     />
                   </div>
                   
@@ -411,6 +430,7 @@ const CreateEventCollaborationPage = () => {
                       value={hashtags}
                       onChange={(e) => setHashtags(e.target.value)}
                       placeholder="#yourrestaurant #foodie #event"
+                      className="bg-white"
                     />
                   </div>
                   
@@ -420,6 +440,7 @@ const CreateEventCollaborationPage = () => {
                       value={accountsToTag}
                       onChange={(e) => setAccountsToTag(e.target.value)}
                       placeholder="@yourrestaurant @chefname"
+                      className="bg-white"
                     />
                   </div>
                   
@@ -429,27 +450,33 @@ const CreateEventCollaborationPage = () => {
                       value={messagingTone}
                       onChange={(e) => setMessagingTone(e.target.value)}
                       placeholder="Fun and casual, professional, creative, etc."
+                      className="bg-white"
                     />
                   </div>
                 </>
               )}
             </div>
-          </section>
+          </div>
 
           {/* Compensation */}
-          <section>
-            <h2 className="text-lg font-semibold mb-4">Compensation</h2>
+          <div>
+            <div className="flex items-center space-x-2 mb-4">
+              <span className="text-orange-500">💰</span>
+              <h2 className="text-lg font-semibold">Compensation</h2>
+            </div>
             
             <div className="space-y-4">
-              <div className="flex items-center space-x-2">
-                <Checkbox
-                  id="paid-collab"
-                  checked={isPaidCollab}
-                  onCheckedChange={(checked) => setIsPaidCollab(checked === true)}
-                />
-                <label htmlFor="paid-collab" className="text-sm text-gray-700">
-                  This is a paid collaboration
-                </label>
+              <div className="p-3 bg-white border border-gray-200 rounded-lg">
+                <div className="flex items-center space-x-2">
+                  <Checkbox
+                    id="paid-collab"
+                    checked={isPaidCollab}
+                    onCheckedChange={(checked) => setIsPaidCollab(checked === true)}
+                  />
+                  <label htmlFor="paid-collab" className="text-sm text-gray-700">
+                    This is a paid collaboration
+                  </label>
+                </div>
               </div>
               
               {isPaidCollab && (
@@ -459,54 +486,63 @@ const CreateEventCollaborationPage = () => {
                     value={compensation}
                     onChange={(e) => setCompensation(e.target.value)}
                     placeholder="Describe the compensation (monetary amount, products, etc.)"
-                    className="min-h-[80px]"
+                    className="min-h-[80px] bg-white resize-none"
                   />
                 </div>
               )}
             </div>
-          </section>
+          </div>
 
           {/* Participation Flow */}
-          <section>
-            <h2 className="text-lg font-semibold mb-4">Participation Flow</h2>
+          <div>
+            <div className="flex items-center space-x-2 mb-4">
+              <span className="text-orange-500">🎯</span>
+              <h2 className="text-lg font-semibold">Participation Flow</h2>
+            </div>
             
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">How should creators participate?</label>
                 <div className="space-y-2">
-                  <label className="flex items-center">
-                    <input
-                      type="radio"
-                      name="participation-flow"
-                      value="invite-only"
-                      checked={participationFlow === 'invite-only'}
-                      onChange={(e) => setParticipationFlow(e.target.value)}
-                      className="mr-2"
-                    />
-                    Invite only (you'll invite specific creators)
-                  </label>
-                  <label className="flex items-center">
-                    <input
-                      type="radio"
-                      name="participation-flow"
-                      value="application"
-                      checked={participationFlow === 'application'}
-                      onChange={(e) => setParticipationFlow(e.target.value)}
-                      className="mr-2"
-                    />
-                    Open application (creators can apply)
-                  </label>
-                  <label className="flex items-center">
-                    <input
-                      type="radio"
-                      name="participation-flow"
-                      value="first-come"
-                      checked={participationFlow === 'first-come'}
-                      onChange={(e) => setParticipationFlow(e.target.value)}
-                      className="mr-2"
-                    />
-                    First come, first served
-                  </label>
+                  <div className="p-3 bg-white border border-gray-200 rounded-lg">
+                    <label className="flex items-center">
+                      <input
+                        type="radio"
+                        name="participation-flow"
+                        value="invite-only"
+                        checked={participationFlow === 'invite-only'}
+                        onChange={(e) => setParticipationFlow(e.target.value)}
+                        className="mr-2"
+                      />
+                      Invite only (you'll invite specific creators)
+                    </label>
+                  </div>
+                  <div className="p-3 bg-white border border-gray-200 rounded-lg">
+                    <label className="flex items-center">
+                      <input
+                        type="radio"
+                        name="participation-flow"
+                        value="application"
+                        checked={participationFlow === 'application'}
+                        onChange={(e) => setParticipationFlow(e.target.value)}
+                        className="mr-2"
+                      />
+                      Open application (creators can apply)
+                    </label>
+                  </div>
+                  <div className="p-3 bg-white border border-gray-200 rounded-lg">
+                    <label className="flex items-center">
+                      <input
+                        type="radio"
+                        name="participation-flow"
+                        value="first-come"
+                        checked={participationFlow === 'first-come'}
+                        onChange={(e) => setParticipationFlow(e.target.value)}
+                        className="mr-2"
+                      />
+                      First come, first served
+                    </label>
+                  </div>
                 </div>
               </div>
               
@@ -517,42 +553,44 @@ const CreateEventCollaborationPage = () => {
                     value={customQuestion}
                     onChange={(e) => setCustomQuestion(e.target.value)}
                     placeholder="What would you like to ask creators when they apply?"
-                    className="min-h-[80px]"
+                    className="min-h-[80px] bg-white resize-none"
                   />
                 </div>
               )}
             </div>
-          </section>
+          </div>
 
           {/* Available Days */}
-          <section>
-            <h2 className="text-lg font-semibold mb-4">Available Days</h2>
+          <div>
+            <div className="flex items-center space-x-2 mb-4">
+              <Clock className="w-5 h-5 text-orange-500" />
+              <h2 className="text-lg font-semibold">Available Days</h2>
+            </div>
             
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
               {days.map((day) => (
-                <div key={day.id} className="flex items-center space-x-2">
-                  <Checkbox
-                    id={day.id}
-                    checked={selectedDays.includes(day.id)}
-                    onCheckedChange={() => handleDayToggle(day.id)}
-                  />
-                  <label htmlFor={day.id} className="text-sm text-gray-700">
-                    {day.name}
-                  </label>
-                </div>
+                <button
+                  key={day.id}
+                  onClick={() => handleDayToggle(day.id)}
+                  className={`p-3 rounded-lg text-sm font-medium ${
+                    selectedDays.includes(day.id)
+                      ? 'bg-gray-900 text-white'
+                      : 'bg-white border border-gray-200 text-gray-600'
+                  }`}
+                >
+                  {day.name}
+                </button>
               ))}
             </div>
-          </section>
+          </div>
 
           {/* Create Button */}
-          <div className="pt-6">
-            <Button 
-              onClick={handleCreateEvent}
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg"
-            >
-              Create Event Invitation
-            </Button>
-          </div>
+          <Button 
+            onClick={handleCreateEvent}
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg"
+          >
+            Create Event Invitation
+          </Button>
         </div>
       </div>
     </div>
