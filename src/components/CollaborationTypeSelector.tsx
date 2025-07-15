@@ -29,7 +29,7 @@ const collaborationTypes = [
   },
   {
     id: 'event-invitation',
-    title: 'Event Invitation',
+    title: 'Event',
     description: 'Invite creators to special events, launches, or gatherings',
     icon: Calendar,
     isDefault: false
