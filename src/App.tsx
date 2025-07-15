@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { RestaurantProvider } from "@/contexts/RestaurantContext";
 import MainApp from "./pages/MainApp";
+import ProfilePage from "./pages/ProfilePage";
 import CollaborationsPage from "./pages/CollaborationsPage";
 import CreateCollaborationPage from "./pages/CreateCollaborationPage";
 import CreatePostalCollaborationPage from "./pages/CreatePostalCollaborationPage";
@@ -24,6 +25,7 @@ const App = () => (
           <Routes>
             <Route path="/" element={<MainApp />} />
             <Route path="/dashboard" element={<MainApp />} />
+            <Route path="/profile" element={<ProfilePage />} />
             <Route path="/collaborations" element={<CollaborationsPage />} />
             <Route path="/collaborations/create" element={<CreateCollaborationPage />} />
             <Route path="/collaborations/create-postal" element={<CreatePostalCollaborationPage />} />
