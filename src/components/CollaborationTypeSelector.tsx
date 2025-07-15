@@ -68,14 +68,45 @@ export const CollaborationTypeSelector = ({
           >
             {collaborationTypes.map((type) => {
               const IconComponent = type.icon;
+              
+              // Define colors based on collaboration type
+              const getColorClasses = (typeId: string, isSelected: boolean) => {
+                if (!isSelected) {
+                  return {
+                    card: 'border-gray-200 hover:border-gray-300',
+                    iconBg: 'bg-gray-100',
+                    iconColor: 'text-gray-600'
+                  };
+                }
+                
+                switch (typeId) {
+                  case 'product-sendout':
+                    return {
+                      card: 'border-orange-500 bg-orange-50',
+                      iconBg: 'bg-orange-100',
+                      iconColor: 'text-orange-600'
+                    };
+                  case 'event-invitation':
+                    return {
+                      card: 'border-green-500 bg-green-50',
+                      iconBg: 'bg-green-100',
+                      iconColor: 'text-green-600'
+                    };
+                  default: // influencer-visit
+                    return {
+                      card: 'border-blue-500 bg-blue-50',
+                      iconBg: 'bg-blue-100',
+                      iconColor: 'text-blue-600'
+                    };
+                }
+              };
+              
+              const colors = getColorClasses(type.id, selectedType === type.id);
+              
               return (
                 <Card 
                   key={type.id} 
-                  className={`cursor-pointer transition-all border-2 ${
-                    selectedType === type.id 
-                      ? 'border-blue-500 bg-blue-50' 
-                      : 'border-gray-200 hover:border-gray-300'
-                  }`}
+                  className={`cursor-pointer transition-all border-2 ${colors.card}`}
                   onClick={() => setSelectedType(type.id)}
                 >
                   <CardContent className="p-4">
@@ -85,12 +116,8 @@ export const CollaborationTypeSelector = ({
                         className="mt-1"
                       />
                       <div className="flex items-start space-x-3 flex-1">
-                        <div className={`p-2 rounded-lg ${
-                          selectedType === type.id ? 'bg-blue-100' : 'bg-gray-100'
-                        }`}>
-                          <IconComponent className={`w-5 h-5 ${
-                            selectedType === type.id ? 'text-blue-600' : 'text-gray-600'
-                          }`} />
+                        <div className={`p-2 rounded-lg ${colors.iconBg}`}>
+                          <IconComponent className={`w-5 h-5 ${colors.iconColor}`} />
                         </div>
                         <div className="flex-1">
                           <div className="flex items-center space-x-2">
