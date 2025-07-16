@@ -1,14 +1,10 @@
 
-import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Sheet, SheetContent } from '@/components/ui/sheet';
-import { Menu, Users } from 'lucide-react';
+import { Users } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useRestaurants } from '@/contexts/RestaurantContext';
-import ProfileSidebar from '@/components/ProfileSidebar';
 
 const MainApp = () => {
-  const [isProfileSidebarOpen, setIsProfileSidebarOpen] = useState(false);
   const navigate = useNavigate();
   const { restaurants, activeRestaurant } = useRestaurants();
 
@@ -34,17 +30,6 @@ const MainApp = () => {
               <div className="flex flex-col gap-3">
                 <Button 
                   onClick={() => {
-                    console.log('Opening restaurant menu...');
-                    setIsProfileSidebarOpen(true);
-                  }}
-                  className="bg-red-500 hover:bg-red-600 text-white"
-                >
-                  <Menu className="w-4 h-4 mr-2" />
-                  Open Restaurant Menu
-                </Button>
-                
-                <Button 
-                  onClick={() => {
                     console.log('Navigating to collaborations...');
                     navigate('/collaborations');
                   }}
@@ -59,13 +44,6 @@ const MainApp = () => {
           </div>
         </div>
       </div>
-
-      {/* Profile Sidebar Sheet */}
-      <Sheet open={isProfileSidebarOpen} onOpenChange={setIsProfileSidebarOpen}>
-        <SheetContent side="right" className="w-80 p-0">
-          <ProfileSidebar onClose={() => setIsProfileSidebarOpen(false)} />
-        </SheetContent>
-      </Sheet>
     </div>
   );
 };
