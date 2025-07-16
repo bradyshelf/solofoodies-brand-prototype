@@ -427,7 +427,7 @@ const CreatePostalCollaborationPage = () => {
                       {form.watch('productName') || 'Nombre del producto'}
                     </div>
                     <div className="flex items-center space-x-2">
-                      <Package className="w-4 h-4" />
+                      <Package className="w-4 h-4 text-orange-500" />
                       <span className="text-sm">Cantidad: {form.watch('quantityPerCreator') || 1}</span>
                     </div>
                     {form.watch('retailValue') && (
@@ -437,7 +437,7 @@ const CreatePostalCollaborationPage = () => {
                       </div>
                     )}
                     <div className="flex items-center space-x-2">
-                      <Globe className="w-4 h-4" />
+                      <Globe className="w-4 h-4 text-orange-500" />
                       <span className="text-sm">
                         {watchedShippingScope === 'global' 
                           ? 'Envío mundial' 
