@@ -417,6 +417,55 @@ const CreatePostalCollaborationPage = () => {
               </div>
             </div>
 
+            {/* Preview Section */}
+            <div className="bg-gray-50 rounded-lg p-6 border border-gray-200">
+              <h3 className="text-lg font-semibold mb-4">Preview</h3>
+              <div className="bg-white rounded-lg p-4 border border-gray-200">
+                {collaborationPhoto && (
+                  <div className="mb-4">
+                    <img 
+                      src={collaborationPhoto} 
+                      alt="Collaboration" 
+                      className="w-full h-48 object-cover rounded-lg"
+                    />
+                  </div>
+                )}
+                
+                <div className="space-y-3">
+                  <div>
+                    <h4 className="font-semibold text-gray-900">
+                      {form.watch('productName') || 'Product Name'}
+                    </h4>
+                    <p className="text-sm text-gray-600 mt-1">
+                      {form.watch('description') || 'Product description will appear here...'}
+                    </p>
+                  </div>
+                  
+                  <div className="flex items-center space-x-4 text-sm text-gray-600">
+                    <div className="flex items-center space-x-1">
+                      <Package className="w-4 h-4" />
+                      <span>Qty: {form.watch('quantityPerCreator') || 1}</span>
+                    </div>
+                    {form.watch('retailValue') && (
+                      <div className="flex items-center space-x-1">
+                        <span>Value: €{form.watch('retailValue')}</span>
+                      </div>
+                    )}
+                  </div>
+                  
+                  <div className="flex items-center space-x-1 text-sm text-gray-600">
+                    <Globe className="w-4 h-4" />
+                    <span>
+                      {watchedShippingScope === 'global' 
+                        ? 'Ships worldwide' 
+                        : `Ships to ${selectedCountries.length} selected countries`
+                      }
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             {/* Submit Button */}
             <Button 
               type="submit" 
