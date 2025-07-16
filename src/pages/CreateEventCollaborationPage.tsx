@@ -165,14 +165,97 @@ const CreateEventCollaborationPage = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Ubicación del evento
-              </label>
-              <Input
-                value={eventLocation}
-                onChange={(e) => setEventLocation(e.target.value)}
-                placeholder="Dirección completa del evento"
-              />
+              <div className="flex items-center space-x-2 mb-4">
+                <MapPin className="w-5 h-5 text-orange-500" />
+                <h3 className="text-lg font-semibold">Ubicación del evento</h3>
+              </div>
+              
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Nombre del lugar *
+                  </label>
+                  <Input
+                    value={eventLocation}
+                    onChange={(e) => setEventLocation(e.target.value)}
+                    placeholder="Ej: Malasaña"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Dirección *
+                  </label>
+                  <Input
+                    value={eventLocation}
+                    onChange={(e) => setEventLocation(e.target.value)}
+                    placeholder="Ej: Calle Mayor, 15"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    País *
+                  </label>
+                  <select className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent">
+                    <option value="">Selecciona</option>
+                    <option value="spain">España</option>
+                    <option value="mexico">México</option>
+                    <option value="argentina">Argentina</option>
+                    <option value="colombia">Colombia</option>
+                    <option value="peru">Perú</option>
+                    <option value="chile">Chile</option>
+                  </select>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Ciudad *
+                    </label>
+                    <select className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent">
+                      <option value="">Selecciona</option>
+                      <option value="madrid">Madrid</option>
+                      <option value="barcelona">Barcelona</option>
+                      <option value="valencia">Valencia</option>
+                      <option value="sevilla">Sevilla</option>
+                      <option value="bilbao">Bilbao</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Provincia *
+                    </label>
+                    <select className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent">
+                      <option value="">Selecciona</option>
+                      <option value="madrid">Madrid</option>
+                      <option value="barcelona">Barcelona</option>
+                      <option value="valencia">Valencia</option>
+                      <option value="andalucia">Andalucía</option>
+                      <option value="pais-vasco">País Vasco</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Persona de contacto *
+                  </label>
+                  <Input
+                    placeholder="Ej: María García"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Teléfono *
+                  </label>
+                  <Input
+                    type="tel"
+                    placeholder="Ej: 912345678"
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </div>
