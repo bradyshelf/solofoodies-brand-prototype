@@ -152,7 +152,7 @@ const CreatePostalCollaborationPage = () => {
           >
             <ArrowLeft className="w-5 h-5 text-gray-600" />
           </button>
-          <h1 className="text-lg font-semibold text-gray-900">Create Product Send-Out</h1>
+          <h1 className="text-lg font-semibold text-gray-900">Create Delivery</h1>
         </div>
       </div>
 
