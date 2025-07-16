@@ -5,6 +5,7 @@ import { Search, Plus, Pause, Play, ChevronDown, ChevronUp, MapPin, Users, Calen
 import { useNavigate } from 'react-router-dom';
 import { CollaborationTypeSelector } from '@/components/CollaborationTypeSelector';
 import { PauseCollaborationDialog } from '@/components/PauseCollaborationDialog';
+import DeleteCollaborationDialog from '@/components/DeleteCollaborationDialog';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 
 const CollaborationsPage = () => {
@@ -12,6 +13,8 @@ const CollaborationsPage = () => {
   const [showTypeSelector, setShowTypeSelector] = useState(false);
   const [showPauseDialog, setShowPauseDialog] = useState(false);
   const [collaborationToPause, setCollaborationToPause] = useState<number | null>(null);
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [collaborationToDelete, setCollaborationToDelete] = useState<number | null>(null);
   const [pausedCollaborationsOpen, setPausedCollaborationsOpen] = useState(false);
   
   // Mock data for active and paused collaborations
@@ -84,6 +87,21 @@ const CollaborationsPage = () => {
       setPausedCollaborations(prev => prev.filter(c => c.id !== collaborationId));
       setActiveCollaborations(prev => [...prev, collaboration]);
     }
+  };
+
+  const handleDeleteClick = (collaborationId: number) => {
+    setCollaborationToDelete(collaborationId);
+    setShowDeleteDialog(true);
+  };
+
+  const handleDeleteConfirm = () => {
+    if (collaborationToDelete !== null) {
+      // Remove from both active and paused collaborations
+      setActiveCollaborations(prev => prev.filter(c => c.id !== collaborationToDelete));
+      setPausedCollaborations(prev => prev.filter(c => c.id !== collaborationToDelete));
+    }
+    setShowDeleteDialog(false);
+    setCollaborationToDelete(null);
   };
 
   const getCollaborationTypeInfo = (type: string) => {
@@ -255,7 +273,10 @@ const CollaborationsPage = () => {
                             >
                               <Pause className="w-4 h-4 text-yellow-500" />
                             </button>
-                            <button className="hover:text-gray-600">
+                            <button 
+                              className="hover:text-red-600"
+                              onClick={() => handleDeleteClick(collaboration.id)}
+                            >
                               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                               </svg>
@@ -330,7 +351,10 @@ const CollaborationsPage = () => {
                             >
                               <Play className="w-4 h-4 text-green-500" />
                             </button>
-                            <button className="hover:text-gray-600">
+                            <button 
+                              className="hover:text-red-600"
+                              onClick={() => handleDeleteClick(collaboration.id)}
+                            >
                               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                               </svg>
@@ -386,6 +410,20 @@ const CollaborationsPage = () => {
           collaborationToPause 
             ? activeCollaborations.find(c => c.id === collaborationToPause)?.title 
             : undefined
+        }
+      />
+      
+      {/* Delete Collaboration Dialog */}
+      <DeleteCollaborationDialog
+        isOpen={showDeleteDialog}
+        onClose={() => setShowDeleteDialog(false)}
+        onConfirm={handleDeleteConfirm}
+        collaborationTitle={
+          collaborationToDelete 
+            ? (activeCollaborations.find(c => c.id === collaborationToDelete)?.title || 
+               pausedCollaborations.find(c => c.id === collaborationToDelete)?.title || 
+               'Colaboración')
+            : 'Colaboración'
         }
       />
     </div>
