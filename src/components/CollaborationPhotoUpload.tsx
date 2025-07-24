@@ -66,8 +66,8 @@ export const CollaborationPhotoUpload = ({
         URL.revokeObjectURL(objectUrl);
         
         // Check minimum dimensions
-        if (img.width < 800 || img.height < 450) {
-          alert('La imagen debe tener al menos 800x450 píxeles (16:9)');
+        if (img.width < 600 || img.height < 600) {
+          alert('La imagen debe tener al menos 600x600 píxeles (formato cuadrado)');
           setIsUploading(false);
           return;
         }
@@ -113,6 +113,11 @@ export const CollaborationPhotoUpload = ({
         <Camera className="w-5 h-5 text-orange-500" />
         <h2 className="text-lg font-semibold">Foto de la Colaboración</h2>
       </div>
+      <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-4">
+        <p className="text-sm text-blue-800">
+          <span className="font-medium">Vista previa para foodies:</span> Esta imagen aparecerá en formato cuadrado para los foodies
+        </p>
+      </div>
 
       {value ? (
         <Card className="relative">
@@ -121,8 +126,7 @@ export const CollaborationPhotoUpload = ({
               <img 
                 src={value} 
                 alt="Collaboration photo" 
-                className="w-full h-48 object-cover rounded-lg"
-                style={{ aspectRatio: '16/9' }}
+                className="w-full max-w-sm mx-auto aspect-square object-cover rounded-lg"
               />
               <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-all duration-200 rounded-lg flex items-center justify-center">
                 <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex space-x-2">
@@ -182,7 +186,7 @@ export const CollaborationPhotoUpload = ({
                   Arrastra una imagen aquí o haz clic para seleccionar
                 </p>
                 <p className="text-xs text-gray-500">
-                  Formato 16:9 • Mínimo 800x450px • PNG, JPG hasta 2MB
+                  Formato cuadrado • Mínimo 600x600px • PNG, JPG hasta 2MB
                 </p>
               </div>
               <Button 
@@ -207,7 +211,7 @@ export const CollaborationPhotoUpload = ({
       />
       
       <p className="text-xs text-gray-500">
-        Sube una imagen en formato 16:9 (mínimo 800x450 píxeles) que represente tu colaboración. Esto ayudará a los foodies a entender mejor tu propuesta.
+        Sube una imagen en formato cuadrado (mínimo 600x600 píxeles) que represente tu colaboración. Esto ayudará a los foodies a entender mejor tu propuesta.
       </p>
     </div>
   );
