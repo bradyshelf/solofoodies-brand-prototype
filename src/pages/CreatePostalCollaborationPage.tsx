@@ -213,7 +213,7 @@ const CreatePostalCollaborationPage = () => {
                   name="description"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Short Description *</FormLabel>
+                      <FormLabel>Requisitos *</FormLabel>
                       <FormControl>
                         <Textarea
                           placeholder="Brief description of the product and what you'd like creators to highlight..."

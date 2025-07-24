@@ -294,7 +294,7 @@ const CreateCollaborationPage = () => {
         <div className="bg-gray-50 rounded-lg p-6 border border-gray-200">
           <div className="flex items-center space-x-2 mb-4">
             <span className="text-orange-500">📝</span>
-            <h2 className="text-lg font-semibold">Descripción</h2>
+            <h2 className="text-lg font-semibold">Requisitos</h2>
           </div>
           
           <div>
