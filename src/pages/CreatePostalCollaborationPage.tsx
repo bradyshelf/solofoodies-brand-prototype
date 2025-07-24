@@ -10,7 +10,7 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import { ArrowLeft, Package, Globe, MapPin, X, Search, Check, Users, Plus, Minus } from 'lucide-react';
+import { ArrowLeft, Package, Globe, MapPin, X, Search, Check, Users, Plus, Minus, Euro } from 'lucide-react';
 import { Checkbox } from '@/components/ui/checkbox';
 import { CollaborationPhotoUpload } from '@/components/CollaborationPhotoUpload';
 
@@ -463,7 +463,7 @@ const CreatePostalCollaborationPage = () => {
                     
                     {form.watch('retailValue') && (
                       <div className="flex items-center space-x-2">
-                        <span className="text-sm">💰</span>
+                        <Euro className="w-4 h-4 text-orange-500" />
                         <span className="text-sm">Valor: €{form.watch('retailValue')}</span>
                       </div>
                     )}
