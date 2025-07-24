@@ -459,35 +459,67 @@ const CreatePostalCollaborationPage = () => {
               <h3 className="font-semibold mb-4">Vista previa</h3>
               <Card className="bg-gray-900 text-white">
                 <CardContent className="p-4">
-                  <div className="space-y-2">
+                  <div className="space-y-3">
                     <div className="font-semibold text-lg">
                       {form.watch('productName') || 'Nombre del producto'}
                     </div>
+                    
+                    {form.watch('description') && (
+                      <div className="text-sm text-gray-300">
+                        <span className="font-medium">Requisitos: </span>
+                        {form.watch('description')}
+                      </div>
+                    )}
+                    
                     <div className="flex items-center space-x-2">
                       <Package className="w-4 h-4 text-orange-500" />
                       <span className="text-sm">Cantidad: {form.watch('quantityPerCreator') || 1}</span>
                     </div>
+                    
                     {form.watch('retailValue') && (
                       <div className="flex items-center space-x-2">
                         <span className="text-sm">💰</span>
                         <span className="text-sm">Valor: €{form.watch('retailValue')}</span>
                       </div>
                     )}
-                    <div className="flex items-center space-x-2">
-                      <Globe className="w-4 h-4 text-orange-500" />
-                      <span className="text-sm">
-                        {watchedShippingScope === 'global' 
-                          ? 'Envío mundial' 
-                          : `Envío a ${selectedCountries.length} países seleccionados`
-                        }
-                      </span>
-                    </div>
+                    
                     {form.watch('productVariations') && (
                       <div className="flex items-center space-x-2">
                         <span className="text-sm">🎨</span>
                         <span className="text-sm">Variaciones: {form.watch('productVariations')}</span>
                       </div>
                     )}
+                    
+                    {form.watch('zoneName') && (
+                      <div className="flex items-center space-x-2">
+                        <MapPin className="w-4 h-4 text-orange-500" />
+                        <span className="text-sm">Zona: {form.watch('zoneName')}</span>
+                      </div>
+                    )}
+                    
+                    <div className="flex items-center space-x-2">
+                      <Globe className="w-4 h-4 text-orange-500" />
+                      <span className="text-sm">
+                        {watchedShippingScope === 'global' 
+                          ? 'Envío mundial' 
+                          : selectedCountries.length > 0
+                            ? `Envío a ${selectedCountries.map(code => countries.find(c => c.code === code)?.name).join(', ')}`
+                            : 'Seleccionar países'
+                        }
+                      </span>
+                    </div>
+                    
+                    {selectedCities.length > 0 && (
+                      <div className="flex items-center space-x-2">
+                        <span className="text-sm">🏙️</span>
+                        <span className="text-sm">Ciudades: {selectedCities.join(', ')}</span>
+                      </div>
+                    )}
+                    
+                    <div className="flex items-center space-x-2">
+                      <Users className="w-4 h-4 text-orange-500" />
+                      <span className="text-sm">Máximo {maxApplicants} participantes</span>
+                    </div>
                   </div>
                 </CardContent>
               </Card>
