@@ -646,23 +646,23 @@ const CreateEventCollaborationPage = () => {
                   {eventName || 'Nombre del evento'}
                 </div>
                 <div className="flex items-center space-x-2">
-                  <MapPin className="w-4 h-4" />
+                  <MapPin className="w-4 h-4 text-orange-500" />
                   <span className="text-sm">{eventLocation || 'Ubicación'}</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <Calendar className="w-4 h-4" />
+                  <Calendar className="w-4 h-4 text-orange-500" />
                   <span className="text-sm">{eventDate || 'Fecha'}</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <Clock className="w-4 h-4" />
+                  <Clock className="w-4 h-4 text-orange-500" />
                   <span className="text-sm">{startTime && endTime ? `${startTime} - ${endTime}` : 'Horario'}</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <Users className="w-4 h-4" />
+                  <Users className="w-4 h-4 text-orange-500" />
                   <span className="text-sm">{guestCap ? `Máx. ${guestCap} invitados` : 'Sin límite'}</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <Users className="w-4 h-4" />
+                  <Users className="w-4 h-4 text-orange-500" />
                   <span className="text-sm">Foodie +{additionalGuests} acompañantes máx.</span>
                 </div>
               </div>
