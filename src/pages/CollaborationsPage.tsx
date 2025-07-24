@@ -256,7 +256,10 @@ const CollaborationsPage = () => {
                                 {typeInfo.label}
                               </span>
                             </div>
-                            <p className="text-gray-600 text-sm mb-3">{collaboration.description}</p>
+                            <p className="text-gray-600 text-sm mb-3">
+                              <span className="font-medium">Requisitos: </span>
+                              {collaboration.description}
+                            </p>
                           </div>
                           <div className="flex items-center space-x-2 text-gray-400">
                             {collaboration.type === 'event-invitation' && (
