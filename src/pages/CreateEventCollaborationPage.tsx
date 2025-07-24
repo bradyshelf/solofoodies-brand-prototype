@@ -36,7 +36,7 @@ const CreateEventCollaborationPage = () => {
   const [compensation, setCompensation] = useState('');
   const [participationFlow, setParticipationFlow] = useState('invite-only');
   const [customQuestion, setCustomQuestion] = useState('');
-  const [maxApplicants, setMaxApplicants] = useState(10);
+  
   const [collaborationPhoto, setCollaborationPhoto] = useState<string | null>(null);
 
   const eventTypes = [
@@ -410,29 +410,6 @@ const CreateEventCollaborationPage = () => {
                   </div>
                 </div>
 
-                <div>
-                  <p className="text-sm text-gray-600 mb-4">Máximo de solicitudes</p>
-                  <div className="flex items-center justify-center space-x-6">
-                    <button
-                      onClick={() => setMaxApplicants(Math.max(1, maxApplicants - 1))}
-                      className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center"
-                    >
-                      <Minus className="w-5 h-5" />
-                    </button>
-                    
-                    <div className="text-center">
-                      <div className="text-2xl font-bold">{maxApplicants}</div>
-                      <div className="text-sm text-orange-500">Solicitudes máx</div>
-                    </div>
-                    
-                    <button
-                      onClick={() => setMaxApplicants(maxApplicants + 1)}
-                      className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center"
-                    >
-                      <Plus className="w-5 h-5" />
-                    </button>
-                  </div>
-                </div>
               </div>
             </div>
 

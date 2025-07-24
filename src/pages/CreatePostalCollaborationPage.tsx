@@ -55,7 +55,7 @@ const CreatePostalCollaborationPage = () => {
   const [selectedCities, setSelectedCities] = useState<string[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
-  const [maxApplicants, setMaxApplicants] = useState(10);
+  
   const [collaborationPhoto, setCollaborationPhoto] = useState<string | null>(null);
 
   const form = useForm<PostalCollaborationForm>({
@@ -413,43 +413,6 @@ const CreatePostalCollaborationPage = () => {
                     </div>
             </div>
 
-            <div className="border-t border-gray-200 my-8"></div>
-
-            {/* Max Applicants Section */}
-            <div className="bg-white rounded-lg p-6 border border-gray-200">
-              <div className="flex items-center space-x-2 mb-4">
-                <Users className="w-5 h-5 text-orange-500" />
-                <h2 className="text-lg font-semibold">Participantes</h2>
-              </div>
-              
-              <div>
-                <p className="text-sm text-gray-600 mb-4">Máximo de solicitudes</p>
-                <div className="flex items-center justify-center space-x-6">
-                  <button
-                    type="button"
-                    onClick={() => setMaxApplicants(Math.max(1, maxApplicants - 1))}
-                    className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center"
-                  >
-                    <Minus className="w-5 h-5" />
-                  </button>
-                  
-                  <div className="text-center">
-                    <div className="text-2xl font-bold">{maxApplicants}</div>
-                    <div className="text-sm text-orange-500">Solicitudes máx</div>
-                  </div>
-                  
-                  <button
-                    type="button"
-                    onClick={() => setMaxApplicants(maxApplicants + 1)}
-                    className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center"
-                  >
-                    <Plus className="w-5 h-5" />
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            <div className="border-t border-gray-200 my-8"></div>
                 </div>
               </div>
             </div>
@@ -516,10 +479,6 @@ const CreatePostalCollaborationPage = () => {
                       </div>
                     )}
                     
-                    <div className="flex items-center space-x-2">
-                      <Users className="w-4 h-4 text-orange-500" />
-                      <span className="text-sm">Máximo {maxApplicants} participantes</span>
-                    </div>
                   </div>
                 </CardContent>
               </Card>
