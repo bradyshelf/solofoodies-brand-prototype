@@ -15,22 +15,22 @@ interface CollaborationTypeSelectorProps {
 const collaborationTypes = [
   {
     id: 'influencer-visit',
-    title: 'Influencer Visit',
-    description: 'Invite creators to visit your restaurant for a dining experience',
+    title: 'Visita de Influencer',
+    description: 'Invita a creadores a visitar tu restaurante para una experiencia gastronómica',
     icon: Users,
     isDefault: true
   },
   {
     id: 'product-sendout',
-    title: 'Delivery',
-    description: 'Send products to creators for unboxing and review content',
+    title: 'Envío',
+    description: 'Envía productos a creadores para contenido de unboxing y reseñas',
     icon: Package,
     isDefault: false
   },
   {
     id: 'event-invitation',
-    title: 'Event',
-    description: 'Invite creators to special events, launches, or gatherings',
+    title: 'Evento',
+    description: 'Invita a creadores a eventos especiales, lanzamientos o reuniones',
     icon: Calendar,
     isDefault: false
   }
