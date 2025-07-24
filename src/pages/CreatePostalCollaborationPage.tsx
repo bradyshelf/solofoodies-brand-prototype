@@ -57,6 +57,7 @@ const CreatePostalCollaborationPage = () => {
   const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
   
   const [collaborationPhoto, setCollaborationPhoto] = useState<string | null>(null);
+  const [requirements, setRequirements] = useState('');
 
   const form = useForm<PostalCollaborationForm>({
     resolver: zodResolver(postalCollaborationSchema),
@@ -296,6 +297,27 @@ const CreatePostalCollaborationPage = () => {
 
             <div className="border-t border-gray-200 my-8"></div>
 
+            {/* Requirements Section */}
+            <div className="bg-gray-50 rounded-lg p-6 border border-gray-200">
+              <div className="flex items-center space-x-2 mb-4">
+                <span className="text-orange-500">📝</span>
+                <h2 className="text-lg font-semibold">Requisitos</h2>
+              </div>
+              
+              <div>
+                <p className="text-sm text-gray-600 mb-2">Describe lo que esperas de esta colaboración</p>
+                <Textarea
+                  placeholder="Describe lo que esperas de esta colaboración"
+                  value={requirements}
+                  onChange={(e) => setRequirements(e.target.value)}
+                  className="min-h-[100px]"
+                />
+                <div className="text-right text-xs text-gray-400 mt-1">{requirements.length}/500</div>
+              </div>
+            </div>
+
+            <div className="border-t border-gray-200 my-8"></div>
+
             {/* Shipping Information */}
             <div className="bg-gray-50 rounded-lg p-6 border border-gray-200">
               <div className="flex items-center space-x-2 mb-4">
@@ -477,7 +499,15 @@ const CreatePostalCollaborationPage = () => {
                         <span className="text-sm">🏙️</span>
                         <span className="text-sm">Ciudades: {selectedCities.join(', ')}</span>
                       </div>
-                    )}
+                     )}
+                     
+                     {requirements && (
+                       <div className="text-sm text-gray-300">
+                         <span className="font-medium">Requisitos adicionales: </span>
+                         {requirements}
+                       </div>
+                     )}
+                     
                     
                   </div>
                 </CardContent>
