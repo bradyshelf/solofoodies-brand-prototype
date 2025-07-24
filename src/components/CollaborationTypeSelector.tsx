@@ -22,7 +22,7 @@ const collaborationTypes = [
   },
   {
     id: 'product-sendout',
-    title: 'Envío',
+    title: 'Delivery',
     description: 'Envía productos a creadores para contenido de unboxing y reseñas',
     icon: Package,
     isDefault: false
