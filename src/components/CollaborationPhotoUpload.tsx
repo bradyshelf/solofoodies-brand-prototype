@@ -126,7 +126,7 @@ export const CollaborationPhotoUpload = ({
               <img 
                 src={value} 
                 alt="Collaboration photo" 
-                className="w-full max-w-sm mx-auto aspect-square object-cover rounded-lg"
+                className="w-full max-w-sm mx-auto aspect-video object-cover rounded-lg"
               />
               <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-all duration-200 rounded-lg flex items-center justify-center">
                 <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex space-x-2">
