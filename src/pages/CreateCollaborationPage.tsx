@@ -318,19 +318,19 @@ const CreateCollaborationPage = () => {
             <CardContent className="p-4">
               <div className="space-y-2">
                 <div className="flex items-center space-x-2">
-                  <MapPin className="w-4 h-4" />
+                  <MapPin className="w-4 h-4 text-orange-500" />
                   <span className="text-sm">Local Valencia</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <Users className="w-4 h-4" />
+                  <Users className="w-4 h-4 text-orange-500" />
                   <span className="text-sm">Mín. {minFollowers[0]}k seguidores</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <Users className="w-4 h-4" />
+                  <Users className="w-4 h-4 text-orange-500" />
                   <span className="text-sm">Foodie +{foodieCount} acompañantes máx.</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <Percent className="w-4 h-4" />
+                  <Percent className="w-4 h-4 text-orange-500" />
                   <span className="text-sm">
                     {creditType === 'percentage' ? `${discountPercentage[0]}% Descuento` : `${discountPercentage[0]}€ Crédito`}
                   </span>
