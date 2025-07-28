@@ -586,53 +586,6 @@ const CreateEventCollaborationPage = () => {
           </div>
         </div>
 
-        <div className="border-t border-gray-200 my-8"></div>
-
-        {/* Participation Flow */}
-        <div className="bg-gray-50 rounded-lg p-6 border border-gray-200">
-          <div className="flex items-center space-x-2 mb-4">
-            <span className="text-orange-500">🙋‍♀️</span>
-            <h2 className="text-lg font-semibold">Flujo de Participación</h2>
-          </div>
-          
-          <div className="space-y-4">
-            <div className="flex space-x-2">
-              <button
-                onClick={() => setParticipationFlow('invite-only')}
-                className={`px-4 py-2 rounded-lg text-sm font-medium ${
-                  participationFlow === 'invite-only'
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-gray-100 text-gray-600'
-                }`}
-              >
-                Solo por invitación
-              </button>
-              <button
-                onClick={() => setParticipationFlow('open-applications')}
-                className={`px-4 py-2 rounded-lg text-sm font-medium ${
-                  participationFlow === 'open-applications'
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-gray-100 text-gray-600'
-                }`}
-              >
-                Aplicaciones abiertas
-              </button>
-            </div>
-
-            {participationFlow === 'open-applications' && (
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Pregunta personalizada (opcional)
-                </label>
-                <Input
-                  value={customQuestion}
-                  onChange={(e) => setCustomQuestion(e.target.value)}
-                  placeholder="Ej: Cuéntanos por qué te gustaría unirte a este evento"
-                />
-              </div>
-            )}
-          </div>
-        </div>
 
         <div className="border-t border-gray-200 my-8"></div>
 
