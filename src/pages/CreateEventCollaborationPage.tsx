@@ -550,28 +550,6 @@ const CreateEventCollaborationPage = () => {
               />
             </div>
 
-            <div className="flex items-center space-x-3">
-              <Checkbox
-                checked={isPaidCollab}
-                onCheckedChange={(checked) => setIsPaidCollab(!!checked)}
-              />
-              <label className="text-sm font-medium text-gray-700">
-                Colaboración pagada
-              </label>
-            </div>
-
-            {isPaidCollab && (
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Compensación
-                </label>
-                <Input
-                  value={compensation}
-                  onChange={(e) => setCompensation(e.target.value)}
-                  placeholder="Ej: 500€ por creador, productos valorados en 200€"
-                />
-              </div>
-            )}
           </div>
         </div>
 
