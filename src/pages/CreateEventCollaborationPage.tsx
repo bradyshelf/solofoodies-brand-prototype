@@ -366,17 +366,6 @@ const CreateEventCollaborationPage = () => {
               />
             </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Número máximo de invitados
-              </label>
-              <Input
-                type="number"
-                value={guestCap}
-                onChange={(e) => setGuestCap(e.target.value)}
-                placeholder="Ej: 50"
-              />
-            </div>
 
             {/* Additional Guests Section */}
             <div>
