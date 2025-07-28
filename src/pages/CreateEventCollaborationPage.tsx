@@ -468,29 +468,6 @@ const CreateEventCollaborationPage = () => {
               />
             </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                ¿Se fomenta la creación de contenido?
-              </label>
-              <div className="flex space-x-2">
-                {[
-                  { id: 'yes', name: 'Sí' },
-                  { id: 'no', name: 'No' }
-                ].map((option) => (
-                  <button
-                    key={option.id}
-                    onClick={() => setContentCreationEncouraged(option.id)}
-                    className={`px-4 py-2 rounded-lg text-sm font-medium ${
-                      contentCreationEncouraged === option.id
-                        ? 'bg-blue-600 text-white'
-                        : 'bg-gray-100 text-gray-600'
-                    }`}
-                  >
-                    {option.name}
-                  </button>
-                ))}
-              </div>
-            </div>
           </div>
         </div>
 
