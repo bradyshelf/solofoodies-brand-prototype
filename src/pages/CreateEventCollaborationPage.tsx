@@ -402,15 +402,6 @@ const CreateEventCollaborationPage = () => {
               </div>
             </div>
 
-            <div className="flex items-center space-x-3">
-              <Checkbox
-                checked={canBringPlusOne}
-                onCheckedChange={(checked) => setCanBringPlusOne(!!checked)}
-              />
-              <label className="text-sm font-medium text-gray-700">
-                ¿Pueden los creadores traer un acompañante?
-              </label>
-            </div>
           </div>
         </div>
 
