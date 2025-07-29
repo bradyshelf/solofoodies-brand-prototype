@@ -96,12 +96,29 @@ const CreatePostalCollaborationPage = () => {
   };
 
   const handleCountryToggle = (countryCode: string) => {
-    const updatedCountries = selectedCountries.includes(countryCode)
+    const isCurrentlySelected = selectedCountries.includes(countryCode);
+    const updatedCountries = isCurrentlySelected
       ? selectedCountries.filter(c => c !== countryCode)
       : [...selectedCountries, countryCode];
     
     setSelectedCountries(updatedCountries);
     form.setValue('selectedCountry', updatedCountries[0] || '');
+    
+    // Auto-select or deselect all cities for this country
+    const countryCities = citiesByCountry[countryCode] || [];
+    let updatedCities = [...selectedCities];
+    
+    if (isCurrentlySelected) {
+      // Remove all cities from this country
+      updatedCities = updatedCities.filter(city => !countryCities.includes(city));
+    } else {
+      // Add all cities from this country
+      const citiesToAdd = countryCities.filter(city => !updatedCities.includes(city));
+      updatedCities = [...updatedCities, ...citiesToAdd];
+    }
+    
+    setSelectedCities(updatedCities);
+    form.setValue('selectedCities', updatedCities);
     
     // If switching to specific countries mode, update shipping scope
     if (updatedCountries.length > 0) {
