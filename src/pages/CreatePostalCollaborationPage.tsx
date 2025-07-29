@@ -10,7 +10,7 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import { ArrowLeft, Package, Globe, MapPin, X, Search, Check, Users, Plus, Minus, Euro } from 'lucide-react';
+import { ArrowLeft, Package, Globe, MapPin, X, Search, Check, Users, Plus, Minus, Euro, ChevronDown } from 'lucide-react';
 import { Checkbox } from '@/components/ui/checkbox';
 import { CollaborationPhotoUpload } from '@/components/CollaborationPhotoUpload';
 
@@ -55,6 +55,7 @@ const CreatePostalCollaborationPage = () => {
   const [selectedCities, setSelectedCities] = useState<string[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
+  const [dropdownOpenCountries, setDropdownOpenCountries] = useState<string[]>([]);
   
   const [collaborationPhoto, setCollaborationPhoto] = useState<string | null>(null);
   const [requirements, setRequirements] = useState('');
@@ -158,6 +159,15 @@ const CreatePostalCollaborationPage = () => {
 
   const getTotalCitiesCount = (countryCode: string) => {
     return citiesByCountry[countryCode]?.length || 0;
+  };
+
+  const handleDropdownToggle = (countryCode: string) => {
+    const isOpen = dropdownOpenCountries.includes(countryCode);
+    if (isOpen) {
+      setDropdownOpenCountries(dropdownOpenCountries.filter(c => c !== countryCode));
+    } else {
+      setDropdownOpenCountries([...dropdownOpenCountries, countryCode]);
+    }
   };
 
   return (
@@ -397,15 +407,50 @@ const CreatePostalCollaborationPage = () => {
                               <span className="font-medium">{country.name}</span>
                             </div>
                           </div>
-                          <div className="text-sm text-gray-500">
-                            {selectedCountries.includes(country.code) && 
-                              `${getSelectedCitiesCount(country.code)} de ${getTotalCitiesCount(country.code)} provincias`
-                            }
+                          <div className="flex items-center space-x-2">
+                            <div className="text-sm text-gray-500">
+                              {selectedCountries.includes(country.code) 
+                                ? `${getSelectedCitiesCount(country.code)} de ${getTotalCitiesCount(country.code)} provincias`
+                                : `${getTotalCitiesCount(country.code)} provincias`
+                              }
+                            </div>
+                            <button
+                              type="button"
+                              onClick={() => handleDropdownToggle(country.code)}
+                              className="p-1 hover:bg-gray-200 rounded"
+                            >
+                              <ChevronDown className={`w-4 h-4 text-gray-400 transition-transform ${
+                                dropdownOpenCountries.includes(country.code) ? 'rotate-180' : ''
+                              }`} />
+                            </button>
                           </div>
                         </div>
 
-                        {/* Cities for selected country - shows for ANY selected country */}
-                        {selectedCountries.includes(country.code) && (
+                        {/* Cities dropdown - shows when dropdown is open */}
+                        {dropdownOpenCountries.includes(country.code) && (
+                          <div className="px-12 pb-4 bg-gray-50">
+                            <div className="grid grid-cols-2 gap-2">
+                              {citiesByCountry[country.code]?.map((city) => (
+                                <div key={city} className="flex items-center space-x-2">
+                                  <Checkbox
+                                    id={`${country.code}-${city}`}
+                                    checked={selectedCities.includes(city)}
+                                    onCheckedChange={() => handleCityToggle(city)}
+                                  />
+                                  <label 
+                                    htmlFor={`${country.code}-${city}`} 
+                                    className="text-sm cursor-pointer"
+                                  >
+                                    {city}
+                                  </label>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Cities for selected country - shows when country is selected */}
+                        {selectedCountries.includes(country.code) && !dropdownOpenCountries.includes(country.code) && (
                           <div className="px-12 pb-4 bg-gray-50">
                             <div className="grid grid-cols-2 gap-2">
                               {citiesByCountry[country.code]?.map((city) => (
