@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -10,7 +10,7 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import { ArrowLeft, Package, Globe, MapPin, X, Search, Check, Users, Plus, Minus, Euro } from 'lucide-react';
+import { ArrowLeft, Package, Globe, MapPin, X, Search, Check, Users, Plus, Minus, Euro, ChevronDown } from 'lucide-react';
 import { Checkbox } from '@/components/ui/checkbox';
 import { CollaborationPhotoUpload } from '@/components/CollaborationPhotoUpload';
 
@@ -55,9 +55,22 @@ const CreatePostalCollaborationPage = () => {
   const [selectedCities, setSelectedCities] = useState<string[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   
   const [collaborationPhoto, setCollaborationPhoto] = useState<string | null>(null);
   const [requirements, setRequirements] = useState('');
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (openDropdown && !(event.target as Element).closest('[data-dropdown]')) {
+        setOpenDropdown(null);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [openDropdown]);
 
   const form = useForm<PostalCollaborationForm>({
     resolver: zodResolver(postalCollaborationSchema),
@@ -384,7 +397,7 @@ const CreatePostalCollaborationPage = () => {
                   {/* Countries List */}
                   <div className="border rounded-lg max-h-80 overflow-y-auto">
                     {filteredCountries.map((country) => (
-                      <div key={country.code} className="border-b last:border-b-0">
+                      <div key={country.code} className="border-b last:border-b-0 relative" data-dropdown>
                         <div className="flex items-center justify-between p-4 hover:bg-gray-50">
                           <div className="flex items-center space-x-3">
                             <Checkbox
@@ -397,27 +410,49 @@ const CreatePostalCollaborationPage = () => {
                               <span className="font-medium">{country.name}</span>
                             </div>
                           </div>
-                          <div className="text-sm text-gray-500">
-                            {selectedCountries.includes(country.code) && 
-                              `${getSelectedCitiesCount(country.code)} de ${getTotalCitiesCount(country.code)} provincias`
-                            }
+                          <div className="flex items-center space-x-3">
+                            <div className="text-sm text-gray-500">
+                              {selectedCountries.includes(country.code) && 
+                                `${getSelectedCitiesCount(country.code)} de ${getTotalCitiesCount(country.code)} provincias`
+                              }
+                              {!selectedCountries.includes(country.code) && 
+                                `0 de ${getTotalCitiesCount(country.code)} regiones`
+                              }
+                            </div>
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setOpenDropdown(openDropdown === country.code ? null : country.code);
+                              }}
+                              className="p-1 hover:bg-gray-200 rounded-md transition-colors"
+                            >
+                              <ChevronDown 
+                                className={`w-4 h-4 text-gray-400 transition-transform ${
+                                  openDropdown === country.code ? 'rotate-180' : ''
+                                }`}
+                              />
+                            </button>
                           </div>
                         </div>
 
-                        {/* Cities for selected country - shows for ANY selected country */}
-                        {selectedCountries.includes(country.code) && (
-                          <div className="px-12 pb-4 bg-gray-50">
-                            <div className="grid grid-cols-2 gap-2">
+                        {/* Dropdown Menu for Provinces */}
+                        {openDropdown === country.code && (
+                          <div className="absolute right-4 top-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg z-50 w-64 max-h-60 overflow-y-auto">
+                            <div className="p-2">
+                              <div className="text-xs text-gray-500 mb-2 px-2">
+                                Seleccionar provincias específicas
+                              </div>
                               {citiesByCountry[country.code]?.map((city) => (
-                                <div key={city} className="flex items-center space-x-2">
+                                <div key={city} className="flex items-center space-x-2 p-2 hover:bg-gray-50 rounded">
                                   <Checkbox
-                                    id={`${country.code}-${city}`}
+                                    id={`dropdown-${country.code}-${city}`}
                                     checked={selectedCities.includes(city)}
                                     onCheckedChange={() => handleCityToggle(city)}
                                   />
                                   <label 
-                                    htmlFor={`${country.code}-${city}`} 
-                                    className="text-sm cursor-pointer"
+                                    htmlFor={`dropdown-${country.code}-${city}`} 
+                                    className="text-sm cursor-pointer flex-1"
                                   >
                                     {city}
                                   </label>
