@@ -4,22 +4,22 @@ import { ExternalLink, Github } from 'lucide-react';
 const Projects = () => {
   const projects = [
     {
-      title: "E-Commerce Platform",
-      description: "A modern, scalable e-commerce solution with advanced features and seamless user experience.",
+      title: "Plataforma E-Commerce",
+      description: "Una solución de comercio electrónico moderna y escalable con características avanzadas y experiencia de usuario perfecta.",
       image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=800&q=80",
       tags: ["React", "Node.js", "MongoDB"],
       color: "from-blue-500 to-cyan-500"
     },
     {
-      title: "Portfolio Website",
-      description: "A stunning portfolio showcase with interactive elements and smooth animations.",
+      title: "Sitio Web Portafolio",
+      description: "Una vitrina de portafolio impresionante con elementos interactivos y animaciones suaves.",
       image: "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?auto=format&fit=crop&w=800&q=80",
       tags: ["Next.js", "Tailwind", "Framer Motion"],
       color: "from-purple-500 to-pink-500"
     },
     {
-      title: "Mobile App Design",
-      description: "Intuitive mobile application with focus on user experience and modern interface design.",
+      title: "Diseño de App Móvil",
+      description: "Aplicación móvil intuitiva con enfoque en experiencia de usuario y diseño de interfaz moderna.",
       image: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=800&q=80",
       tags: ["React Native", "UI/UX", "Firebase"],
       color: "from-green-500 to-emerald-500"
@@ -32,11 +32,11 @@ const Projects = () => {
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
             <span className="bg-gradient-to-r from-gray-900 to-purple-800 bg-clip-text text-transparent">
-              Featured Projects
+              Proyectos Destacados
             </span>
           </h2>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Discover some of our most exciting work and creative solutions
+            Descubre algunos de nuestros trabajos más emocionantes y soluciones creativas
           </p>
         </div>
 

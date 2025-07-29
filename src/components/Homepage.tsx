@@ -24,7 +24,7 @@ const Homepage = () => {
             <span className="text-xl font-bold text-gray-900">Solo Foodies</span>
           </div>
           <Button variant="outline" onClick={handleGetStarted} className="hidden md:flex">
-            Sign In
+            Iniciar Sesión
           </Button>
         </div>
       </header>
@@ -34,15 +34,15 @@ const Homepage = () => {
         <div className="max-w-7xl mx-auto">
           <div className="text-center max-w-4xl mx-auto">
             <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
-              Connect Food Creators
-              <span className="text-red-500"> with Local Restaurants</span>
+              Conecta Creadores de Contenido
+              <span className="text-red-500"> con Restaurantes Locales</span>
             </h1>
             <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-              The platform where food influencers and restaurants create amazing collaborations. 
-              Discover new partnerships and grow your audience.
+              La plataforma donde influencers gastronómicos y restaurantes crean colaboraciones increíbles. 
+              Descubre nuevas alianzas y haz crecer tu audiencia.
             </p>
             <Button onClick={handleGetStarted} className="bg-red-500 hover:bg-red-600 text-white px-8 py-3 text-lg rounded-lg">
-              Sign In
+              Iniciar Sesión
             </Button>
           </div>
         </div>
@@ -53,11 +53,11 @@ const Homepage = () => {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Perfect for Everyone
+              Perfecto para Todos
             </h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Whether you're a restaurant looking for exposure or a food creator seeking collaborations, 
-              we've got you covered.
+              Ya seas un restaurante buscando exposición o un creador de contenido buscando colaboraciones, 
+              te tenemos cubierto.
             </p>
           </div>
 
@@ -70,26 +70,26 @@ const Homepage = () => {
                     <Utensils className="w-6 h-6 text-red-500" />
                   </div>
                 </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">For Restaurants and Agencies</h3>
+                <h3 className="text-2xl font-bold text-gray-900 mb-4">Para Restaurantes y Agencias</h3>
                 <p className="text-gray-600 mb-6">
-                  Connect with food influencers and creators to showcase your dishes to new audiences.
+                  Conecta con influencers gastronómicos y creadores para mostrar tus platos a nuevas audiencias.
                 </p>
                 <ul className="space-y-3 mb-6 max-w-sm mx-auto">
                   <li className="flex items-center justify-center gap-3">
                     <CheckCircle className="w-5 h-5 text-green-500" />
-                    <span className="text-gray-700">Find relevant food creators</span>
+                    <span className="text-gray-700">Encuentra creadores gastronómicos relevantes</span>
                   </li>
                   <li className="flex items-center justify-center gap-3">
                     <CheckCircle className="w-5 h-5 text-green-500" />
-                    <span className="text-gray-700">Create collaboration offers</span>
+                    <span className="text-gray-700">Crea ofertas de colaboración</span>
                   </li>
                   <li className="flex items-center justify-center gap-3">
                     <CheckCircle className="w-5 h-5 text-green-500" />
-                    <span className="text-gray-700">Track partnership success</span>
+                    <span className="text-gray-700">Rastrea el éxito de las alianzas</span>
                   </li>
                 </ul>
                 <Button onClick={handleRestaurantSignUp} className="w-full bg-red-500 hover:bg-red-600">
-                  Start as Restaurant
+                  Comenzar como Restaurante
                 </Button>
               </CardContent>
             </Card>
@@ -102,26 +102,26 @@ const Homepage = () => {
                     <Users className="w-6 h-6 text-green-500" />
                   </div>
                 </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">For Foodies</h3>
+                <h3 className="text-2xl font-bold text-gray-900 mb-4">Para Foodies</h3>
                 <p className="text-gray-600 mb-6">
-                  Discover amazing restaurants and create content while enjoying great food experiences.
+                  Descubre restaurantes increíbles y crea contenido mientras disfrutas de grandes experiencias gastronómicas.
                 </p>
                 <ul className="space-y-3 mb-6 max-w-sm mx-auto text-center">
                   <li className="flex items-center justify-center gap-3">
                     <CheckCircle className="w-5 h-5 text-green-500" />
-                    <span className="text-gray-700">Browse collaboration opportunities</span>
+                    <span className="text-gray-700">Explora oportunidades de colaboración</span>
                   </li>
                   <li className="flex items-center justify-center gap-3">
                     <CheckCircle className="w-5 h-5 text-green-500" />
-                    <span className="text-gray-700">Showcase your portfolio</span>
+                    <span className="text-gray-700">Muestra tu portafolio</span>
                   </li>
                   <li className="flex items-center justify-center gap-3">
                     <CheckCircle className="w-5 h-5 text-green-500" />
-                    <span className="text-gray-700">Get paid for content</span>
+                    <span className="text-gray-700">Recibe pagos por contenido</span>
                   </li>
                 </ul>
                 <Button onClick={handleCreatorSignUp} className="w-full bg-green-500 hover:bg-green-600">
-                  Start as Creator
+                  Comenzar como Creador
                 </Button>
               </CardContent>
             </Card>
@@ -134,10 +134,10 @@ const Homepage = () => {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              How It Works
+              Cómo Funciona
             </h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Simple steps to start your food collaboration journey
+              Pasos simples para comenzar tu viaje de colaboración gastronómica
             </p>
           </div>
 
@@ -146,24 +146,24 @@ const Homepage = () => {
               <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="text-2xl font-bold text-red-500">1</span>
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-2">Sign Up</h3>
-              <p className="text-gray-600">Create your profile as a restaurant or food creator</p>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">Regístrate</h3>
+              <p className="text-gray-600">Crea tu perfil como restaurante o creador gastronómico</p>
             </div>
 
             <div className="text-center">
               <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="text-2xl font-bold text-red-500">2</span>
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-2">Connect</h3>
-              <p className="text-gray-600">Browse and connect with potential collaboration partners</p>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">Conecta</h3>
+              <p className="text-gray-600">Explora y conecta con posibles socios de colaboración</p>
             </div>
 
             <div className="text-center">
               <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="text-2xl font-bold text-red-500">3</span>
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-2">Collaborate</h3>
-              <p className="text-gray-600">Create amazing content and grow together</p>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">Colabora</h3>
+              <p className="text-gray-600">Crea contenido increíble y crece juntos</p>
             </div>
           </div>
         </div>
@@ -173,7 +173,7 @@ const Homepage = () => {
       <section className="px-4 py-16 bg-gray-50 md:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Pricing for Restaurants</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Precios para Restaurantes</h2>
             
           </div>
 
@@ -184,24 +184,24 @@ const Homepage = () => {
                 <div className="text-center mb-6">
                   
                   <div className="text-4xl font-bold text-gray-900 mb-1">$29</div>
-                  <p className="text-gray-600">per month</p>
+                  <p className="text-gray-600">por mes</p>
                 </div>
                 <ul className="space-y-4 mb-8">
                   <li className="flex items-center gap-3">
                     <Check className="w-5 h-5 text-green-500" />
-                    <span className="text-gray-700">Up to 5 active collaborations</span>
+                    <span className="text-gray-700">Hasta 5 colaboraciones activas</span>
                   </li>
                   <li className="flex items-center gap-3">
                     <Check className="w-5 h-5 text-green-500" />
-                    <span className="text-gray-700">Basic creator search</span>
+                    <span className="text-gray-700">Búsqueda básica de creadores</span>
                   </li>
                   <li className="flex items-center gap-3">
                     <Check className="w-5 h-5 text-green-500" />
-                    <span className="text-gray-700">Direct messaging</span>
+                    <span className="text-gray-700">Mensajería directa</span>
                   </li>
                   <li className="flex items-center gap-3">
                     <Check className="w-5 h-5 text-green-500" />
-                    <span className="text-gray-700">Basic analytics</span>
+                    <span className="text-gray-700">Analíticas básicas</span>
                   </li>
                 </ul>
               </CardContent>
@@ -210,10 +210,10 @@ const Homepage = () => {
 
           <div className="text-center mt-12">
             <p className="text-gray-600 mb-4">
-              All plans include a 14-day free trial. No credit card required.
+              Todos los planes incluyen una prueba gratuita de 14 días. No se requiere tarjeta de crédito.
             </p>
             <p className="text-sm text-gray-500">
-              Food creators can join and use the platform completely free!
+              ¡Los creadores gastronómicos pueden unirse y usar la plataforma completamente gratis!
             </p>
           </div>
         </div>
@@ -230,7 +230,7 @@ const Homepage = () => {
               <span className="text-xl font-bold text-gray-900">Solo Foodies</span>
             </div>
             <p className="text-gray-600 text-center md:text-right">
-              © 2024 Solo Foodies. All rights reserved.
+              © 2024 Solo Foodies. Todos los derechos reservados.
             </p>
           </div>
         </div>

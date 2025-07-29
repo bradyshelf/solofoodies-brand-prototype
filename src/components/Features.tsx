@@ -5,33 +5,33 @@ const Features = () => {
   const features = [
     {
       icon: Palette,
-      title: "Beautiful Design",
-      description: "Stunning visuals that captivate and engage your audience with modern aesthetics."
+      title: "Diseño Hermoso",
+      description: "Visuales impresionantes que cautivan e involucran a tu audiencia con estética moderna."
     },
     {
       icon: Code,
-      title: "Clean Code",
-      description: "Well-structured, maintainable code that follows industry best practices."
+      title: "Código Limpio",
+      description: "Código bien estructurado y mantenible que sigue las mejores prácticas de la industria."
     },
     {
       icon: Smartphone,
-      title: "Responsive",
-      description: "Perfect experience across all devices, from mobile to desktop."
+      title: "Responsivo",
+      description: "Experiencia perfecta en todos los dispositivos, desde móvil hasta escritorio."
     },
     {
       icon: Zap,
-      title: "Fast Performance",
-      description: "Optimized for speed with lightning-fast loading times."
+      title: "Rendimiento Rápido",
+      description: "Optimizado para velocidad con tiempos de carga ultrarrápidos."
     },
     {
       icon: Shield,
-      title: "Secure",
-      description: "Built with security in mind, protecting your data and users."
+      title: "Seguro",
+      description: "Construido con seguridad en mente, protegiendo tus datos y usuarios."
     },
     {
       icon: Globe,
-      title: "Global Reach",
-      description: "Accessible worldwide with internationalization support."
+      title: "Alcance Global",
+      description: "Accesible mundialmente con soporte de internacionalización."
     }
   ];
 
@@ -41,11 +41,11 @@ const Features = () => {
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
             <span className="bg-gradient-to-r from-gray-900 to-blue-800 bg-clip-text text-transparent">
-              Why Choose Us
+              Por Qué Elegirnos
             </span>
           </h2>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            We combine creativity with technical expertise to deliver exceptional digital experiences
+            Combinamos creatividad con experiencia técnica para ofrecer experiencias digitales excepcionales
           </p>
         </div>
 

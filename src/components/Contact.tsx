@@ -12,10 +12,10 @@ const Contact = () => {
       <div className="container mx-auto px-6 relative z-10">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
-            Let's Create Something Amazing
+            Creemos Algo Increíble
           </h2>
           <p className="text-xl text-blue-100 max-w-2xl mx-auto">
-            Ready to bring your vision to life? Get in touch and let's discuss your next project.
+            ¿Listo para hacer realidad tu visión? Ponte en contacto y discutamos tu próximo proyecto.
           </p>
         </div>
 
@@ -27,7 +27,7 @@ const Contact = () => {
                 <Mail className="w-6 h-6" />
               </div>
               <div>
-                <h3 className="text-lg font-semibold">Email</h3>
+                <h3 className="text-lg font-semibold">Correo</h3>
                 <p className="text-blue-100">hello@portfolio.com</p>
               </div>
             </div>
@@ -37,7 +37,7 @@ const Contact = () => {
                 <Phone className="w-6 h-6" />
               </div>
               <div>
-                <h3 className="text-lg font-semibold">Phone</h3>
+                <h3 className="text-lg font-semibold">Teléfono</h3>
                 <p className="text-blue-100">+1 (555) 123-4567</p>
               </div>
             </div>
@@ -47,7 +47,7 @@ const Contact = () => {
                 <MapPin className="w-6 h-6" />
               </div>
               <div>
-                <h3 className="text-lg font-semibold">Location</h3>
+                <h3 className="text-lg font-semibold">Ubicación</h3>
                 <p className="text-blue-100">San Francisco, CA</p>
               </div>
             </div>
@@ -58,47 +58,47 @@ const Contact = () => {
             <form className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label htmlFor="name" className="block text-sm font-medium mb-2">Name</label>
+                  <label htmlFor="name" className="block text-sm font-medium mb-2">Nombre</label>
                   <input
                     type="text"
                     id="name"
                     className="w-full px-4 py-3 bg-white/20 border border-white/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder-white/70 text-white"
-                    placeholder="Your name"
+                    placeholder="Tu nombre"
                   />
                 </div>
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium mb-2">Email</label>
+                  <label htmlFor="email" className="block text-sm font-medium mb-2">Correo</label>
                   <input
                     type="email"
                     id="email"
                     className="w-full px-4 py-3 bg-white/20 border border-white/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder-white/70 text-white"
-                    placeholder="your@email.com"
+                    placeholder="tu@correo.com"
                   />
                 </div>
               </div>
               <div>
-                <label htmlFor="subject" className="block text-sm font-medium mb-2">Subject</label>
+                <label htmlFor="subject" className="block text-sm font-medium mb-2">Asunto</label>
                 <input
                   type="text"
                   id="subject"
                   className="w-full px-4 py-3 bg-white/20 border border-white/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder-white/70 text-white"
-                  placeholder="Project inquiry"
+                  placeholder="Consulta de proyecto"
                 />
               </div>
               <div>
-                <label htmlFor="message" className="block text-sm font-medium mb-2">Message</label>
+                <label htmlFor="message" className="block text-sm font-medium mb-2">Mensaje</label>
                 <textarea
                   id="message"
                   rows={5}
                   className="w-full px-4 py-3 bg-white/20 border border-white/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder-white/70 text-white resize-none"
-                  placeholder="Tell us about your project..."
+                  placeholder="Cuéntanos sobre tu proyecto..."
                 ></textarea>
               </div>
               <button
                 type="submit"
                 className="w-full bg-gradient-to-r from-blue-500 to-purple-500 text-white py-4 rounded-lg font-semibold hover:from-blue-600 hover:to-purple-600 transform hover:scale-105 transition-all duration-300 flex items-center justify-center space-x-2"
               >
-                <span>Send Message</span>
+                <span>Enviar Mensaje</span>
                 <Send className="w-5 h-5" />
               </button>
             </form>

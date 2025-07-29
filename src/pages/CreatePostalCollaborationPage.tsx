@@ -154,7 +154,7 @@ const CreatePostalCollaborationPage = () => {
           >
             <ArrowLeft className="w-5 h-5 text-gray-600" />
           </button>
-          <h1 className="text-lg font-semibold text-gray-900">Create Delivery</h1>
+          <h1 className="text-lg font-semibold text-gray-900">Crear Envío</h1>
         </div>
       </div>
 
@@ -167,7 +167,7 @@ const CreatePostalCollaborationPage = () => {
               <span className="text-white text-xs">i</span>
             </div>
             <p className="text-sm text-blue-800">
-              Set up a collaboration to send products to creators for review
+              Configura una colaboración para enviar productos a creadores para reseñas
             </p>
           </div>
         </div>
@@ -188,7 +188,7 @@ const CreatePostalCollaborationPage = () => {
             <div className="bg-white rounded-lg p-6 border border-gray-200">
               <div className="flex items-center space-x-2 mb-4">
                 <Package className="w-5 h-5 text-orange-500" />
-                <h2 className="text-lg font-semibold">Product Information</h2>
+                <h2 className="text-lg font-semibold">Información del Producto</h2>
               </div>
               
               <div className="space-y-4">
@@ -197,10 +197,10 @@ const CreatePostalCollaborationPage = () => {
                   name="productName"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Product Name *</FormLabel>
+                      <FormLabel>Nombre del Producto *</FormLabel>
                       <FormControl>
                         <Input
-                          placeholder="e.g., Artisan Coffee Blend"
+                          placeholder="ej., Mezcla de Café Artesanal"
                           {...field}
                         />
                       </FormControl>
@@ -217,7 +217,7 @@ const CreatePostalCollaborationPage = () => {
                       <FormLabel>Requisitos *</FormLabel>
                       <FormControl>
                         <Textarea
-                          placeholder="Brief description of the product and what you'd like creators to highlight..."
+                          placeholder="Breve descripción del producto y lo que te gustaría que los creadores destaquen..."
                           className="min-h-[100px]"
                           {...field}
                         />
@@ -233,7 +233,7 @@ const CreatePostalCollaborationPage = () => {
                     name="quantityPerCreator"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Quantity per Creator *</FormLabel>
+                        <FormLabel>Cantidad por Creador *</FormLabel>
                         <FormControl>
                           <Input
                             type="number"
@@ -253,7 +253,7 @@ const CreatePostalCollaborationPage = () => {
                     name="retailValue"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Retail Value (Optional)</FormLabel>
+                        <FormLabel>Valor de Venta (Opcional)</FormLabel>
                         <FormControl>
                           <Input
                             type="number"
@@ -265,7 +265,7 @@ const CreatePostalCollaborationPage = () => {
                           />
                         </FormControl>
                         <p className="text-xs text-gray-500 mt-1">
-                          For transparency with creators and audience
+                          Para transparencia con creadores y audiencia
                         </p>
                         <FormMessage />
                       </FormItem>
@@ -278,7 +278,7 @@ const CreatePostalCollaborationPage = () => {
                   name="productVariations"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Product Variations (Optional)</FormLabel>
+                      <FormLabel>Variaciones del Producto (Opcional)</FormLabel>
                       <FormControl>
                         <Input
                           placeholder="e.g., Flavor: Vanilla, Chocolate; Size: Small, Medium, Large"
@@ -322,7 +322,7 @@ const CreatePostalCollaborationPage = () => {
             <div className="bg-gray-50 rounded-lg p-6 border border-gray-200">
               <div className="flex items-center space-x-2 mb-4">
                 <Globe className="w-5 h-5 text-orange-500" />
-                <h2 className="text-lg font-semibold">Shipping Zone</h2>
+                <h2 className="text-lg font-semibold">Zona de Envío</h2>
               </div>
               
               <div className="space-y-6">
@@ -332,15 +332,15 @@ const CreatePostalCollaborationPage = () => {
                   name="zoneName"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Zone name</FormLabel>
+                      <FormLabel>Nombre de zona</FormLabel>
                       <FormControl>
                         <Input
-                          placeholder="e.g., International, Domestic"
+                          placeholder="ej., Internacional, Nacional"
                           {...field}
                         />
                       </FormControl>
                       <p className="text-xs text-gray-500 mt-1">
-                        Customers won't see this
+                        Los clientes no verán esto
                       </p>
                       <FormMessage />
                     </FormItem>
@@ -350,14 +350,14 @@ const CreatePostalCollaborationPage = () => {
                 {/* Shipping Zones Section */}
                 <div className="space-y-4">
                   <div>
-                    <Label className="text-base font-medium">Shipping zones</Label>
+                    <Label className="text-base font-medium">Zonas de envío</Label>
                   </div>
 
                   {/* Search Bar */}
                   <div className="relative">
                     <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
                     <Input
-                      placeholder="Search countries and regions to ship to"
+                      placeholder="Buscar países y regiones para envío"
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
                       className="pl-10"
@@ -382,7 +382,7 @@ const CreatePostalCollaborationPage = () => {
                           </div>
                           <div className="text-sm text-gray-500">
                             {selectedCountries.includes(country.code) && 
-                              `${getSelectedCitiesCount(country.code)} of ${getTotalCitiesCount(country.code)} provinces`
+                              `${getSelectedCitiesCount(country.code)} de ${getTotalCitiesCount(country.code)} provincias`
                             }
                           </div>
                         </div>
@@ -428,8 +428,8 @@ const CreatePostalCollaborationPage = () => {
                       <label htmlFor="global" className="flex items-center space-x-2 cursor-pointer">
                         <Globe className="w-4 h-4" />
                         <div>
-                          <div className="font-medium">Ship to all countries</div>
-                          <div className="text-xs text-gray-500">Available worldwide</div>
+                          <div className="font-medium">Enviar a todos los países</div>
+                          <div className="text-xs text-gray-500">Disponible mundialmente</div>
                         </div>
                       </label>
                     </div>
@@ -520,7 +520,7 @@ const CreatePostalCollaborationPage = () => {
               disabled={isSubmitting}
               className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg"
             >
-              {isSubmitting ? 'Creating...' : 'Create Collaboration'}
+              {isSubmitting ? 'Creando...' : 'Crear Colaboración'}
             </Button>
           </form>
         </Form>
