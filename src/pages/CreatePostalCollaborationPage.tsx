@@ -9,7 +9,6 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuCheckboxItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { ArrowLeft, Package, Globe, MapPin, X, Search, Check, Users, Plus, Minus, Euro } from 'lucide-react';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -97,32 +96,12 @@ const CreatePostalCollaborationPage = () => {
   };
 
   const handleCountryToggle = (countryCode: string) => {
-    const isCurrentlySelected = selectedCountries.includes(countryCode);
-    const updatedCountries = isCurrentlySelected
+    const updatedCountries = selectedCountries.includes(countryCode)
       ? selectedCountries.filter(c => c !== countryCode)
       : [...selectedCountries, countryCode];
     
     setSelectedCountries(updatedCountries);
     form.setValue('selectedCountry', updatedCountries[0] || '');
-    
-    // Auto-select or deselect all cities in the country
-    const countryCities = citiesByCountry[countryCode] || [];
-    let updatedCities = [...selectedCities];
-    
-    if (isCurrentlySelected) {
-      // Remove all cities from this country
-      updatedCities = updatedCities.filter(city => !countryCities.includes(city));
-    } else {
-      // Add all cities from this country
-      countryCities.forEach(city => {
-        if (!updatedCities.includes(city)) {
-          updatedCities.push(city);
-        }
-      });
-    }
-    
-    setSelectedCities(updatedCities);
-    form.setValue('selectedCities', updatedCities);
     
     // If switching to specific countries mode, update shipping scope
     if (updatedCountries.length > 0) {
@@ -401,38 +380,35 @@ const CreatePostalCollaborationPage = () => {
                               <span className="font-medium">{country.name}</span>
                             </div>
                           </div>
-                          <div className="flex items-center space-x-3">
-                            {selectedCountries.includes(country.code) && (
-                              <div className="text-sm text-gray-500">
-                                {getSelectedCitiesCount(country.code)} de {getTotalCitiesCount(country.code)} provincias
-                              </div>
-                            )}
-                            {selectedCountries.includes(country.code) && (
-                              <DropdownMenu>
-                                <DropdownMenuTrigger asChild>
-                                  <Button variant="outline" size="sm" className="h-8 bg-background border-input">
-                                    Gestionar provincias
-                                  </Button>
-                                </DropdownMenuTrigger>
-                                <DropdownMenuContent 
-                                  className="w-64 max-h-80 overflow-y-auto bg-background border-border z-50" 
-                                  align="end"
-                                >
-                                  {citiesByCountry[country.code]?.map((city) => (
-                                    <DropdownMenuCheckboxItem
-                                      key={city}
-                                      checked={selectedCities.includes(city)}
-                                      onCheckedChange={() => handleCityToggle(city)}
-                                      className="text-sm"
-                                    >
-                                      {city}
-                                    </DropdownMenuCheckboxItem>
-                                  ))}
-                                </DropdownMenuContent>
-                              </DropdownMenu>
-                            )}
+                          <div className="text-sm text-gray-500">
+                            {selectedCountries.includes(country.code) && 
+                              `${getSelectedCitiesCount(country.code)} de ${getTotalCitiesCount(country.code)} provincias`
+                            }
                           </div>
                         </div>
+
+                        {/* Cities for selected country - shows for ANY selected country */}
+                        {selectedCountries.includes(country.code) && (
+                          <div className="px-12 pb-4 bg-gray-50">
+                            <div className="grid grid-cols-2 gap-2">
+                              {citiesByCountry[country.code]?.map((city) => (
+                                <div key={city} className="flex items-center space-x-2">
+                                  <Checkbox
+                                    id={`${country.code}-${city}`}
+                                    checked={selectedCities.includes(city)}
+                                    onCheckedChange={() => handleCityToggle(city)}
+                                  />
+                                  <label 
+                                    htmlFor={`${country.code}-${city}`} 
+                                    className="text-sm cursor-pointer"
+                                  >
+                                    {city}
+                                  </label>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        )}
                       </div>
                     ))}
                   </div>
